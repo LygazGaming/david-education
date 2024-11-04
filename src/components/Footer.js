@@ -1,4 +1,5 @@
 // components/Footer.js
+"useEffect";
 import Link from 'next/link';
 import { FaFacebook, FaYoutube, FaTiktok } from 'react-icons/fa';
 

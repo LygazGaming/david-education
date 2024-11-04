@@ -10,20 +10,41 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-primary p-2 pl-4 md:pl-[16rem] flex flex-col md:flex-row items-center justify-between">
-      <div className="flex items-center bg-white h-full p-2 pr-4"> 
-        <img src="/logo.png" alt="David Education Logo" className="h-10 mr-2" />
-        <h1 className="text-[#f48420] text-2xl font-bold">David <span className="text-[#4579bc]">Education</span></h1>
+    <header className="bg-primary p-2 px-4 md:px-[6rem] flex items-center justify-between">
+      <div className="flex items-center">
+        <div className="flex items-center bg-white h-full p-2 pr-4"> 
+          <img src="/logo.png" alt="David Education Logo" className="h-10 mr-2" />
+          <h1 className="text-[#f48420] text-2xl font-bold">David <span className="text-[#4579bc]">Education</span></h1>
+        </div>
+        <nav className={`hidden md:block ml-8`}>
+          <ul className="flex space-x-24"> {/* Tăng khoảng cách giữa các mục menu lên space-x-24 */}
+            <li><Link href="/" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Trang chủ">TRANG CHỦ</Link></li>
+            <li><Link href="/news" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Tin tức">TIN TỨC</Link></li>
+            <li><Link href="/training-packages" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Các gói tập">CÁC GÓI TẬP</Link></li>
+            <li><Link href="/photo-album" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Album ảnh">ALBUM ẢNH</Link></li>
+            <li><Link href="/training-videos" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Video huấn luyện">VIDEO HUẤN LUYỆN</Link></li>
+          </ul>
+        </nav>
       </div>
-      <nav className={`flex-grow pl-1 ${isOpen ? 'block' : 'hidden'} md:block`}>
-        <ul className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-24 mt-4 md:mt-0"> {/* Thêm mt-4 để tạo khoảng cách */}
-          <li><Link href="/" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Trang chủ">TRANG CHỦ</Link></li>
-          <li><Link href="/news" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Tin tức">TIN TỨC</Link></li>
-          <li><Link href="/training-packages" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Các gói tập">CÁC GÓI TẬP</Link></li>
-          <li><Link href="/photo-album" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Album ảnh">ALBUM ẢNH</Link></li>
-          <li><Link href="/training-videos" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Video huấn luyện">VIDEO HUẤN LUYỆN</Link></li>
-        </ul>
-      </nav>
+      <div className="md:hidden">
+        <button onClick={toggleMenu} className="text-white focus:outline-none">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+      {/* Mobile menu */}
+      {isOpen && (
+        <div className="absolute top-full left-0 right-0 bg-primary md:hidden">
+          <ul className="flex flex-col items-center py-4">
+            <li className="my-2"><Link href="/" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Trang chủ">TRANG CHỦ</Link></li>
+            <li className="my-2"><Link href="/news" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Tin tức">TIN TỨC</Link></li>
+            <li className="my-2"><Link href="/training-packages" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Các gói tập">CÁC GÓI TẬP</Link></li>
+            <li className="my-2"><Link href="/photo-album" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Album ảnh">ALBUM ẢNH</Link></li>
+            <li className="my-2"><Link href="/training-videos" className="text-white font-bold hover:text-secondary transition duration-300" aria-label="Video huấn luyện">VIDEO HUẤN LUYỆN</Link></li>
+          </ul>
+        </div>
+      )}
     </header>
   );
 };

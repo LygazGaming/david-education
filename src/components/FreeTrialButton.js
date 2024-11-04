@@ -1,4 +1,5 @@
 // components/FreeTrialButton.js
+"useEffect";
 import Link from 'next/link';
 
 const FreeTrialButton = () => {
