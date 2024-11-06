@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NewLayout from '../components/NewLayout';
+import Demo from '../components/Demo';
 
 export default function Home() {
   const images = ["/images/img1.jpg", "/images/img2.jpg", "/images/img3.jpg", "/images/img4.jpg"];
@@ -30,7 +31,12 @@ export default function Home() {
           ))}
         </Slider>
       </div>
-      <NewLayout />
+      <div className="my-8"> {/* Thêm khoảng cách giữa NewLayout và Demo */}
+        <NewLayout />
+      </div>
+      <div className="my-8"> {/* Thêm khoảng cách giữa NewLayout và Demo */}
+        <Demo />
+      </div>
     </div>
   );
 }

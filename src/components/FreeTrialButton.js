@@ -1,5 +1,5 @@
 // components/FreeTrialButton.js
-"useEffect";
+"use client"; // Đảm bảo sử dụng "use client" nếu bạn đang sử dụng Next.js 13 với App Router
 import Link from 'next/link';
 
 const FreeTrialButton = () => {
@@ -7,9 +7,11 @@ const FreeTrialButton = () => {
     <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
       <Link 
         href="" 
-        className="bg-secondary text-white px-8 py-4 rounded-lg shadow-lg hover:bg-[#ff9500] transition duration-300 hover:shadow-xl"
+        className="bg-secondary text-white px-8 py-4 rounded-lg shadow-lg transition duration-300 hover:shadow-xl hover:translate-y-[-4px] flex items-center justify-center"
       >
-        Đăng Ký Tập Thử Miễn Phí
+        <span className="transition duration-300 transform hover:translate-y-[-2px] font-bold">
+          Đăng Ký Tập Thử Miễn Phí
+        </span>
       </Link>
     </div>
   );

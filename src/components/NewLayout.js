@@ -3,7 +3,7 @@ import React from 'react';
 
 const NewLayout = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-[#F5F6FF]"> {/* Thêm lớp bg-white ở đây */}
       {/* Hàng 1: 2 ảnh lớn */}
       <div className="flex mb-8">
         <div className="w-1/2 pr-4">
