@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PictureLayout from '../components/PictureLayout';
 import TinTuc from '../components/TinTuc';
+import GapGoHLV from '@/components/GapGoHLV';
+import HocPhan from '@/components/HocPhan';
 
 export default function Home() {
   const images = ["/images/img1.jpg", "/images/img2.jpg", "/images/img3.jpg"];
@@ -59,6 +61,12 @@ export default function Home() {
       </div>
       <div className="my-8">
         <TinTuc />
+      </div>
+      <div className="my-8">
+        <GapGoHLV />
+      </div>
+      <div className='my-8'>
+        <HocPhan/>
       </div>
     </div>
   );
