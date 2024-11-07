@@ -5,7 +5,7 @@ import NotificationBar from '../components/NotificationBar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FreeTrialButton from '../components/FreeTrialButton';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+
 
 export default function RootLayout({ children }) {
   return (
@@ -23,7 +23,6 @@ export default function RootLayout({ children }) {
         </main>
         <Footer />
         <FreeTrialButton />
-        <SpeedInsights />
       </body>
     </html>
   );
