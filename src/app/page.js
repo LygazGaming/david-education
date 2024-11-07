@@ -8,7 +8,7 @@ import PictureLayout from '../components/PictureLayout';
 import TinTuc from '../components/TinTuc';
 
 export default function Home() {
-  const images = ["/images/img1.jpg", "/images/img2.jpg", "/images/img3.jpg", "/images/img4.jpg"];
+  const images = ["/images/img1.jpg", "/images/img2.jpg", "/images/img3.jpg"];
 
   const settings = {
     dots: false,
