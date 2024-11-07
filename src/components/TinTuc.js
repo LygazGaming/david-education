@@ -1,49 +1,73 @@
-  {/* Phần mới cho Tin tức */}
 // components/TinTuc.js
-const TinTuc = () => {
+"use client";
+import React from 'react';
+import { FaArrowRight } from 'react-icons/fa';
+
+export default function TinTuc() {
   return (
-  <div className="news-section p-4">
-    <h2 className="text-left text-2xl font-bold">Tin tức</h2>
-    <hr className="border-t border-gray-300 my-2" />
-    <div className="flex justify-between items-center">
-      <button className="bg-white text-black px-4 py-2 flex items-center">
-        <span>Xem tất cả</span>
-        <i className="ml-2 fas fa-arrow-right"></i> {/* Biểu tượng cho "Xem tất cả" */}
-      </button>
-    </div>
-    
-    <div className="flex mt-4">
-      <img src="/images/news-image.jpg" alt="Tin tức" className="w-1/2 h-auto object-cover" />
-      <div className="news-content w-1/2 pl-4">
-        <h3 className="text-xl font-semibold">Tiêu đề tin tức</h3>
-        <p className="mt-2">Nội dung tin tức sẽ được hiển thị ở đây. Đây là một mô tả ngắn gọn về tin tức.</p>
-        <button className="bg-white text-black px-4 py-2 flex items-center mt-2">
-          <span>Xem tất cả</span>
-          <i className="ml-2 fas fa-arrow-right"></i> {/* Biểu tượng cho "Xem tất cả" */}
+    <div className="container px-4 py-8 bg-gray-50 rounded-lg shadow-lg mx-auto">
+      {/* Header section with title and button */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl font-bold text-primary">Tin tức</h2>
+        <button className="flex items-center bg-secondary text-white px-5 py-2 rounded-lg shadow hover:bg-secondary-dark transition">
+          <span className="mr-2">Xem tất cả</span>
+          <FaArrowRight />
         </button>
       </div>
-    </div>
+      <hr className="border-t-2 border-secondary mb-6" />
 
-    {/* Slider cho các mục tin tức bổ sung */}
-    <div className="additional-news-slider mt-6">
-      <Slider {...settings}>
-        <div className="news-item">
-          <img src="/images/news1.jpg" alt="Tin tức 1" className="w-full h-auto object-cover" />
-          <h4 className="text-lg font-semibold">Tin tức 1</h4>
-          <p>Mô tả ngắn về tin tức 1.</p>
+      {/* Featured news section */}
+      <div className="flex mb-8 bg-white rounded-lg shadow-lg p-4">
+        <img src="/img/img005.jpg" alt="Tin tức" className="w-1/2 h-auto object-cover rounded-lg" />
+        <div className="ml-6 w-1/2 flex flex-col justify-between">
+          <div>
+            <h3 className="text-2xl font-semibold text-primary">Trái bóng Molten "Đi cùng" VietGoal Cup 2024</h3>
+            <p className="mt-2 text-gray-700">
+              Vượt qua 858km từ Sài Gòn sôi động tới thành phố biển Đà Nẵng, trái bóng Molten tiếp tục trở thành 
+              “người bạn đồng hành” cùng với các cầu thủ nhí tại Giải VietGoal Cup 2024 Khu vực miền Trung 
+              tiếp nối những thành công cùng sự đón nhận, hưởng ứng nhiệt tình từ các bạn nhỏ và gia đình sau 
+              Giải VietGoal 2024 Khu vực miền Nam vừa kết thúc 1 tuần trước đó.
+            </p>
+          </div>
+          <button className="flex items-center self-start mt-4 bg-secondary text-white px-5 py-2 rounded-lg shadow hover:bg-secondary-dark transition">
+            <span className="mr-2">Xem chi tiết</span>
+            <FaArrowRight />
+          </button>
         </div>
-        <div className="news-item">
-          <img src="/images/news2.jpg" alt="Tin tức 2" className="w-full h-auto object-cover" />
-          <h4 className="text-lg font-semibold">Tin tức 2</h4>
-          <p>Mô tả ngắn về tin tức 2.</p>
+      </div>
+
+      {/* News articles section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Article 1 */}
+        <div className="flex flex-col items-center bg-white rounded-lg shadow-lg p-4">
+          <img src="/img/img055.jpg" alt="Tin tức 1" className="w-full h-auto object-cover rounded-lg" />
+          <h4 className="font-semibold text-primary mt-4">Hành trình xin chữ ký Quang Hải</h4>
+          <p className="text-gray-600 mt-2">Tham gia sự kiện với các Công an Hà Nội FC...</p>
+          <button className="mt-4 bg-transparent text-secondary">
+            <FaArrowRight className="text-xl" />
+          </button>
         </div>
-        <div className="news-item">
-          <img src="/images/news3.jpg" alt="Tin tức 3" className="w-full h-auto object-cover" />
-          <h4 className="text-lg font-semibold">Tin tức 3</h4>
-          <p>Mô tả ngắn về tin tức 3.</p>
+        
+        {/* Article 2 */}
+        <div className="flex flex-col items-center bg-white rounded-lg shadow-lg p-4">
+          <img src="/img/img025.jpg" alt="Tin tức 2" className="w-full h-auto object-cover rounded-lg" />
+          <h4 className="font-semibold text-primary mt-4">Hành trình xin chữ ký Quang Hải</h4>
+          <p className="text-gray-600 mt-2">Tham gia sự kiện với các Công an Hà Nội FC...</p>
+          <button className="mt-4 bg-transparent text-secondary">
+            <FaArrowRight className="text-xl" />
+          </button>
         </div>
-      </Slider>
+        
+        {/* Article 3 */}
+        <div className="flex flex-col items-center bg-white rounded-lg shadow-lg p-4">
+          <img src="/img/img088.jpg" alt="Tin tức 3" className="w-full h-auto object-cover rounded-lg" />
+          <h4 className="font-semibold text-primary mt-4">Hành trình xin chữ ký Quang Hải</h4>
+          <p className="text-gray-600 mt-2">Tham gia sự kiện với các Công an Hà Nội FC...</p>
+          <button className="mt-4 bg-transparent text-secondary">
+            <FaArrowRight className="text-xl" />
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-  )
+  );
 }

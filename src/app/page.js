@@ -4,8 +4,8 @@ import React from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import NewLayout from '../components/NewLayout';
-import Demo from '../components/Demo';
+import PictureLayout from '../components/PictureLayout';
+import TinTuc from '../components/TinTuc';
 
 export default function Home() {
   const images = ["/images/img1.jpg", "/images/img2.jpg", "/images/img3.jpg", "/images/img4.jpg"];
@@ -18,6 +18,29 @@ export default function Home() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
+    responsive: [
+      {
+        breakpoint: 1024, // For screens up to 1024px wide
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 768, // For screens up to 768px wide (tablets)
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 480, // For screens up to 480px wide (mobile devices)
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      }
+    ]
   };
 
   return (
@@ -31,11 +54,11 @@ export default function Home() {
           ))}
         </Slider>
       </div>
-      <div className="my-8"> {/* Thêm khoảng cách giữa NewLayout và Demo */}
-        <NewLayout />
+      <div className="my-8">
+        <PictureLayout />
       </div>
-      <div className="my-8"> {/* Thêm khoảng cách giữa NewLayout và Demo */}
-        <Demo />
+      <div className="my-8">
+        <TinTuc />
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 // app/layout.js
 "use client";
-import { useEffect, useState } from 'react';
 import './globals.css';
 import NotificationBar from '../components/NotificationBar';
 import Header from '../components/Header';

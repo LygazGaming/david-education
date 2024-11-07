@@ -1,9 +1,10 @@
-// components/NewLayout.js
+// components/PictureLayout.js
+"use client";
 import React from 'react';
 
-const NewLayout = () => {
+const PictureLayout = () => {
   return (
-    <div className="container mx-auto px-4 py-8 bg-[#F5F6FF]"> {/* Thêm lớp bg-white ở đây */}
+    <div className="container mx-auto px-4 py-8 bg-[#F5F6FF]"> 
       {/* Hàng 1: 2 ảnh lớn */}
       <div className="flex mb-8">
         <div className="w-1/2 pr-4">
@@ -43,4 +44,4 @@ const NewLayout = () => {
   );
 };
 
-export default NewLayout;
+export default PictureLayout;
