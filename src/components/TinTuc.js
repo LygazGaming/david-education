@@ -15,15 +15,18 @@ export default function TinTuc() {
         </button>
       </div>
       <hr className="border-t-2 border-secondary mb-6" />
-
       {/* Featured news section */}
-      <div className="flex mb-8 bg-white rounded-lg shadow-lg p-4">
-        <img src="/img/img005.jpg" alt="Tin tức" className="w-1/2 h-auto object-cover rounded-lg" />
-        <div className="ml-6 w-1/2 flex flex-col justify-between">
+      <div className="flex flex-col md:flex-row mb-8 bg-white rounded-lg shadow-lg p-4">
+        <img 
+          src="/img/img005.jpg" 
+          alt="Tin tức" 
+          className="w-full md:w-1/2 h-[300px] object-cover rounded-lg" 
+        />
+        <div className="mt-4 md:mt-0 md:ml-6 w-full md:w-1/2 flex flex-col justify-between">
           <div>
             <h3 className="text-2xl font-semibold text-primary">Trái bóng Molten "Đi cùng" VietGoal Cup 2024</h3>
             <p className="mt-2 text-gray-700">
-              Vượt qua 858km từ Sài Gòn sôi động tới thành phố biển Đà Nẵng, trái bóng Molten tiếp tục trở thành 
+            Vượt qua 858km từ Sài Gòn sôi động tới thành phố biển Đà Nẵng, trái bóng Molten tiếp tục trở thành 
               “người bạn đồng hành” cùng với các cầu thủ nhí tại Giải VietGoal Cup 2024 Khu vực miền Trung 
               tiếp nối những thành công cùng sự đón nhận, hưởng ứng nhiệt tình từ các bạn nhỏ và gia đình sau 
               Giải VietGoal 2024 Khu vực miền Nam vừa kết thúc 1 tuần trước đó.
