@@ -1,4 +1,3 @@
-// app/page.js
 "use client";
 import React from 'react';
 import Slider from "react-slick";
@@ -9,69 +8,90 @@ import TinTuc from '../components/TinTuc';
 import GapGoHLV from '@/components/GapGoHLV';
 import HocPhan from '@/components/HocPhan';
 
-export default function Home() {
-  const images = ["/images/img1.jpg", "/images/img2.jpg", "/images/img3.jpg"];
+const SLIDER_IMAGES = [
+  "/images/img1.jpg",
+  "/images/img2.jpg",
+  "/images/img3.jpg"
+];
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2500,
-    responsive: [
-      {
-        breakpoint: 1024, // Đối với màn hình lớn hơn 768px nhưng dưới 1024px
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 768, // Đối với màn hình dưới 768px (tablet)
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 480, // Đối với màn hình dưới 480px (di động)
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
+const SLIDER_SETTINGS = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  fade: true,
+  cssEase: 'linear',
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
       }
-    ]
-  };
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: false
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: false
+      }
+    }
+  ]
+};
 
+const Section = ({ children, className = "" }) => (
+  <section className={`py-12 ${className}`}>
+    {children}
+  </section>
+);
+
+export default function Home() {
   return (
-    <div>
-      <div className="slider-container relative">
-        <Slider {...settings} className="h-full">
-          {images.map((img, index) => (
+    <main className="min-h-screen">
+      <section className="hero-section relative">
+        <Slider {...SLIDER_SETTINGS} className="slider-wrapper">
+          {SLIDER_IMAGES.map((img, index) => (
             <div key={index} className="relative">
               <img 
                 src={img} 
                 alt={`Slide ${index + 1}`} 
-                className="w-full h-[70vh] md:h-[80vh] lg:h-[calc(100vh-100px)] object-cover object-center" 
+                className="w-full h-[70vh] md:h-[80vh] lg:h-[calc(100vh-100px)] object-cover object-center"
+                loading="lazy"
               />
+              <div className="absolute inset-0 bg-black bg-opacity-30" /> {/* Overlay effect */}
             </div>
           ))}
         </Slider>
-      </div>
-      <div className="my-8">
+      </section>
+
+      <Section>
         <PictureLayout />
-      </div>
-      <div className="my-8">
+      </Section>
+
+      <Section className="bg-gray-50">
         <TinTuc />
-      </div>
-      <div className="my-8">
+      </Section>
+
+      <Section>
         <GapGoHLV />
-      </div>
-      <div className='my-8'>
-        <HocPhan/>
-      </div>
-    </div>
+      </Section>
+
+      <Section className="bg-gray-50">
+        <HocPhan />
+      </Section>
+    </main>
   );
 }

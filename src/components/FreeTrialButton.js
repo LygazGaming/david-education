@@ -1,5 +1,5 @@
 // components/FreeTrialButton.js
-"use client"; // Đảm bảo sử dụng "use client" nếu bạn đang sử dụng Next.js 13 với App Router
+"use client";
 import Link from 'next/link';
 
 const FreeTrialButton = () => {

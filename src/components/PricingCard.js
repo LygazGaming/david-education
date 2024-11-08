@@ -1,33 +1,51 @@
-export default function PricingCard({ title, buttonColor, bgColor, cardClass }) {
-    return (
-      <div className={`border rounded-lg p-12 ${bgColor} ${cardClass}`}>
-        {/* Increased padding from p-8 to p-12 for more space */}
-        <h2 className="text-center text-4xl font-bold text-white mb-10"> 
-          {/* Increased font size to text-4xl */}
+export default function PricingCard({ title, price, features, isPopular }) {
+  return (
+    <div className={`relative rounded-2xl p-8 ${
+      isPopular 
+        ? 'bg-gradient-to-br from-blue-600 to-blue-800 shadow-xl transform hover:-translate-y-1' 
+        : 'bg-white hover:bg-gray-50'
+    } transition-all duration-300 hover:shadow-lg`}>
+      {isPopular && (
+        <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-gray-900 
+                        text-sm font-semibold px-4 py-1 rounded-full shadow-md">
+          Phổ biến nhất
+        </span>
+      )}
+
+      <div className="text-center">
+        <h3 className={`text-2xl font-bold mb-2 ${isPopular ? 'text-white' : 'text-gray-900'}`}>
           {title}
-        </h2>
-        <ul className="mb-12 text-gray-200 text-lg">
-          {/* Increased text size to text-lg */}
-          <li className="flex items-center space-x-3 mb-6">
-            <span className="text-blue-500">✔</span>
-            <span>Tham gia sự kiện thi đấu và thi đấu giải</span>
-          </li>
-          <li className="flex items-center space-x-3 mb-6">
-            <span className="text-blue-500">✔</span>
-            <span>Tham gia sự kiện thi đấu và thi đấu giải</span>
-          </li>
-          <li className="flex items-center space-x-3 mb-6">
-            <span className="text-blue-500">✔</span>
-            <span>Tham gia sự kiện thi đấu và thi đấu giải</span>
-          </li>
-        </ul>
-        <button
-          className={`w-full py-4 text-xl text-white font-bold rounded ${buttonColor}`}
-        >
-          {/* Increased button padding and font size */}
-          Đăng Ký Ngay
-        </button>
+        </h3>
+        <div className={`text-4xl font-bold mb-6 ${isPopular ? 'text-white' : 'text-gray-900'}`}>
+          {price}
+          <span className={`text-base font-normal ${isPopular ? 'text-gray-200' : 'text-gray-500'}`}>
+            /tháng
+          </span>
+        </div>
       </div>
-    );
-  }
-  
+
+      <ul className="space-y-4 mb-8">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-center gap-3">
+            <svg className={`w-5 h-5 ${isPopular ? 'text-green-300' : 'text-green-500'}`} 
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                    d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span className={`${isPopular ? 'text-gray-100' : 'text-gray-600'}`}>
+              {feature}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <button className={`w-full py-3 px-6 rounded-xl font-semibold transition-colors duration-200 ${
+        isPopular
+          ? 'bg-white text-blue-600 hover:bg-gray-100'
+          : 'bg-blue-600 text-white hover:bg-blue-700'
+      }`}>
+        Đăng Ký Ngay
+      </button>
+    </div>
+  );
+}
