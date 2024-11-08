@@ -22,21 +22,21 @@ export default function Home() {
     autoplaySpeed: 2500,
     responsive: [
       {
-        breakpoint: 1024, // For screens up to 1024px wide
+        breakpoint: 1024, // Đối với màn hình lớn hơn 768px nhưng dưới 1024px
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         }
       },
       {
-        breakpoint: 768, // For screens up to 768px wide (tablets)
+        breakpoint: 768, // Đối với màn hình dưới 768px (tablet)
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         }
       },
       {
-        breakpoint: 480, // For screens up to 480px wide (mobile devices)
+        breakpoint: 480, // Đối với màn hình dưới 480px (di động)
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -47,11 +47,15 @@ export default function Home() {
 
   return (
     <div>
-      <div className="slider-container h-[calc(100vh-100px)] relative">
+      <div className="slider-container relative">
         <Slider {...settings} className="h-full">
           {images.map((img, index) => (
-            <div key={index} className="h-full relative">
-              <img src={img} alt={`Slide ${index + 1}`} className="w-full h-full object-cover object-center" />
+            <div key={index} className="relative">
+              <img 
+                src={img} 
+                alt={`Slide ${index + 1}`} 
+                className="w-full h-[70vh] md:h-[80vh] lg:h-[calc(100vh-100px)] object-cover object-center" 
+              />
             </div>
           ))}
         </Slider>
