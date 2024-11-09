@@ -7,6 +7,9 @@ import PictureLayout from '../components/PictureLayout';
 import TinTuc from '../components/TinTuc';
 import GapGoHLV from '@/components/GapGoHLV';
 import HocPhan from '@/components/HocPhan';
+import AlbumAnh from '@/components/AlbumAnh';
+import NhaTaiTro from '@/components/NhaTaiTro';
+import VideoHLV from '@/components/VideoHLV';
 
 const SLIDER_IMAGES = [
   "/images/img1.jpg",
@@ -91,6 +94,16 @@ export default function Home() {
 
       <Section className="bg-gray-50">
         <HocPhan />
+      </Section>
+      <Section>
+        <AlbumAnh />
+      </Section>
+
+      <Section className="bg-gray-50">
+        <VideoHLV />
+      </Section>
+      <Section className="pb-0">
+        <NhaTaiTro />
       </Section>
     </main>
   );
