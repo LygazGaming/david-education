@@ -43,20 +43,21 @@ export default function PictureLayout() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-16">
       {/* Featured Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        {GALLERY_DATA.featured.map((item, index) => (
-          <div key={index} className="flex relative">
-            <ImageSection
-              src={item.src}
-              alt={item.alt}
-              className="h-[400px] w-3/4 hover:-translate-y-1 transition-all duration-300"
-            />
-            <div className="absolute left-0 bottom-0 h-1/2 w-1/3 bg-black bg-opacity-70 text-white p-4 flex items-center"> {/* Khung dưới góc trái */}
-              <p>{item.text}</p>
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 w-full p-0 overflow-hidden">
+  {GALLERY_DATA.featured.map((item, index) => (
+    <div key={index} className="relative flex w-full">
+      <ImageSection
+        src={item.src}
+        alt={item.alt}
+        className="h-[400px] w-full hover:-translate-y-1 transition-all duration-300 object-cover"
+      />
+      <div className="absolute left-0 bottom-0 h-1/2 w-1/3 bg-black bg-opacity-70 text-white p-4 flex items-center">
+        <p>{item.text}</p>
       </div>
+    </div>
+  ))}
+</div>
+
       {/* Section 1 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-8">
         {GALLERY_DATA.section1.map((item, index) => (
