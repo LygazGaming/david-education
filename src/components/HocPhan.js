@@ -53,9 +53,9 @@ const HocPhan = () => {
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {courses.map((course, index) => (
             <div key={index} 
-                 className={`relative rounded-xl ${
+                 className={`relative rounded-xl flex flex-col h-full ${
                    course.isPopular 
-                     ? 'bg-primary transform scale-105' 
+                     ? 'bg-primary' 
                      : 'bg-white'
                  } shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-1`}>
               
@@ -65,27 +65,21 @@ const HocPhan = () => {
                 </div>
               )}
 
-              <div className="p-8">
-                <h3 className={`text-xl font-bold mb-4 ${
-                  course.isPopular ? 'text-white' : 'text-gray-900'
-                }`}>
+              <div className="p-8 flex flex-col flex-grow">
+                <h3 className={`text-xl font-bold mb-4 ${course.isPopular ? 'text-white' : 'text-gray-900'}`}>
                   {course.title}
                 </h3>
 
                 <div className="mb-6">
-                  <span className={`text-3xl font-bold ${
-                    course.isPopular ? 'text-white' : 'text-gray-900'
-                  }`}>
+                  <span className={`text-3xl font-bold ${course.isPopular ? 'text-white' : 'text-gray-900'}`}>
                     {course.price}
                   </span>
-                  <span className={`text-sm ${
-                    course.isPopular ? 'text-white/80' : 'text-gray-500'
-                  }`}>
+                  <span className={`text-sm ${course.isPopular ? 'text-white/80' : 'text-gray-500'}`}>
                     /khóa học
                   </span>
                 </div>
 
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-3 mb-6 flex-grow">
                   {course.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center gap-2">
                       <FaCheck className={`text-sm ${course.isPopular ? 'text-yellow-300' : 'text-primary'}`} />
@@ -96,13 +90,15 @@ const HocPhan = () => {
                   ))}
                 </ul>
 
-                <button className={`w-full py-3 rounded-lg font-semibold text-sm transition-colors duration-200 ${
-                  course.isPopular
-                    ? 'bg-white text-primary hover:bg-gray-100'
-                    : 'bg-primary text-white hover:opacity-90'
-                }`}>
-                  Đăng Ký Ngay
-                </button>
+                <div className="mt-auto"> {/* Đảm bảo nút bấm luôn ở dưới cùng */}
+                  <button className={`w-full py-3 rounded-lg font-semibold text-sm transition-colors duration-200 ${
+                    course.isPopular
+                      ? 'bg-white text-primary hover:bg-gray-100'
+                      : 'bg-primary text-white hover:opacity-90'
+                  }`}>
+                    Đăng Ký Ngay
+                  </button>
+                </div>
               </div>
             </div>
           ))}
