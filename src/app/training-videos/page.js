@@ -1,7 +1,8 @@
-export default function News() {
+import VideoHLV from '../../components/VideoHLV';
+export default function training_videos() {
     return (
       <div className="flex items-center justify-center h-screen">
-        <h1 className="text-4xl font-bold">Video Huấn Luyện</h1>
+        <VideoHLV />
       </div>
     );
   }

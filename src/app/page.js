@@ -74,7 +74,7 @@ export default function Home() {
                 className="w-full h-[70vh] md:h-[80vh] lg:h-[calc(100vh-100px)] object-cover object-center"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-30" /> {/* Overlay effect */}
+              <div className="absolute inset-0 bg-black bg-opacity-30" />
             </div>
           ))}
         </Slider>
