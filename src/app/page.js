@@ -12,9 +12,10 @@ import NhaTaiTro from '@/components/NhaTaiTro';
 import VideoHLV from '@/components/VideoHLV';
 
 const SLIDER_IMAGES = [
-  "/images/img1.jpg",
-  "/images/img2.jpg",
-  "/images/img3.jpg"
+  "/images/slider/slider_01.jpg",
+  "/images/slider/slider_02.jpg",
+  "/images/slider/slider_03.jpg",
+  "/images/slider/slider_04.jpg"
 ];
 
 const SLIDER_SETTINGS = {
@@ -71,10 +72,10 @@ export default function Home() {
               <img 
                 src={img} 
                 alt={`Slide ${index + 1}`} 
-                className="w-full h-[70vh] md:h-[80vh] lg:h-[calc(100vh-100px)] object-cover object-center"
+                className="w-full h-auto object-contain object-center" // Đã thay đổi h-[70vh] thành h-auto
                 loading="lazy"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-30" />
+                />
+              <div className="absolute inset-0" />
             </div>
           ))}
         </Slider>
