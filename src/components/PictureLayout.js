@@ -4,9 +4,9 @@ import { FaQuoteLeft } from 'react-icons/fa';
 
 const ImageSection = ({ src, alt, className }) => (
   <div className={`relative overflow-hidden rounded-2xl group ${className}`}>
-    <img 
-      src={src} 
-      alt={alt} 
+    <img
+      src={src}
+      alt={alt}
       className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
     />
     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30"></div>
@@ -24,8 +24,8 @@ const TextBox = ({ children, className }) => (
 
 const GALLERY_DATA = {
   featured: [
-    { src: "/img/img001.jpg", alt: "Sân bóng hiện đại" },
-    { src: "/img/img100.jpg", alt: "Đội tuyển trẻ" }
+    { src: "/img/img001.jpg", text: "Chúng tôi cam kết mang đến những giờ học chất lượng nhất cho các cầu thủ trẻ" },
+    { src: "/img/img100.jpg", text: "Đội tuyển trẻ" }
   ],
   section1: [
     { src: "/img/img003.jpg", alt: "Huấn luyện viên" },
@@ -45,22 +45,25 @@ export default function PictureLayout() {
       {/* Featured Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {GALLERY_DATA.featured.map((item, index) => (
-          <ImageSection 
-            key={index}
-            src={item.src}
-            alt={item.alt}
-            className="h-[400px] hover:-translate-y-1 transition-all duration-300"
-          />
+          <div key={index} className="flex relative">
+            <ImageSection
+              src={item.src}
+              alt={item.alt}
+              className="h-[400px] w-3/4 hover:-translate-y-1 transition-all duration-300"
+            />
+            <div className="absolute left-0 bottom-0 h-1/2 w-1/3 bg-black bg-opacity-70 text-white p-4 flex items-center"> {/* Khung dưới góc trái */}
+              <p>{item.text}</p>
+            </div>
+          </div>
         ))}
       </div>
-
       {/* Section 1 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-8">
         {GALLERY_DATA.section1.map((item, index) => (
           item.text ? (
             <TextBox key={index}>{item.text}</TextBox>
           ) : (
-            <ImageSection 
+            <ImageSection
               key={index}
               src={item.src}
               alt={item.alt}
@@ -76,7 +79,7 @@ export default function PictureLayout() {
           item.text ? (
             <TextBox key={index}>{item.text}</TextBox>
           ) : (
-            <ImageSection 
+            <ImageSection
               key={index}
               src={item.src}
               alt={item.alt}
