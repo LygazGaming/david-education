@@ -4,9 +4,6 @@ import { FaFacebook, FaYoutube, FaTiktok, FaPhoneAlt, FaMapMarkerAlt, FaEnvelope
 const Footer = () => {
   return (
     <footer className="bg-primary relative">
-      {/* Decorative Elements */}
-      <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
-
       {/* Main Footer */}
       <div className="relative max-w-7xl mx-auto px-4 pt-20 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">

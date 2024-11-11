@@ -2,7 +2,7 @@
 import React from 'react';
 import { FaArrowRight, FaCalendarAlt, FaEye } from 'react-icons/fa';
 import NEWS_DATA from '../data/newsData';
-
+import Link from 'next/link';
 const NewsCard = ({ news, featured = false }) => {
   if (featured) {
     return (
@@ -34,8 +34,11 @@ const NewsCard = ({ news, featured = false }) => {
             </p>
           </div>
           <button className="flex items-center gap-2 text-orange-500 font-semibold mt-4 group">
-            Xem chi tiết
-            <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
+            <Link href={`/news/${news.id}`}> {/* Thêm Link để điều hướng */}
+              Xem chi tiết
+              </Link>
+              <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
+
           </button>
         </div>
       </div>
@@ -69,8 +72,11 @@ const NewsCard = ({ news, featured = false }) => {
           {news.excerpt}
         </p>
         <button className="flex items-center gap-2 text-orange-500 font-semibold mt-4 text-sm group">
-          Xem thêm
-          <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
+          <Link href={`/news/${news.id}`}> {/* Thêm Link để điều hướng */}
+            Xem thêm
+            </Link>
+            <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
+
         </button>
       </div>
     </div>
@@ -89,8 +95,11 @@ export default function TinTuc() {
           <div className="h-1 w-20 bg-orange-500 mt-2"></div>
         </div>
         <button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors group">
+          <Link href="/news">
           <span>Xem tất cả</span>
+          </Link>
           <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
+
         </button>
       </div>
 
