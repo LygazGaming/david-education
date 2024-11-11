@@ -72,7 +72,7 @@ export default function Home() {
               <img 
                 src={img} 
                 alt={`Slide ${index + 1}`} 
-                className="w-full h-auto object-contain object-center" // Đã thay đổi h-[70vh] thành h-auto
+                className="w-full h-auto object-contain object-center"
                 loading="lazy"
                 />
               <div className="absolute inset-0" />

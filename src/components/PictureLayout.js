@@ -43,7 +43,7 @@ export default function PictureLayout() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-16">
       {/* Featured Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 w-full p-0 overflow-hidden">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 w-full p-0 overflow-hidden">
   {GALLERY_DATA.featured.map((item, index) => (
     <div key={index} className="relative flex w-full">
       <ImageSection
