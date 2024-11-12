@@ -7,7 +7,7 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 md:p-12 rounded-lg shadow-lg flex flex-col md:flex-row w-full max-w-3xl md:max-w-5xl relative">
+      <div className="bg-white p-4 md:p-8 rounded-lg shadow-lg flex flex-col md:flex-row w-full max-w-md md:max-w-3xl relative"> {/* Changed max-w-5xl to max-w-md */}
       <button onClick={onClose} className="absolute top-12 right-4 text-black text-3xl font-bold z-10">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -19,23 +19,22 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
           <img 
             src="/img/img045.jpg" 
             alt="Trial" 
-            className="object-cover w-full h-64 md:h-full rounded-md" 
-          />
+            className="object-cover w-full h-48 md:h-full rounded-md" /> {/* Changed h-64 to h-48 */}
         </div>
         
         {/* Phần bên phải: Form */}
-        <div className="w-full md:w-1/2 p-4 md:p-8">
-          <img src="/logo.png" alt="David Education Logo" className="h-12 md:h-16 mb-4" />
-          <h2 className="text-xl md:text-2xl font-bold text-[#4579bc] mb-2">Đăng Ký Tập Thử Miễn Phí</h2>
+        <div className="w-full md:w-1/2 p-4 md:p-6"> {/* Changed md:p-8 to md:p-6 */}
+          <img src="/logo.png" alt="David Education Logo" className="h-10 md:h-12 mb-4" /> {/* Changed h-12 to h-10 */}
+          <h2 className="text-lg md:text-xl font-bold text-[#4579bc] mb-2">Đăng Ký Tập Thử Miễn Phí</h2> {/* Changed text-xl to text-lg */}
           <p className="text-sm md:text-base text-gray-600 mb-4">Mời phụ huynh điền thông tin đăng ký dưới đây</p>
           
           {/* Các trường của form */}
-          <form className="space-y-4 md:space-y-5">
+          <form className="space-y-3 md:space-y-4"> {/* Changed space-y-4 to space-y-3 */}
             <div>
               <label className="block text-gray-700 text-sm md:text-base font-semibold">Họ và tên học viên <span className="text-red-500">*</span></label>
               <input 
                 type="text" 
-                className="w-full border border-gray-300 p-3 md:p-4 rounded-lg text-base md:text-lg mt-1" 
+                className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-base md:text-lg mt-1" 
                 placeholder="Nhập tên học viên" 
                 required
               />
@@ -44,14 +43,14 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
               <label className="block text-gray-700 text-sm md:text-base font-semibold">Ngày tháng năm sinh (không bắt buộc)</label>
               <input 
                 type="date" 
-                className="w-full border border-gray-300 p-3 md:p-4 rounded-lg text-base md:text-lg mt-1" 
+                className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-base md:text-lg mt-1" 
               />
             </div>
             <div>
               <label className="block text-gray-700 text-sm md:text-base font-semibold">Họ và tên phụ huynh (không quá buộc)</label>
               <input 
                 type="text" 
-                className="w-full border border-gray-300 p-3 md:p-4 rounded-lg text-base md:text-lg mt-1" 
+                className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-base md:text-lg mt-1" 
                 placeholder="Nhập tên phụ huynh" 
               />
             </div>
@@ -59,7 +58,7 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
               <label className="block text-gray-700 text-sm md:text-base font-semibold">Số điện thoại phụ huynh <span className="text-red-500">*</span></label>
               <input 
                 type="tel" 
-                className="w-full border border-gray-300 p-3 md:p-4 rounded-lg text-base md:text-lg mt-1" 
+                className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-base md:text-lg mt-1"
                 placeholder="Nhập số điện thoại" 
                 required
               />
@@ -68,7 +67,7 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
               <label className="block text-gray-700 text-sm md:text-base font-semibold">Email (không bắt buộc)</label>
               <input 
                 type="email" 
-                className="w-full border border-gray-300 p-3 md:p-4 rounded-lg text-base md:text-lg mt-1" 
+                className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-base md:text-lg mt-1"
                 placeholder="Nhập email" 
               />
             </div>
@@ -76,7 +75,7 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
               <label className="block text-gray-700 text-sm md:text-base font-semibold">Ca học thử <span className="text-red-500">*</span></label>
               <input 
                 type="text" 
-                className="w-full border border-gray-300 p-3 md:p-4 rounded-lg text-base md:text-lg mt-1" 
+                className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-base md:text-lg mt-1"
                 placeholder="Nhập ca học thử" 
                 required
               />
@@ -84,7 +83,7 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
 
             <button 
               type="button" 
-              className="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition"
+              className="w-full bg-secondary text-white font-bold py-2 rounded-lg hover:bg-opacity-90 transition"
               onClick={onClose}
             >
               Yêu Cầu Tư Vấn

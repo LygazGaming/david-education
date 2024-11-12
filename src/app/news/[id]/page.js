@@ -16,11 +16,11 @@ const NewsDetail = () => {
   }
 
   return (
-    <div className="flex max-w-6xl mx-auto px-4 py-12">
-      <div className="w-1/4 pr-4"> {/* Thêm khoảng cách bên phải cho CategoryMenu */}
+    <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-4 py-12"> {/* Thay đổi layout cho responsive */}
+      <div className="w-full md:w-1/4 pr-4 md:order-1"> {/* Danh mục bên trái trên màn hình lớn */}
         <CategoryMenu /> {/* Hiển thị thanh danh mục ở bên trái */}
       </div>
-      <div className="w-3/4 p-6 bg-white rounded-lg shadow-md">
+      <div className="w-full md:w-3/4 p-6 bg-white rounded-lg shadow-md md:order-2"> {/* Tin tức chiếm toàn bộ chiều rộng */}
         <h1 className="text-3xl font-bold text-gray-800 mb-4">{news.title}</h1>
         <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
           <span className="flex items-center gap-1">
