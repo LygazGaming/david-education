@@ -8,13 +8,17 @@ const NewsCard = ({ news, featured = false }) => {
   if (featured) {
     return (
       <div className="flex flex-col md:flex-row gap-6 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <div className="md:w-1/2 relative overflow-hidden">
-          <img 
-            src={news.image} 
-            alt={news.title} 
-            className="w-full h-[300px] object-cover transform hover:scale-105 transition-transform duration-500"
-          />
-        </div>
+
+          <div className="md:w-1/2 relative overflow-hidden">
+          <Link href={`/news/${news.id}`}> {/* Bọc ảnh trong Link */}
+            <img 
+              src={news.image} 
+              alt={news.title} 
+              className="w-full h-[300px] object-cover transform hover:scale-105 transition-transform duration-500"
+            />
+                    </Link>
+          </div>
+
         <div className="md:w-1/2 p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
@@ -50,11 +54,13 @@ const NewsCard = ({ news, featured = false }) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="relative overflow-hidden">
+      <Link href={`/news/${news.id}`}> {/* Bọc tiêu đề trong Link */}
         <img 
           src={news.image} 
           alt={news.title} 
           className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
         />
+                </Link>
       </div>
       <div className="p-5">
         <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
