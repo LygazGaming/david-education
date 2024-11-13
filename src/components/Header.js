@@ -93,12 +93,12 @@ const Header = () => {
 
       {/* Mobile menu */}
       <div 
-        className={`absolute top-full left-0 right-0 bg-primary md:hidden transform transition-all duration-300 ${
+        className={`absolute top-full left-0 right-0 bg-primary md:hidden transform transition-all duration-300 shadow-lg ${
           isOpen ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0 pointer-events-none'
-        } shadow-lg`}
+        }`} // Đã loại bỏ rounded-lg
       >
         <ul className="flex flex-col items-center py-4">
-          <li className="my-2 w-full text-center">
+          <li className="my-2 w-full text-center transition-transform duration-300 transform hover:scale-105">
             <Link 
               href="/" 
               className="text-white font-bold hover:text-secondary transition-all duration-300 block py-2 hover:bg-primary-dark" 
@@ -107,7 +107,7 @@ const Header = () => {
               TRANG CHỦ
             </Link>
           </li>
-          <li className="my-2 w-full text-center">
+          <li className="my-2 w-full text-center transition-transform duration-300 transform hover:scale-105">
             <Link 
               href="/news" 
               className="text-white font-bold hover:text-secondary transition-all duration-300 block py-2 hover:bg-primary-dark" 
@@ -116,7 +116,7 @@ const Header = () => {
               TIN TỨC
             </Link>
           </li>
-          <li className="my-2 w-full text-center">
+          <li className="my-2 w-full text-center transition-transform duration-300 transform hover:scale-105">
             <Link 
               href="/training-packages" 
               className="text-white font-bold hover:text-secondary transition-all duration-300 block py-2 hover:bg-primary-dark" 
@@ -125,7 +125,7 @@ const Header = () => {
               CÁC GÓI TẬP
             </Link>
           </li>
-          <li className="my-2 w-full text-center">
+          <li className="my-2 w-full text-center transition-transform duration-300 transform hover:scale-105">
             <Link 
               href="/photo-album" 
               className="text-white font-bold hover:text-secondary transition-all duration-300 block py-2 hover:bg-primary-dark" 
@@ -134,7 +134,7 @@ const Header = () => {
               ALBUM ẢNH
             </Link>
           </li>
-          <li className="my-2 w-full text-center">
+          <li className="my-2 w-full text-center transition-transform duration-300 transform hover:scale-105">
             <Link 
               href="/training-videos" 
               className="text-white font-bold hover:text-secondary transition-all duration-300 block py-2 hover:bg-primary-dark" 

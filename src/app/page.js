@@ -79,12 +79,8 @@ export default function Home() {
             </div>
           ))}
         </Slider>
+        <PictureLayout /> 
       </section>
-
-      <Section>
-        <PictureLayout />
-      </Section>
-
       <Section className="bg-gray-50">
         <TinTuc />
       </Section>
