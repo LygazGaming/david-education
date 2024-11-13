@@ -1,9 +1,9 @@
 import VideoHLV from '../../components/VideoHLV';
+
 export default function training_videos() {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="min-h-screen">
         <VideoHLV />
       </div>
     );
-  }
-  
+}

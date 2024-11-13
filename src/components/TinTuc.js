@@ -94,7 +94,7 @@ export default function TinTuc() {
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-gray-800">Tin tức mới nhất</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Tin tức</h2>
           <div className="h-1 w-20 bg-orange-500 mt-2"></div>
         </div>
         <button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors group">
