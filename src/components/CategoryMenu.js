@@ -17,11 +17,11 @@ const categories = [
 const CategoryMenu = () => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
-      <h2 className="text-lg font-bold mb-4 text-gray-800 text-center md:text-left">Danh mục tin tức</h2>
+      <h2 className="text-lg font-bold mb-4 text-gray-800 text-left">Danh mục tin tức</h2> {/* Căn lề trái */}
       <ul className="space-y-2">
         {categories.map(category => (
           <li key={category.id}>
-            <Link href={category.path} className="block text-blue-600 hover:underline transition-colors duration-200 text-center md:text-left">
+            <Link href={category.path} className="block text-blue-600 hover:underline transition-colors duration-200 text-left"> {/* Căn lề trái */}
               {category.name}
             </Link>
           </li>
