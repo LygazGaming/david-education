@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <section className="hero-section relative">
-        <Slider {...SLIDER_SETTINGS} className="slider-wrapper">
+      <Slider {...SLIDER_SETTINGS} className="slider-wrapper">
           {SLIDER_IMAGES.map((img, index) => (
             <div key={index} className="relative">
               <img 

@@ -11,11 +11,20 @@ const Header = () => {
 
   return (
     <header className="bg-primary p-3 px-4 md:px-[6rem] flex items-center justify-between relative z-50 shadow-lg">
-      <div className="flex items-center">
-        <div className="flex items-center bg-white h-full p-2 pr-4 rounded-lg hover:shadow-md transition-all duration-300">
-          <img src="/logo.png" alt="David Education Logo" className="h-8 md:h-10 mr-2 transform hover:scale-105 transition-transform duration-300" />
-          <h1 className="text-[#f48420] text-xl md:text-2xl font-bold tracking-wide">David <span className="text-[#4579bc]">Education</span></h1>
+      <div className="flex items-center w-full">
+        {/* Khung trắng căn giữa trên mobile */}
+        <div className="flex items-center bg-white h-full p-2 pr-4 rounded-lg hover:shadow-md transition-all duration-300 md:flex-none md:w-auto mx-auto md:mx-0">
+          <img 
+            src="/logo.png" 
+            alt="David Education Logo" 
+            className="h-8 md:h-10 mr-2 transform hover:scale-105 transition-transform duration-300" 
+          />
+          <h1 className="text-[#f48420] text-xl md:text-2xl font-bold tracking-wide">
+            David <span className="text-[#4579bc]">Education</span>
+          </h1>
         </div>
+
+        {/* Menu desktop */}
         <nav className="hidden md:block ml-8">
           <ul className="flex space-x-4 lg:space-x-24">
             <li>
@@ -93,9 +102,7 @@ const Header = () => {
 
       {/* Mobile menu */}
       <div 
-        className={`absolute top-full left-0 right-0 bg-primary md:hidden transform transition-all duration-300 shadow-lg ${
-          isOpen ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0 pointer-events-none'
-        }`} // Đã loại bỏ rounded-lg
+        className={`absolute top-full left-0 right-0 bg-primary md:hidden transform transition-all duration-300 shadow-lg ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0 pointer-events-none'}`}
       >
         <ul className="flex flex-col items-center py-4">
           <li className="my-2 w-full text-center transition-transform duration-300 transform hover:scale-105">
