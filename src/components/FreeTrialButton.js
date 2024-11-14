@@ -18,9 +18,6 @@ const FreeTrialButton = () => {
       >
         Đăng Ký Tập Thử Miễn Phí
       </button>
-      
-      {/* Modal Component */}
-
     </div>
     <FreeTrialModal isOpen={isModalOpen} onClose={closeModal} />
     </div>

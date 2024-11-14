@@ -7,7 +7,7 @@ import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 
 const COACHES_DATA = [
   {
-    image: "/img/img021.jpg",
+    image: "/img2/img021.webp",
     title: "HLV Nguyễn Văn A",
     role: "Huấn luyện viên trưởng",
     experience: "20+ năm kinh nghiệm",
@@ -15,7 +15,7 @@ const COACHES_DATA = [
     achievements: ["Chứng chỉ HLV UEFA Pro", "Cựu cầu thủ ĐTQG", "Vô địch V-League 2018"]
   },
   {
-    image: "/img/img088.jpg",
+    image: "/img2/img088.webp",
     title: "HLV Trần B",
     role: "Chuyên gia thể lực",
     experience: "15+ năm kinh nghiệm",
@@ -23,7 +23,7 @@ const COACHES_DATA = [
     achievements: ["Chứng chỉ HLV UEFA A", "Chuyên gia thể lực FIFA", "Huấn luyện viên CLB Hà Nội"]
   },
   {
-    image: "/img/img038.jpg",
+    image: "/img2/img038.webp",
     title: "HLV Lê C",
     role: "Chuyên gia chiến thuật",
     experience: "12+ năm kinh nghiệm",
@@ -31,7 +31,7 @@ const COACHES_DATA = [
     achievements: ["Chứng chỉ HLV UEFA B", "Cựu đội trưởng CLB", "Vô địch U23 2019"]
   },
   {
-    image: "/img/img058.jpg",
+    image: "/img2/img058.webp",
     title: "HLV Phạm D",
     role: "HLV đào tạo trẻ",
     experience: "10+ năm kinh nghiệm",

@@ -24,17 +24,17 @@ const TextBox = ({ children, className }) => (
 
 const GALLERY_DATA = {
   featured: [
-    { src: "/img/img001.jpg", text: "Chúng tôi cam kết mang đến những giờ học chất lượng nhất cho các cầu thủ trẻ" },
-    { src: "/img/img100.jpg", text: "Đội tuyển trẻ" }
+    { src: "/img2/img001.webp", text: "Chúng tôi cam kết mang đến những giờ học chất lượng nhất cho các cầu thủ trẻ" },
+    { src: "/img2/img100.webp", text: "Đội tuyển trẻ" }
   ],
   section1: [
-    { src: "/img/img003.jpg", alt: "Huấn luyện viên" },
+    { src: "/img2/img003.webp", alt: "Huấn luyện viên" },
     { text: "Chúng tôi cam kết mang đến những giờ học chất lượng nhất cho các cầu thủ trẻ" },
-    { src: "/img/img004.jpg", alt: "Buổi tập luyện" }
+    { src: "/img2/img004.webp", alt: "Buổi tập luyện" }
   ],
   section2: [
     { text: "Đội ngũ HLV giàu kinh nghiệm, tận tâm với nghề" },
-    { src: "/img/img140.jpg", alt: "Khoảnh khắc tập luyện" },
+    { src: "/img2/img140.webp", alt: "Khoảnh khắc tập luyện" },
     { text: "Trang thiết bị hiện đại, cơ sở vật chất đạt chuẩn quốc tế" }
   ]
 };

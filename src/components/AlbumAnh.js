@@ -5,37 +5,37 @@ import { FaArrowRight } from 'react-icons/fa';
 const ALBUM_DATA = [
   {
     id: 1,
-    image: "/img/img036.jpg",
+    image: "/img2/img036.webp",
     title: "Giải đấu mùa hè 2023",
     description: "Những khoảnh khắc đáng nhớ từ giải đấu mùa hè"
   },
   {
     id: 2,
-    image: "/img/img056.jpg",
+    image: "/img2/img056.webp",
     title: "Buổi tập luyện",
     description: "Các cầu thủ trong buổi tập luyện hàng tuần"
   },
   {
     id: 3,
-    image: "/img/img093.jpg",
+    image: "/img2/img093.webp",
     title: "Đội tuyển trẻ",
     description: "Đội tuyển trẻ tham gia giải U15"
   },
   {
     id: 4,
-    image: "/img/img050.jpg",
+    image: "/img2/img050.webp",
     title: "Khoảnh khắc chiến thắng",
     description: "Niềm vui chiến thắng của đội nhà"
   },
   {
     id: 5,
-    image: "/img/img030.jpg",
+    image: "/img2/img030.webp",
     title: "Lễ trao giải",
     description: "Buổi lễ trao giải thưởng cuối mùa"
   },
   {
     id: 6,
-    image: "/img/img024.jpg",
+    image: "/img2/img024.webp",
     title: "Đào tạo trẻ",
     description: "Chương trình đào tạo bóng đá trẻ"
   }

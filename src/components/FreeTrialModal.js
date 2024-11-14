@@ -16,7 +16,7 @@ const FreeTrialModal = ({ isOpen, onClose }) => {
         {/* Phần bên trái: Hình ảnh (ẩn trên di động) */}
         <div className="hidden md:flex w-full md:w-1/2 flex items-center justify-center mb-6 md:mb-0">
           <img 
-            src="/img/img045.jpg" 
+            src="/img2/img045.webp" 
             alt="Trial" 
             className="object-cover w-full h-48 md:h-full rounded-lg shadow-md" /> {/* Thay đổi từ rounded-md sang rounded-lg */}
         </div>

@@ -12,10 +12,10 @@ import NhaTaiTro from '@/components/NhaTaiTro';
 import VideoHLV from '@/components/VideoHLV';
 
 const SLIDER_IMAGES = [
-  "/images/slider/slider_01.jpg",
-  "/images/slider/slider_02.jpg",
-  "/images/slider/slider_03.jpg",
-  "/images/slider/slider_04.jpg"
+  "/images/slider/slider_01.webp",
+  "/images/slider/slider_02.webp",
+  "/images/slider/slider_03.webp",
+  "/images/slider/slider_04.webp"
 ];
 
 const SLIDER_SETTINGS = {

@@ -4,32 +4,32 @@ import React, { useEffect } from "react";
 const SPONSORS = [
   {
     id: 1,
-    logo: "/img/img003.jpg",
+    logo: "/img2/img003.webp",
     alt: "Nhà tài trợ 1",
   },
   {
     id: 2,
-    logo: "/img/img008.jpg",
+    logo: "/img2/img008.webp",
     alt: "Nhà tài trợ 2",
   },
   {
     id: 3,
-    logo: "/img/img016.jpg",
+    logo: "/img2/img016.webp",
     alt: "Nhà tài trợ 3",
   },
   {
     id: 4,
-    logo: "/img/img037.jpg",
+    logo: "/img2/img037.webp",
     alt: "Nhà tài trợ 4",
   },
   {
     id: 5,
-    logo: "/img/img084.jpg",
+    logo: "/img2/img084.webp",
     alt: "Nhà tài trợ 5",
   },
   {
     id: 6,
-    logo: "/img/img105.jpg",
+    logo: "/img2/img105.webp",
     alt: "Nhà tài trợ 6",
   },
 ];
