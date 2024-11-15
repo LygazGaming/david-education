@@ -99,9 +99,7 @@ export default function Home() {
       <Section className="bg-gray-50">
         <VideoHLV />
       </Section>
-      <Section className="pb-0">
         <NhaTaiTro />
-      </Section>
     </main>
   );
 }

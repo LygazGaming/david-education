@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaArrowRight, FaArrowLeft, FaPlay, FaTimes } from 'react-icons/fa';
+import Link from 'next/link';
 
 const VIDEO_DATA = [
   {
@@ -85,7 +86,7 @@ const VideoModal = ({ video, isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
       <div className="relative bg-white rounded-xl w-full max-w-3xl">
-        <button 
+        <button
           onClick={onClose}
           className="absolute -top-12 right-0 text-white hover:text-orange-500 transition-colors"
         >
@@ -113,76 +114,76 @@ const VideoModal = ({ video, isOpen, onClose }) => {
 };
 
 const VideoCard = ({ video }) => {
-    const [isPlaying, setIsPlaying] = useState(false);
-  
-    const getVideoId = (url) => {
-      const regex = /video\/(\d+)/;
-      const match = url.match(regex);
-      return match ? match[1] : null;
-    };
-  
-    return (
-      <div className="px-2">
-        <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-          <div className="relative">
-            {!isPlaying ? (
-              // Thumbnail và nút play
-              <div 
-                className="relative group cursor-pointer" 
-                onClick={() => setIsPlaying(true)}
-              >
-                <img 
-                  src={video.thumbnail} 
-                  alt={video.title} 
-                  className="w-full aspect-video object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center 
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const getVideoId = (url) => {
+    const regex = /video\/(\d+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+
+  return (
+    <div className="px-2">
+      <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="relative">
+          {!isPlaying ? (
+            // Thumbnail và nút play
+            <div
+              className="relative group cursor-pointer"
+              onClick={() => setIsPlaying(true)}
+            >
+              <img
+                src={video.thumbnail}
+                alt={video.title}
+                className="w-full aspect-video object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center 
                                   group-hover:scale-110 transition-transform">
-                      <FaPlay className="text-white text-xl ml-1" />
-                    </div>
-                  </div>
-                  <div className="absolute bottom-3 right-3 bg-black/60 px-2 py-1 rounded-full">
-                    <span className="text-white text-xs">{video.views} views</span>
+                    <FaPlay className="text-white text-xl ml-1" />
                   </div>
                 </div>
-              </div>
-            ) : (
-              // Video player
-              <div className="aspect-video">
-                <div className="relative">
-                  <iframe
-                    src={`https://www.tiktok.com/embed/v2/${getVideoId(video.videoUrl)}`}
-                    className="w-full h-full"
-                    allowFullScreen
-                  />
-                  <button 
-                    onClick={() => setIsPlaying(false)}
-                    className="absolute top-2 right-2 bg-black/60 p-2 rounded-full hover:bg-black/80 transition-colors"
-                  >
-                    <FaTimes className="text-white" />
-                  </button>
+                <div className="absolute bottom-3 right-3 bg-black/60 px-2 py-1 rounded-full">
+                  <span className="text-white text-xs">{video.views} views</span>
                 </div>
               </div>
-            )}
-          </div>
-          
-          <div className="p-5 h-[180px] flex flex-col">
-            <h3 className="text-lg font-bold text-gray-800 mb-3 line-clamp-1">
-              {video.title}
-            </h3>
-            <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 flex-grow">
-              {video.description}
-            </p>
-            <div className="flex items-center text-sm text-gray-500 mt-auto pt-3">
-              <span className="font-medium">{video.author}</span>
             </div>
+          ) : (
+            // Video player
+            <div className="aspect-video">
+              <div className="relative">
+                <iframe
+                  src={`https://www.tiktok.com/embed/v2/${getVideoId(video.videoUrl)}`}
+                  className="w-full h-full"
+                  allowFullScreen
+                />
+                <button
+                  onClick={() => setIsPlaying(false)}
+                  className="absolute top-2 right-2 bg-black/60 p-2 rounded-full hover:bg-black/80 transition-colors"
+                >
+                  <FaTimes className="text-white" />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="p-5 h-[180px] flex flex-col">
+          <h3 className="text-lg font-bold text-gray-800 mb-3 line-clamp-1">
+            {video.title}
+          </h3>
+          <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 flex-grow">
+            {video.description}
+          </p>
+          <div className="flex items-center text-sm text-gray-500 mt-auto pt-3">
+            <span className="font-medium">{video.author}</span>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default function VideoHLV() {
   const settings = {
@@ -226,8 +227,10 @@ export default function VideoHLV() {
             <div className="h-1 w-20 bg-orange-500 mt-3"></div>
           </div>
           <button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg 
-                           hover:bg-orange-600 transition-colors group">
-            <span>Xem tất cả</span>
+                 hover:bg-orange-600 transition-colors group">
+            <Link href="/training-videos">
+              <span>Xem tất cả</span>
+            </Link>
             <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>

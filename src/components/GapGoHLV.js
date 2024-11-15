@@ -120,11 +120,11 @@ export default function GapGoHLV() {
             </h2>
             <div className="h-1 w-20 bg-orange-500 mt-3"></div>
           </div>
-          <button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg 
+          {/* <button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg 
                            hover:bg-orange-600 transition-colors group">
             <span>Xem tất cả</span>
             <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </button>
+          </button> */}
         </div>
 
         <Slider {...settings}>

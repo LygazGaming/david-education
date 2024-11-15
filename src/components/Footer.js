@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image'; // Import Next.js Image
 import { FaFacebook, FaYoutube, FaTiktok, FaPhoneAlt, FaMapMarkerAlt, FaEnvelope, FaArrowRight } from 'react-icons/fa';
 
 const Footer = () => {
@@ -7,27 +8,28 @@ const Footer = () => {
       {/* Main Footer */}
       <div className="relative max-w-7xl mx-auto px-4 pt-20 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          
           {/* Logo Section */}
           <div className="space-y-6">
-            <img 
-              src="/logo.png" 
-              alt="David Education Logo" 
-              className="h-16 object-contain"
+            <Image
+              src="/logo.png"
+              alt="David Education Logo"
+              width={100}  // Đặt chiều rộng cho logo
+              height={100} // Đặt chiều cao cho logo
+              className="object-contain mx-auto sm:mx-0" 
+              style={{ width: 'auto' }} // Giữ tỷ lệ gốc của logo
             />
             <p className="text-white/80 text-sm leading-relaxed">
               Chúng tôi cam kết mang đến những trải nghiệm tốt nhất cho học viên với đội ngũ huấn luyện viên chuyên nghiệp và cơ sở vật chất hiện đại.
             </p>
             <div className="flex space-x-5">
-              <Link href="https://www.facebook.com" target="_blank" 
-                    className="bg-white/10 p-2.5 rounded-lg hover:-translate-y-1 hover:bg-white/20 transition-all duration-300">
+              <Link href="https://www.facebook.com" target="_blank" className="social-icon">
                 <FaFacebook className="w-5 h-5 text-white" />
               </Link>
-              <Link href="https://www.tiktok.com" target="_blank"
-                    className="bg-white/10 p-2.5 rounded-lg hover:-translate-y-1 hover:bg-white/20 transition-all duration-300">
+              <Link href="https://www.tiktok.com" target="_blank" className="social-icon">
                 <FaTiktok className="w-5 h-5 text-white" />
               </Link>
-              <Link href="https://www.youtube.com" target="_blank"
-                    className="bg-white/10 p-2.5 rounded-lg hover:-translate-y-1 hover:bg-white/20 transition-all duration-300">
+              <Link href="https://www.youtube.com" target="_blank" className="social-icon">
                 <FaYoutube className="w-5 h-5 text-white" />
               </Link>
             </div>
@@ -39,8 +41,7 @@ const Footer = () => {
             <ul className="space-y-4">
               {['Trang chủ', 'Tin tức', 'Các gói tập', 'Album ảnh', 'Video huấn luyện'].map((item) => (
                 <li key={item}>
-                  <Link href="#" 
-                        className="text-white/80 hover:text-white group flex items-center">
+                  <Link href="#" className="text-white/80 hover:text-white group flex items-center">
                     <FaArrowRight className="w-4 h-4 mr-2 transform transition-transform group-hover:translate-x-2" />
                     {item}
                   </Link>

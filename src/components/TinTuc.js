@@ -1,24 +1,22 @@
 "use client";
 import React from 'react';
 import { FaArrowRight, FaCalendarAlt, FaEye } from 'react-icons/fa';
-import NEWS_DATA from '../data/newsData';
+import NEWS_DATA from '../data/newsData'; // Đảm bảo đường dẫn đúng đến NEWS_DATA
 import Link from 'next/link';
 
 const NewsCard = ({ news, featured = false }) => {
   if (featured) {
     return (
       <div className="flex flex-col md:flex-row gap-6 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-
-          <div className="md:w-1/2 relative overflow-hidden">
-          <Link href={`/news/${news.id}`}> {/* Bọc ảnh trong Link */}
-            <img 
-              src={news.image} 
-              alt={news.title} 
+        <div className="md:w-1/2 relative overflow-hidden">
+          <Link href={`/news/${news.id}`}>
+            <img
+              src={news.image}
+              alt={news.title}
               className="w-full h-[300px] object-cover transform hover:scale-105 transition-transform duration-500"
             />
-                    </Link>
-          </div>
-
+          </Link>
+        </div>
         <div className="md:w-1/2 p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
@@ -31,7 +29,7 @@ const NewsCard = ({ news, featured = false }) => {
                 {news.views} lượt xem
               </span>
             </div>
-            <Link href={`/news/${news.id}`}> {/* Bọc tiêu đề trong Link */}
+            <Link href={`/news/${news.id}`}>
               <h3 className="text-2xl font-bold text-gray-800 mb-4 hover:text-orange-500 transition-colors">
                 {news.title}
               </h3>
@@ -41,7 +39,7 @@ const NewsCard = ({ news, featured = false }) => {
             </p>
           </div>
           <button className="flex items-center gap-2 text-orange-500 font-semibold mt-4 group">
-            <Link href={`/news/${news.id}`}> {/* Thêm Link để điều hướng */}
+            <Link href={`/news/${news.id}`}>
               Xem chi tiết
             </Link>
             <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
@@ -54,13 +52,13 @@ const NewsCard = ({ news, featured = false }) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="relative overflow-hidden">
-      <Link href={`/news/${news.id}`}> {/* Bọc tiêu đề trong Link */}
-        <img 
-          src={news.image} 
-          alt={news.title} 
-          className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
-        />
-                </Link>
+        <Link href={`/news/${news.id}`}>
+          <img
+            src={news.image}
+            alt={news.title}
+            className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
+          />
+        </Link>
       </div>
       <div className="p-5">
         <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
@@ -73,7 +71,7 @@ const NewsCard = ({ news, featured = false }) => {
             {news.views}
           </span>
         </div>
-        <Link href={`/news/${news.id}`}> {/* Bọc tiêu đề trong Link */}
+        <Link href={`/news/${news.id}`}>
           <h4 className="font-bold text-gray-800 hover:text-orange-500 transition-colors">
             {news.title}
           </h4>
@@ -82,7 +80,7 @@ const NewsCard = ({ news, featured = false }) => {
           {news.excerpt}
         </p>
         <button className="flex items-center gap-2 text-orange-500 font-semibold mt-4 text-sm group">
-          <Link href={`/news/${news.id}`}> {/* Thêm Link để điều hướng */}
+          <Link href={`/news/${news.id}`}>
             Xem thêm
           </Link>
           <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
@@ -96,6 +94,9 @@ export default function TinTuc() {
   const featuredNews = NEWS_DATA.find(news => news.featured);
   const regularNews = NEWS_DATA.filter(news => !news.featured);
 
+  // Chỉ lấy 4 tin tức đầu tiên từ regularNews
+  const displayedRegularNews = regularNews.slice(0, 3);
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="flex items-center justify-between mb-8">
@@ -104,7 +105,7 @@ export default function TinTuc() {
           <div className="h-1 w-20 bg-orange-500 mt-2"></div>
         </div>
         <button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors group">
-          <Link href="/news">
+          <Link href="/news"> {/* Cập nhật đường dẫn nếu cần */}
             <span>Xem tất cả</span>
           </Link>
           <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
@@ -113,9 +114,9 @@ export default function TinTuc() {
 
       <div className="space-y-8">
         {featuredNews && <NewsCard news={featuredNews} featured={true} />}
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {regularNews.map(news => (
+          {displayedRegularNews.map(news => (
             <NewsCard key={news.id} news={news} />
           ))}
         </div>
