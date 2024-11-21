@@ -1,3 +1,4 @@
+'use client'
 import HocPhan from '../../components/HocPhan';
 export default function training_packages() {
     return (

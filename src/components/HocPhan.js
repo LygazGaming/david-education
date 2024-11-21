@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
+import FreeTrialModal from './FreeTrialModal';
 
 const courses = [
   {
@@ -40,6 +41,11 @@ const courses = [
 ];
 
 const HocPhan = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -91,11 +97,14 @@ const HocPhan = () => {
                 </ul>
 
                 <div className="mt-auto"> {/* Đảm bảo nút bấm luôn ở dưới cùng */}
-                  <button className={`w-full py-3 rounded-lg font-semibold text-sm transition-colors duration-200 ${
-                    course.isPopular
-                      ? 'bg-white text-primary hover:bg-gray-100'
-                      : 'bg-primary text-white hover:opacity-90'
-                  }`}>
+                  <button
+                    onClick={openModal}
+                    className={`w-full py-3 rounded-lg font-semibold text-sm transition-colors duration-200 ${
+                      course.isPopular
+                        ? 'bg-white text-primary hover:bg-gray-100'
+                        : 'bg-primary text-white hover:opacity-90'
+                    }`}
+                  >
                     Đăng Ký Ngay
                   </button>
                 </div>
@@ -104,6 +113,9 @@ const HocPhan = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal */}
+      <FreeTrialModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

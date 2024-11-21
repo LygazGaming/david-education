@@ -4,30 +4,45 @@
 const FreeTrialModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
+  // Function to handle click outside modal to close it
+  const handleBackdropClick = (e) => {
+    // Close the modal only if the user clicks outside the modal content
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      onClick={handleBackdropClick} // Add event listener for click outside
+    >
       <div className="bg-white p-4 md:p-8 rounded-lg shadow-lg flex flex-col md:flex-row w-full max-w-md md:max-w-3xl relative">
-        <button onClick={onClose} className="absolute top-12 right-4 text-black text-3xl font-bold z-10">
+        <button 
+          onClick={onClose} 
+          className="absolute top-12 right-4 text-black text-3xl font-bold z-10"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        
-        {/* Phần bên trái: Hình ảnh (ẩn trên di động) */}
+
+        {/* Left part: Image (hidden on mobile) */}
         <div className="hidden md:flex w-full md:w-1/2 flex items-center justify-center mb-6 md:mb-0">
           <img 
             src="/img2/img045.webp" 
             alt="Trial" 
-            className="object-cover w-full h-48 md:h-full rounded-lg shadow-md" /> {/* Thay đổi từ rounded-md sang rounded-lg */}
+            className="object-cover w-full h-48 md:h-full rounded-lg shadow-md" 
+          />
         </div>
         
-        {/* Phần bên phải: Form */}
+        {/* Right part: Form */}
         <div className="w-full md:w-1/2 p-4 md:p-6">
           <img src="/logo.png" alt="David Education Logo" className="h-10 md:h-12 mb-4" />
           <h2 className="text-lg md:text-xl font-bold text-[#4579bc] mb-2">Đăng Ký Tập Thử Miễn Phí</h2>
           <p className="text-sm md:text-base text-gray-600 mb-4">Mời phụ huynh điền thông tin đăng ký dưới đây</p>
           
-          {/* Các trường của form */}
+          {/* Form fields */}
           <form className="space-y-3 md:space-y-4">
             <div>
               <label className="block text-gray-700 text-sm md:text-base font-semibold">Họ và tên học viên <span className="text-red-500">*</span></label>
