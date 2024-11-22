@@ -1,7 +1,6 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function photo_album() {
   return (
@@ -11,7 +10,6 @@ export default function photo_album() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {ALBUM_DATA.map((album) => (
             <div key={album.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <Link href={`/AlbumDetail?id=${album.id}`}> {/* Thêm Link để điều hướng */}
                 <Image 
                   src={album.image} 
                   alt={album.title} 
@@ -20,11 +18,8 @@ export default function photo_album() {
                   style={{ objectFit: 'cover' }}  
                   className="transition-transform duration-500 hover:scale-105"
                 />
-              </Link>
               <div className="p-6">
-                <Link href={`/AlbumDetail?id=${album.id}`}> {/* Thêm Link để điều hướng */}
                   <h3 className="text-xl font-semibold mb-2">{album.title}</h3>
-                </Link>
                 <p className="text-gray-600 text-sm">{album.description}</p>
               </div>
             </div>
