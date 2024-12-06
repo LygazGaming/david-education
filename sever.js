@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 dotenv.config();
 
@@ -30,40 +33,96 @@ const NewsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+
     excerpt: {
         type: String,
         required: true,
+        maxLength: 300 // Giới hạn độ dài tóm tắt
     },
     content: {
         type: String,
         required: true,
     },
+  
     date: {
         type: Date, 
         required: true,
     },
+
     views: {
         type: Number,
-        default: 0,
-        required: true,
+        default: 0
     },
     featured: {
         type: Boolean,
-        default: false,
+        default: false
     },
+    
+        createdAt: {
+            type: Date,
+            default: Date.now
+        },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
+});
+
+// Tự động tạo slug từ title
+NewsSchema.pre('save', function(next) {
+    if (this.isModified('title')) {
+        this.slug = this.title
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-');
+    }
+    this.updatedAt = new Date();
+    next();
 });
 
 const News = mongoose.model("News", NewsSchema);
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static('public')); // Serve static files từ thư mục public
+app.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads'))); // Đường dẫn cụ thể cho uploads
 
 // Kết nối MongoDB
 connectDB();
+
+// Đảm bảo thư mục uploads tồn tại
+const uploadDir = path.join(process.cwd(), 'public/uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Cấu hình storage cho multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadDir) // Sử dụng đường dẫn tuyệt đối
+    },
+    filename: function (req, file, cb) {
+        // Thêm kiểm tra và xử lý tên file
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname);
+        cb(null, uniqueSuffix + ext);
+    }
+});
+
+const upload = multer({ 
+    storage: storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024 // Giới hạn 5MB
+    },
+    fileFilter: function (req, file, cb) {
+        // Kiểm tra loại file
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Chỉ chấp nhận file ảnh!'), false);
+        }
+    }
+});
 
 // API Routes
 
@@ -107,7 +166,7 @@ app.post("/api/news", async (req, res) => {
         const lastNews = await News.findOne().sort({ _id: -1 });
         const newId = lastNews ? lastNews._id + 1 : 1;
 
-        // Xử lý ngày tháng
+        // Xử lý ngày thng
         let newsDate;
         if (req.body.date.includes('/')) {
             const [day, month, year] = req.body.date.split('/');
@@ -190,7 +249,7 @@ app.put("/api/news/:id/view", async (req, res) => {
             Number(req.params.id),
             { $inc: { views: 1 } },  // Chỉ tăng trường views
             { 
-                new: true,           // Trả về document đã được cập nhật
+                new: true,           // Trả về document đã được cập nht
                 runValidators: false // Không chạy validation
             }
         );
@@ -219,6 +278,23 @@ app.get("/api/news/search", async (req, res) => {
 
         res.status(200).json(news);
     } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// API upload ảnh
+app.post('/api/upload', upload.single('file'), (req, res) => {
+    try {
+        const file = req.file;
+        if (!file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+        
+        // Trả về URL tương đối thay vì URL đầy đủ
+        const fileUrl = `/uploads/${file.filename}`;
+        res.status(200).json({ url: fileUrl });
+    } catch (error) {
+        console.error('Upload error:', error);
         res.status(500).json({ message: error.message });
     }
 });

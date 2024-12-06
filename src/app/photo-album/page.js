@@ -6,7 +6,7 @@ export default function photo_album() {
   return (
     <div className="bg-gray-50 py-16">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">Tất cả Album Ảnh</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">Tất cả album ảnh</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {ALBUM_DATA.map((album) => (
             <div key={album.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
