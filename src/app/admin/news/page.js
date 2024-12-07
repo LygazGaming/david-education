@@ -40,6 +40,23 @@ export default function NewsManagement() {
         }
     };
 
+    const handleToggleFeatured = async (id, currentStatus) => {
+        try {
+            const response = await fetch(`/api/news/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ featured: !currentStatus }), // Đảo ngược trạng thái "nổi bật"
+            });
+            if (!response.ok) throw new Error('Failed to update featured status');
+            fetchNews(); // Refresh list
+        } catch (error) {
+            console.error('Error updating featured status:', error);
+            setError('Có lỗi xảy ra khi cập nhật trạng thái nổi bật');
+        }
+    };
+
     const formatDate = (date) => {
         try {
             if (!date) return 'N/A';
@@ -88,6 +105,9 @@ export default function NewsManagement() {
                                 Lượt xem
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nổi bật
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Thao tác
                             </th>
                         </tr>
@@ -105,6 +125,14 @@ export default function NewsManagement() {
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="text-sm text-gray-500">{item.views}</div>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <input
+                                        type="checkbox"
+                                        checked={item.featured}
+                                        onChange={() => handleToggleFeatured(item._id, item.featured)}
+                                        className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                                    />
                                 </td>
                                 <td className="px-6 py-4">
                                     <Link href={`/admin/news/edit/${item._id}`}

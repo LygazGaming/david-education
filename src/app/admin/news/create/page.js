@@ -11,7 +11,7 @@ export default function CreateNews() {
         image: '',
         excerpt: '',
         content: '',
-        featured: false
+        featured: false // Mặc định là không tích
     });
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
@@ -189,19 +189,6 @@ export default function CreateNews() {
                         }}
                         onEditorChange={handleEditorChange}
                     />
-                </div>
-
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        name="featured"
-                        checked={formData.featured}
-                        onChange={handleChange}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                    />
-                    <label className="ml-2 block text-sm text-gray-900">
-                        Tin tức nổi bật
-                    </label>
                 </div>
 
                 <div className="flex gap-4">

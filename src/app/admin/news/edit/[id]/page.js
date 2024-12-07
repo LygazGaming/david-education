@@ -10,7 +10,7 @@ export default function EditNews({ params }) {
         image: '',
         excerpt: '',
         content: '',
-        featured: false
+        featured: false // Mặc định là không tích
     });
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
