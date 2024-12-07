@@ -117,10 +117,19 @@ export default function TinTuc() {
   if (loading) return <div>Loading...</div>; // Hiển thị loading khi đang tải dữ liệu
   if (error) return <div className="text-red-500">{error}</div>; // Hiển thị thông báo lỗi nếu có
 
+  // Kiểm tra nếu không có tin tức nào
+  if (newsData.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-gray-500 text-lg">Không có tin tức nào để hiển thị.</div>
+      </div>
+    );
+  }
+
   const featuredNews = newsData.find(news => news.featured);
   const regularNews = newsData.filter(news => !news.featured);
 
-  // Chỉ lấy 4 tin tức đầu tiên từ regularNews
+  // Chỉ lấy 3 tin tức đầu tiên từ regularNews
   const displayedRegularNews = regularNews.slice(0, 3);
 
   return (
@@ -142,36 +151,8 @@ export default function TinTuc() {
         {featuredNews && <NewsCard news={featuredNews} featured={true} />}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {newsData.map(news => (
-            <div key={news._id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
-              <Link href={`/news/${news._id}`}>
-                <img 
-                  src={news.image} 
-                  alt={news.title} 
-                  className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
-                />
-              </Link>
-              <div className="p-5">
-                <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                  <span className="flex items-center gap-1">
-                    <FaCalendarAlt className="text-orange-500" />
-                    {news.date}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <FaEye className="text-orange-500" />
-                    {news.views}
-                  </span>
-                </div>
-                <Link href={`/news/${news._id}`}>
-                  <h4 className="font-bold text-gray-800 hover:text-orange-500 transition-colors">
-                    {news.title}
-                  </h4>
-                </Link>
-                <p className="text-gray-600 mt-2 text-sm">
-                  {news.excerpt}
-                </p>
-              </div>
-            </div>
+          {displayedRegularNews.map(news => (
+            <NewsCard key={news._id} news={news} />
           ))}
         </div>
       </div>

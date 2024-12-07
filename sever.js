@@ -142,22 +142,13 @@ app.get("/api/news/featured", async (req, res) => {
 // 4. Thêm tin tức mới
 app.post("/api/news", async (req, res) => {
     try {
-        // Xử lý ngày tháng
-        let newsDate;
-        if (req.body.date.includes('/')) {
-            const [day, month, year] = req.body.date.split('/');
-            newsDate = new Date(year, month - 1, day); // month - 1 vì tháng trong JS bắt đầu từ 0
-        } else {
-            newsDate = new Date(req.body.date);
-        }
-
         // Tạo đối tượng tin tức mới
         const newsData = {
             title: req.body.title,
             image: req.body.image,
             excerpt: req.body.excerpt,
             content: req.body.content,
-            date: newsDate,
+            date: new Date().setHours(0, 0, 0, 0), // Chỉ lấy ngày hiện tại mà không có giờ
             views: 0,
             featured: req.body.featured || false
         };
@@ -180,19 +171,21 @@ app.put("/api/news/:id", async (req, res) => {
         let updateData = { ...req.body };
 
         // Xử lý ngày tháng nếu có
-        if (req.body.date) {
+        if (req.body.date && typeof req.body.date === 'string') {
             let newsDate;
             if (req.body.date.includes('/')) {
                 const [day, month, year] = req.body.date.split('/');
-                newsDate = new Date(year, month - 1, day);
+                newsDate = new Date(year, month - 1, day); // Tạo đối tượng Date từ ngày tháng năm
             } else {
                 newsDate = new Date(req.body.date);
             }
-            updateData.date = newsDate;
+            // Đặt giờ, phút, giây và mili giây về 0
+            newsDate.setHours(0, 0, 0, 0);
+            updateData.date = newsDate; // Cập nhật trường date
         }
 
-        const newsItem = await News.findByIdAndUpdate(new
-            mongoose.Types.ObjectId(req.params.id), // Sử dụng ObjectId
+        const newsItem = await News.findByIdAndUpdate(
+            new mongoose.Types.ObjectId(req.params.id), // Sử dụng ObjectId
             updateData,
             { new: true }
         );

@@ -11,7 +11,6 @@ export default function CreateNews() {
         image: '',
         excerpt: '',
         content: '',
-        date: '',
         featured: false
     });
     const [imageFile, setImageFile] = useState(null);
@@ -56,7 +55,7 @@ export default function CreateNews() {
                 imageUrl = imageData.url;
             }
 
-            // Tạo tin tức với URL ảnh đã upload
+            // Tạo tin tức với URL ảnh đã upload và ngày hiện tại
             const response = await fetch('/api/news', {
                 method: 'POST',
                 headers: {
@@ -64,7 +63,8 @@ export default function CreateNews() {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    image: imageUrl
+                    image: imageUrl,
+                    date: new Date().setHours(0, 0, 0, 0) // Thiết lập ngày hiện tại mà không có giờ
                 }),
             });
 
@@ -191,21 +191,6 @@ export default function CreateNews() {
                     />
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Ngày đăng (dd/mm/yyyy)
-                    </label>
-                    <input
-                        type="text"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        required
-                        placeholder="15/03/2024"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                </div>
-
                 <div className="flex items-center">
                     <input
                         type="checkbox"
@@ -238,4 +223,4 @@ export default function CreateNews() {
             </form>
         </div>
     );
-} 
+}

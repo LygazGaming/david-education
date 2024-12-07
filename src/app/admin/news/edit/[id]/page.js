@@ -10,7 +10,6 @@ export default function EditNews({ params }) {
         image: '',
         excerpt: '',
         content: '',
-        date: '',
         featured: false
     });
     const [imageFile, setImageFile] = useState(null);
@@ -83,7 +82,8 @@ export default function EditNews({ params }) {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    image: imageUrl
+                    image: imageUrl,
+                    date: new Date().setHours(0, 0, 0, 0) // Thiết lập ngày hiện tại mà không có giờ
                 }),
             });
 
@@ -210,21 +210,6 @@ export default function EditNews({ params }) {
                             }
                         }}
                         onEditorChange={handleEditorChange}
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Ngày đăng (dd/mm/yyyy)
-                    </label>
-                    <input
-                        type="text"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        required
-                        placeholder="15/03/2024"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
                     />
                 </div>
 
