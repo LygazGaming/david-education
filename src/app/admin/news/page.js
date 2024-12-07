@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import AdminLayout from '../layout'; // Import layout
 
 export default function NewsManagement() {
     const [news, setNews] = useState([]);

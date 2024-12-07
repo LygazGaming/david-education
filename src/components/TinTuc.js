@@ -1,10 +1,21 @@
-// src/app/news/page.js
 "use client";
 import React, { useState, useEffect } from 'react';
 import { FaArrowRight, FaCalendarAlt, FaEye } from 'react-icons/fa';
 import Link from 'next/link';
 
+// Hàm định dạng ngày
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`; // Định dạng theo dd/MM/yyyy
+};
+
+// Component NewsCard
 const NewsCard = ({ news, featured = false }) => {
+  const formattedDate = formatDate(news.date); // Định dạng ngày
+
   if (featured) {
     return (
       <div className="flex flex-col md:flex-row gap-6 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -22,7 +33,7 @@ const NewsCard = ({ news, featured = false }) => {
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
               <span className="flex items-center gap-1">
                 <FaCalendarAlt className="text-orange-500" />
-                {news.date}
+                {formattedDate} {/* Hiển thị ngày đã định dạng */}
               </span>
               <span className="flex items-center gap-1">
                 <FaEye className="text-orange-500" />
@@ -64,7 +75,7 @@ const NewsCard = ({ news, featured = false }) => {
         <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
           <span className="flex items-center gap-1">
             <FaCalendarAlt className="text-orange-500" />
-            {news.date}
+            {formattedDate} {/* Hiển thị ngày đã định dạng */}
           </span>
           <span className="flex items-center gap-1">
             <FaEye className="text-orange-500" />
@@ -90,6 +101,7 @@ const NewsCard = ({ news, featured = false }) => {
   );
 };
 
+// Component TinTuc
 export default function TinTuc() {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
