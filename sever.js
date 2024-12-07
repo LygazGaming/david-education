@@ -24,7 +24,6 @@ const connectDB = async () => {
 
 // Schema cho tin tức
 const NewsSchema = new mongoose.Schema({
-    _id: Number,
     title: {
         type: String,
         required: true,
@@ -33,7 +32,6 @@ const NewsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-
     excerpt: {
         type: String,
         required: true,
@@ -43,12 +41,10 @@ const NewsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-  
     date: {
         type: Date, 
         required: true,
     },
-
     views: {
         type: Number,
         default: 0
@@ -57,29 +53,11 @@ const NewsSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    
-        createdAt: {
-            type: Date,
-            default: Date.now
-        },
     createdAt: {
         type: Date,
         default: Date.now
     },
 });
-
-// Tự động tạo slug từ title
-NewsSchema.pre('save', function(next) {
-    if (this.isModified('title')) {
-        this.slug = this.title
-            .toLowerCase()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/\s+/g, '-');
-    }
-    this.updatedAt = new Date();
-    next();
-});
-
 const News = mongoose.model("News", NewsSchema);
 
 const app = express();
@@ -139,12 +117,13 @@ app.get("/api/news", async (req, res) => {
 // 2. Lấy tin tức theo ID
 app.get("/api/news/:id", async (req, res) => {
     try {
-        const newsItem = await News.findById(Number(req.params.id));
+        const newsItem = await News.findById(new mongoose.Types.ObjectId(req.params.id)); // Sử dụng new ObjectId
         if (!newsItem) {
             return res.status(404).json({ message: "News not found" });
         }
         res.status(200).json(newsItem);
     } catch (error) {
+        console.error("Error fetching news:", error);
         res.status(500).json({ message: error.message });
     }
 });
@@ -163,10 +142,7 @@ app.get("/api/news/featured", async (req, res) => {
 // 4. Thêm tin tức mới
 app.post("/api/news", async (req, res) => {
     try {
-        const lastNews = await News.findOne().sort({ _id: -1 });
-        const newId = lastNews ? lastNews._id + 1 : 1;
-
-        // Xử lý ngày thng
+        // Xử lý ngày tháng
         let newsDate;
         if (req.body.date.includes('/')) {
             const [day, month, year] = req.body.date.split('/');
@@ -175,8 +151,8 @@ app.post("/api/news", async (req, res) => {
             newsDate = new Date(req.body.date);
         }
 
+        // Tạo đối tượng tin tức mới
         const newsData = {
-            _id: newId,
             title: req.body.title,
             image: req.body.image,
             excerpt: req.body.excerpt,
@@ -186,8 +162,11 @@ app.post("/api/news", async (req, res) => {
             featured: req.body.featured || false
         };
 
+        // Tạo một instance mới của model News
         const news = new News(newsData);
-        const savedNews = await news.save();
+        const savedNews = await news.save(); // Lưu tin tức vào cơ sở dữ liệu
+
+        // Trả về phản hồi thành công
         res.status(201).json(savedNews);
     } catch (error) {
         console.error("Error creating news:", error);
@@ -212,8 +191,8 @@ app.put("/api/news/:id", async (req, res) => {
             updateData.date = newsDate;
         }
 
-        const newsItem = await News.findByIdAndUpdate(
-            Number(req.params.id),
+        const newsItem = await News.findByIdAndUpdate(new
+            mongoose.Types.ObjectId(req.params.id), // Sử dụng ObjectId
             updateData,
             { new: true }
         );
@@ -232,7 +211,7 @@ app.put("/api/news/:id", async (req, res) => {
 // 6. Xóa tin tức
 app.delete("/api/news/:id", async (req, res) => {
     try {
-        const newsItem = await News.findByIdAndDelete(Number(req.params.id));
+        const newsItem = await News.findByIdAndDelete(new mongoose.Types.ObjectId(req.params.id)); // Sử dụng ObjectId
         if (!newsItem) {
             return res.status(404).json({ message: "News not found" });
         }
@@ -245,11 +224,11 @@ app.delete("/api/news/:id", async (req, res) => {
 // 7. Tăng lượt xem
 app.put("/api/news/:id/view", async (req, res) => {
     try {
-        const newsItem = await News.findByIdAndUpdate(
-            Number(req.params.id),
+        const newsItem = await News.findByIdAndUpdate( new 
+            mongoose.Types.ObjectId(req.params.id), // Sử dụng ObjectId
             { $inc: { views: 1 } },  // Chỉ tăng trường views
             { 
-                new: true,           // Trả về document đã được cập nht
+                new: true,           // Trả về document đã được cập nhật
                 runValidators: false // Không chạy validation
             }
         );

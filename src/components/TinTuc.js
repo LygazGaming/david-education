@@ -1,7 +1,7 @@
+// src/app/news/page.js
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaArrowRight, FaCalendarAlt, FaEye } from 'react-icons/fa';
-import NEWS_DATA from '../data/newsData'; // Đảm bảo đường dẫn đúng đến NEWS_DATA
 import Link from 'next/link';
 
 const NewsCard = ({ news, featured = false }) => {
@@ -9,7 +9,7 @@ const NewsCard = ({ news, featured = false }) => {
     return (
       <div className="flex flex-col md:flex-row gap-6 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
         <div className="md:w-1/2 relative overflow-hidden">
-          <Link href={`/news/${news.id}`}>
+          <Link href={`/news/${news._id}`}>
             <img
               src={news.image}
               alt={news.title}
@@ -29,7 +29,7 @@ const NewsCard = ({ news, featured = false }) => {
                 {news.views} lượt xem
               </span>
             </div>
-            <Link href={`/news/${news.id}`}>
+            <Link href={`/news/${news._id}`}>
               <h3 className="text-2xl font-bold text-gray-800 mb-4 hover:text-orange-500 transition-colors">
                 {news.title}
               </h3>
@@ -39,7 +39,7 @@ const NewsCard = ({ news, featured = false }) => {
             </p>
           </div>
           <button className="flex items-center gap-2 text-orange-500 font-semibold mt-4 group">
-            <Link href={`/news/${news.id}`}>
+            <Link href={`/news/${news._id}`}>
               Xem chi tiết
             </Link>
             <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
@@ -52,7 +52,7 @@ const NewsCard = ({ news, featured = false }) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="relative overflow-hidden">
-        <Link href={`/news/${news.id}`}>
+        <Link href={`/news/${news._id}`}>
           <img
             src={news.image}
             alt={news.title}
@@ -71,7 +71,7 @@ const NewsCard = ({ news, featured = false }) => {
             {news.views}
           </span>
         </div>
-        <Link href={`/news/${news.id}`}>
+        <Link href={`/news/${news._id}`}>
           <h4 className="font-bold text-gray-800 hover:text-orange-500 transition-colors">
             {news.title}
           </h4>
@@ -80,7 +80,7 @@ const NewsCard = ({ news, featured = false }) => {
           {news.excerpt}
         </p>
         <button className="flex items-center gap-2 text-orange-500 font-semibold mt-4 text-sm group">
-          <Link href={`/news/${news.id}`}>
+          <Link href={`/news/${news._id}`}>
             Xem thêm
           </Link>
           <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
@@ -91,8 +91,34 @@ const NewsCard = ({ news, featured = false }) => {
 };
 
 export default function TinTuc() {
-  const featuredNews = NEWS_DATA.find(news => news.featured);
-  const regularNews = NEWS_DATA.filter(news => !news.featured);
+  const [newsData, setNewsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await fetch('/api/news'); // Đảm bảo rằng đường dẫn API là chính xác
+        if (!response.ok) {
+          throw new Error('Không thể tải dữ liệu');
+        }
+        const data = await response.json();
+        setNewsData(data); // Cập nhật state với dữ liệu nhận được từ API
+      } catch (error) {
+        setError(error.message); // Lưu thông báo lỗi nếu có
+      } finally {
+        setLoading(false); // Đặt trạng thái loading thành false
+      }
+    };
+
+    fetchNews(); // Gọi hàm fetchNews khi component được mount
+  }, []);
+
+  if (loading) return <div>Loading...</div>; // Hiển thị loading khi đang tải dữ liệu
+  if (error) return <div className="text-red-500">{error}</div>; // Hiển thị thông báo lỗi nếu có
+
+  const featuredNews = newsData.find(news => news.featured);
+  const regularNews = newsData.filter(news => !news.featured);
 
   // Chỉ lấy 4 tin tức đầu tiên từ regularNews
   const displayedRegularNews = regularNews.slice(0, 3);
@@ -116,8 +142,36 @@ export default function TinTuc() {
         {featuredNews && <NewsCard news={featuredNews} featured={true} />}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedRegularNews.map(news => (
-            <NewsCard key={news.id} news={news} />
+          {newsData.map(news => (
+            <div key={news._id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
+              <Link href={`/news/${news._id}`}>
+                <img 
+                  src={news.image} 
+                  alt={news.title} 
+                  className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
+                />
+              </Link>
+              <div className="p-5">
+                <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                  <span className="flex items-center gap-1">
+                    <FaCalendarAlt className="text-orange-500" />
+                    {news.date}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FaEye className="text-orange-500" />
+                    {news.views}
+                  </span>
+                </div>
+                <Link href={`/news/${news._id}`}>
+                  <h4 className="font-bold text-gray-800 hover:text-orange-500 transition-colors">
+                    {news.title}
+                  </h4>
+                </Link>
+                <p className="text-gray-600 mt-2 text-sm">
+                  {news.excerpt}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

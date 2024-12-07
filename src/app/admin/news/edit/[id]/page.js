@@ -1,13 +1,10 @@
-// src/app/admin/news/edit/[id]/page.js
 "use client";
-import { useState, useEffect, useRef } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react'; // Import React
+import { useRouter } from 'next/navigation';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function EditNews() {
-    const editorRef = useRef(null);
+export default function EditNews({ params }) {
     const router = useRouter();
-    const { id } = useParams();
     const [formData, setFormData] = useState({
         title: '',
         image: '',
@@ -16,34 +13,46 @@ export default function EditNews() {
         date: '',
         featured: false
     });
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    // Giải nén params bằng React.use()
+    const id = React.use(params).id;
+
     useEffect(() => {
+        const fetchNews = async () => {
+            try {
+                const response = await fetch(`/api/news/${id}`);
+                if (!response.ok) throw new Error('Failed to fetch news');
+                const data = await response.json();
+                setFormData(data);
+                setImagePreview(data.image);
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                setError('Có lỗi xảy ra khi tải tin tức');
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchNews();
     }, [id]);
 
-    const fetchNews = async () => {
-        try {
-            const response = await fetch(`/api/news/${id}`);
-            if (response.ok) {
-                const data = await response.json();
-                // Format date from ISO to dd/mm/yyyy
-                const date = new Date(data.date);
-                const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-                
-                setFormData({
-                    ...data,
-                    date: formattedDate
-                });
-            } else {
-                setError('Không tìm thấy tin tức');
-            }
-        } catch (error) {
-            setError('Có lỗi xảy ra khi tải tin tức');
-        } finally {
-            setLoading(false);
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            setImagePreview(URL.createObjectURL(file));
         }
+    };
+
+    const handleEditorChange = (content) => {
+        setFormData(prev => ({
+            ...prev,
+            content: content
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -52,12 +61,30 @@ export default function EditNews() {
         setError('');
 
         try {
+            let imageUrl = formData.image;
+            if (imageFile) {
+                const imageFormData = new FormData();
+                imageFormData.append('file', imageFile);
+
+                const uploadResponse = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: imageFormData,
+                });
+
+                if (!uploadResponse.ok) throw new Error('Lỗi upload ảnh');
+                const imageData = await uploadResponse.json();
+                imageUrl = imageData.url;
+            }
+
             const response = await fetch(`/api/news/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    image: imageUrl
+                }),
             });
 
             if (response.ok) {
@@ -67,6 +94,7 @@ export default function EditNews() {
                 setError(data.message || 'Có lỗi xảy ra');
             }
         } catch (error) {
+            console.error('Error:', error);
             setError('Có lỗi xảy ra khi cập nhật tin tức');
         } finally {
             setLoading(false);
@@ -81,7 +109,9 @@ export default function EditNews() {
         }));
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="max-w-4xl mx-auto p-6">
@@ -108,16 +138,23 @@ export default function EditNews() {
 
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                        URL Hình ảnh
+                        Ảnh chính
                     </label>
-                    <input
-                        type="url"
-                        name="image"
-                        value={formData.image}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    />
+                    <div className="mt-1 flex items-center gap-4">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="w-full"
+                        />
+                        {imagePreview && (
+                            <img 
+                                src={imagePreview} 
+                                alt="Preview" 
+                                className="h-20 w-20 object-cover rounded"
+                            />
+                        )}
+                    </div>
                 </div>
 
                 <div>
@@ -140,7 +177,6 @@ export default function EditNews() {
                     </label>
                     <Editor
                         apiKey='6ujpn4iau16cit8miznmarmlivnr81nlduo03lpu9m4qffq4'
-                        onInit={(evt, editor) => editorRef.current = editor}
                         initialValue={formData.content}
                         init={{
                             height: 500,
@@ -173,7 +209,7 @@ export default function EditNews() {
                                 }
                             }
                         }}
-                        onEditorChange={(content) => setFormData(prev => ({ ...prev, content }))}
+                        onEditorChange={handleEditorChange}
                     />
                 </div>
 
@@ -211,7 +247,7 @@ export default function EditNews() {
                         disabled={loading}
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
                     >
-                        {loading ? 'Đang xử lý...' : 'Cập nhật'}
+                        {loading ? 'Đang xử lý...' : 'Cập nhật tin tức'}
                     </button>
                     <button
                         type="button"

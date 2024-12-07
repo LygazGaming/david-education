@@ -5,6 +5,7 @@ import Link from 'next/link';
 export default function NewsManagement() {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         fetchNews();
@@ -13,10 +14,12 @@ export default function NewsManagement() {
     const fetchNews = async () => {
         try {
             const response = await fetch('/api/news');
+            if (!response.ok) throw new Error('Failed to fetch news');
             const data = await response.json();
             setNews(data);
         } catch (error) {
             console.error('Error fetching news:', error);
+            setError('Có lỗi xảy ra khi tải tin tức');
         } finally {
             setLoading(false);
         }
@@ -28,11 +31,11 @@ export default function NewsManagement() {
                 const response = await fetch(`/api/news/${id}`, {
                     method: 'DELETE',
                 });
-                if (response.ok) {
-                    fetchNews(); // Refresh list
-                }
+                if (!response.ok) throw new Error('Failed to delete news');
+                fetchNews(); // Refresh list
             } catch (error) {
                 console.error('Error deleting news:', error);
+                setError('Có lỗi xảy ra khi xóa tin tức');
             }
         }
     };
@@ -66,6 +69,11 @@ export default function NewsManagement() {
                     Thêm tin tức mới
                 </Link>
             </div>
+            {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {error}
+                </div>
+            )}
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -116,4 +124,4 @@ export default function NewsManagement() {
             </div>
         </div>
     );
-} 
+}
