@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@tinymce/tinymce-react": "^5.1.1",
     "@vercel/speed-insights": "^1.0.14",
     "body-parser": "^1.20.3",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.3",
     "multer": "^1.4.5-lts.1",

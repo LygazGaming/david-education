@@ -12,7 +12,7 @@ export default function News() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch('/api/news'); // Thay đổi đường dẫn API nếu cần
+        const response = await fetch('/api/news'); 
         if (!response.ok) {
           throw new Error('Không thể tải dữ liệu');
         }
