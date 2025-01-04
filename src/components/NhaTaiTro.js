@@ -92,11 +92,14 @@ const NhaTaiTro = () => {
           <div className="flex animate-marquee">
             <div className="flex">
               {SPONSORS.map((sponsor) => (
-                <div key={sponsor.id} className="mx-4 w-[150px] md:w-[250px]">
+                <div
+                  key={sponsor.id}
+                  className="mx-4 w-[150px] md:w-[200px] h-[100px] md:h-[150px] flex items-center justify-center"
+                >
                   <img
                     src={sponsor.logo}
                     alt={sponsor.alt}
-                    className="w-full h-auto"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               ))}
@@ -105,12 +108,12 @@ const NhaTaiTro = () => {
               {SPONSORS.map((sponsor) => (
                 <div
                   key={`${sponsor.id}-duplicate`}
-                  className="mx-4 w-[150px] md:w-[250px]"
+                  className="mx-4 w-[150px] md:w-[200px] h-[100px] md:h-[150px] flex items-center justify-center"
                 >
                   <img
                     src={sponsor.logo}
                     alt={sponsor.alt}
-                    className="w-full h-auto"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               ))}

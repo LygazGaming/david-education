@@ -66,7 +66,6 @@ const ImageCard = ({ image }) => (
     <div className="relative group">
       <Link href={`/AlbumDetail?id=${image.id}`}>
         {" "}
-        {/* Thêm Link để điều hướng */}
         <Image
           src={image.image}
           alt={image.title}
@@ -80,7 +79,6 @@ const ImageCard = ({ image }) => (
       <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
         <Link href={`/photo_album?id=${image.id}`}>
           {" "}
-          {/* Thêm Link để điều hướng */}
           <h3 className="text-xl font-semibold mb-2">{image.title}</h3>
         </Link>
         <p className="text-gray-200 text-sm">{image.description}</p>
@@ -112,15 +110,10 @@ export default function AlbumAnh() {
           </Link>
         </div>
 
-        {/* Image Grid - chỉ hiển thị 6 album đầu tiên */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {ALBUM_DATA.slice(0, 6).map(
-            (
-              image // Sử dụng slice để lấy 6 album đầu tiên
-            ) => (
-              <ImageCard key={image.id} image={image} />
-            )
-          )}
+          {ALBUM_DATA.slice(0, 6).map((image) => (
+            <ImageCard key={image.id} image={image} />
+          ))}
         </div>
       </div>
     </div>

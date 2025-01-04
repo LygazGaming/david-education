@@ -1,11 +1,13 @@
 "use client";
-import { FaFacebook, FaYoutube, FaTiktok, FaVolumeUp } from 'react-icons/fa';
-import Link from 'next/link';
+import { FaFacebook, FaYoutube, FaTiktok, FaVolumeUp } from "react-icons/fa";
+import Link from "next/link";
 
 const SocialIcon = ({ href, icon: Icon, bgColor, hoverColor, label }) => (
   <Link href={href} target="_blank" aria-label={label}>
-    <div className={`${bgColor} p-1.5 rounded-full ${hoverColor} transition-all duration-300 
-      transform hover:scale-110 flex items-center justify-center shadow-sm`}>
+    <div
+      className={`${bgColor} p-1.5 rounded-full ${hoverColor} transition-all duration-300 
+      transform hover:scale-110 flex items-center justify-center shadow-sm`}
+    >
       <Icon className="text-white h-3.5 w-3.5 md:h-4 md:w-4" />
     </div>
   </Link>
@@ -18,22 +20,22 @@ const NotificationBar = () => {
       icon: FaFacebook,
       bgColor: "bg-blue-600",
       hoverColor: "hover:bg-blue-700",
-      label: "Facebook"
+      label: "Facebook",
     },
     {
       href: "https://www.tiktok.com",
       icon: FaTiktok,
       bgColor: "bg-black",
       hoverColor: "hover:bg-gray-800",
-      label: "TikTok"
+      label: "TikTok",
     },
     {
       href: "https://www.youtube.com",
       icon: FaYoutube,
       bgColor: "bg-red-600",
       hoverColor: "hover:bg-red-700",
-      label: "YouTube"
-    }
+      label: "YouTube",
+    },
   ];
 
   return (
@@ -42,16 +44,18 @@ const NotificationBar = () => {
         {/* Announcement section */}
         <div className="flex items-center space-x-3 flex-1">
           <div className="animate-pulse">
-            <FaVolumeUp className="text-white h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
+            <FaVolumeUp
+              className="text-white h-4 w-4 md:h-5 md:w-5"
+              aria-hidden="true"
+            />
           </div>
           <div className="overflow-hidden">
-            <marquee 
+            <marquee
               className="text-white text-xs md:text-sm font-semibold tracking-wide"
               scrollamount="8"
             >
-              Tầm Vóc Việt Nam hân hạnh đồng hành cùng HTV trong chuỗi hoạt động Trung thu 2024, 
-              mang đến cho các em nhỏ một mùa lễ tràn đầy yêu thương, vui khỏe và đầy sắc màu. 
-              Với thông điệp "yêu thương cho đi là yêu thương còn mãi", học viện luôn nỗ lực.
+              Giải nội bộ tất niên học viện David Education sẽ diễn ra vào ngày
+              19/1/2025
             </marquee>
           </div>
         </div>
