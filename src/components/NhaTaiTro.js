@@ -94,13 +94,15 @@ const NhaTaiTro = () => {
               {SPONSORS.map((sponsor) => (
                 <div
                   key={sponsor.id}
-                  className="mx-4 w-[150px] md:w-[200px] h-[100px] md:h-[150px] flex items-center justify-center"
+                  className="mx-4 w-[150px] md:w-[200px] flex-shrink-0"
                 >
-                  <img
-                    src={sponsor.logo}
-                    alt={sponsor.alt}
-                    className="w-full h-full object-contain"
-                  />
+                  <div className="aspect-[3/2] bg-white rounded-lg shadow-sm p-4 flex items-center justify-center">
+                    <img
+                      src={sponsor.logo}
+                      alt={sponsor.alt}
+                      className="max-w-full max-h-full w-auto h-auto object-contain"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -108,13 +110,15 @@ const NhaTaiTro = () => {
               {SPONSORS.map((sponsor) => (
                 <div
                   key={`${sponsor.id}-duplicate`}
-                  className="mx-4 w-[150px] md:w-[200px] h-[100px] md:h-[150px] flex items-center justify-center"
+                  className="mx-4 w-[150px] md:w-[200px] flex-shrink-0"
                 >
-                  <img
-                    src={sponsor.logo}
-                    alt={sponsor.alt}
-                    className="w-full h-full object-contain"
-                  />
+                  <div className="aspect-[3/2] bg-white rounded-lg shadow-sm p-4 flex items-center justify-center">
+                    <img
+                      src={sponsor.logo}
+                      alt={sponsor.alt}
+                      className="max-w-full max-h-full w-auto h-auto object-contain"
+                    />
+                  </div>
                 </div>
               ))}
             </div>

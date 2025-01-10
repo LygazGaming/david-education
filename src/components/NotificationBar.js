@@ -1,6 +1,7 @@
 "use client";
 import { FaFacebook, FaYoutube, FaTiktok, FaVolumeUp } from "react-icons/fa";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const SocialIcon = ({ href, icon: Icon, bgColor, hoverColor, label }) => (
   <Link href={href} target="_blank" aria-label={label}>
@@ -14,6 +15,27 @@ const SocialIcon = ({ href, icon: Icon, bgColor, hoverColor, label }) => (
 );
 
 const NotificationBar = () => {
+  const [announcementText, setAnnouncementText] = useState(
+    "Đang tải thông báo..."
+  );
+
+  useEffect(() => {
+    const fetchNotification = async () => {
+      try {
+        const response = await fetch("/api/notification");
+        const data = await response.json();
+        if (data.success && data.data) {
+          setAnnouncementText(data.data.text);
+        }
+      } catch (error) {
+        console.error("Lỗi khi tải thông báo:", error);
+        setAnnouncementText("Không thể tải thông báo");
+      }
+    };
+
+    fetchNotification();
+  }, []);
+
   const socialLinks = [
     {
       href: "https://www.facebook.com",
@@ -38,10 +60,15 @@ const NotificationBar = () => {
     },
   ];
 
+  const getDisplayText = (text) => {
+    if (text.length < 100) {
+      return Array(3).fill(text).join(" • ");
+    }
+    return text;
+  };
   return (
     <div className="bg-secondary py-2 px-4 md:px-24 shadow-md">
       <div className="flex items-center justify-between flex-wrap gap-2">
-        {/* Announcement section */}
         <div className="flex items-center space-x-3 flex-1">
           <div className="animate-pulse">
             <FaVolumeUp
@@ -54,13 +81,11 @@ const NotificationBar = () => {
               className="text-white text-xs md:text-sm font-semibold tracking-wide"
               scrollamount="8"
             >
-              Giải nội bộ tất niên học viện David Education sẽ diễn ra vào ngày
-              19/1/2025
+              {getDisplayText(announcementText)}
             </marquee>
           </div>
         </div>
 
-        {/* Social media icons */}
         <div className="flex items-center space-x-3">
           {socialLinks.map((link, index) => (
             <SocialIcon key={index} {...link} />
@@ -70,5 +95,4 @@ const NotificationBar = () => {
     </div>
   );
 };
-
 export default NotificationBar;
