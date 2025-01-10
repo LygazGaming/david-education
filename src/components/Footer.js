@@ -56,15 +56,15 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3">
                 <FaMapMarkerAlt className="w-5 h-5 text-white/60 mt-1 flex-shrink-0" />
-                <span className="text-white/80">TP.HCM</span>
+                <span className="text-white/80">1/109 Đ. Đông Hưng Thuận 10B, P, Quận 12, Hồ Chí Minh 700000</span>
               </li>
               <li className="flex items-center space-x-3">
                 <FaPhoneAlt className="w-5 h-5 text-white/60 flex-shrink-0" />
-                <span className="text-white/80">0905353230</span>
+                <span className="text-white/80">093.44.68.689</span>
               </li>
               <li className="flex items-center space-x-3">
                 <FaEnvelope className="w-5 h-5 text-white/60 flex-shrink-0" />
-                <span className="text-white/80">info@davideducation.com</span>
+                <span className="text-white/80">hocvienthethaodavid@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -74,16 +74,12 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-white">Giờ Hoạt Động</h3>
             <ul className="space-y-4">
               <li className="flex justify-between text-white/80 pb-2 border-b border-white/10">
-                <span>Thứ 2 - Thứ 6:</span>
-                <span>7:00 - 21:00</span>
-              </li>
-              <li className="flex justify-between text-white/80 pb-2 border-b border-white/10">
-                <span>Thứ 7:</span>
-                <span>7:00 - 18:00</span>
+                <span>Thứ 2 - Thứ 7:</span>
+                <span>6:00 - 22:00</span>
               </li>
               <li className="flex justify-between text-white/80">
                 <span>Chủ nhật:</span>
-                <span>8:00 - 16:00</span>
+                <span>6:00 - 18:00</span>
               </li>
             </ul>
           </div>

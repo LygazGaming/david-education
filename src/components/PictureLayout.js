@@ -1,94 +1,120 @@
-"use client";
-import React from 'react';
-import { FaQuoteLeft } from 'react-icons/fa';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGraduationCap,
+  faUsers,
+  faBook,
+  faLayerGroup,
+} from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
-const ImageSection = ({ src, alt, className }) => (
-  <div className={`relative overflow-hidden rounded-2xl group ${className}`}>
+const MainFeature = () => (
+  <div className="relative w-full h-[500px]">
     <img
-      src={src}
-      alt={alt}
-      className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+      src={CONTENT_DATA.mainFeature.image}
+      alt=""
+      className="w-full h-full object-cover"
     />
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30"></div>
-  </div>
-);
-
-const TextBox = ({ children, className }) => (
-  <div className={`bg-gradient-to-br from-orange-500 to-orange-600 p-8 rounded-2xl hover:-translate-y-1 transition-all duration-300 ${className}`}>
-    <div className="text-center text-white">
-      <FaQuoteLeft className="text-4xl mb-4 opacity-50 mx-auto" />
-      <p className="text-lg font-medium leading-relaxed">{children}</p>
+    <div className="absolute bottom-0 left-0 w-1/2 bg-black/70 p-6">
+      <p className="text-white text-lg">{CONTENT_DATA.mainFeature.title}</p>
+      <span
+        className={`${CONTENT_DATA.mainFeature.icon} text-white mt-2`}
+      ></span>
     </div>
   </div>
 );
 
-const GALLERY_DATA = {
-  featured: [
-    { src: "/img2/img001.webp", text: "Chúng tôi cam kết mang đến những giờ học chất lượng nhất cho các cầu thủ trẻ" },
-    { src: "/img2/img100.webp", text: "Đội tuyển trẻ" }
+const MembershipSection = () => (
+  <div className="grid grid-cols-2 gap-0">
+    {CONTENT_DATA.memberships.map((item, index) => (
+      <div
+        key={index}
+        className={`${item.bgColor} text-center aspect-square relative`}
+      >
+        {" "}
+        {/* Thay đổi height cố định thành aspect-square */}
+        {item.title ? (
+          <>
+            <div className="p-4 h-full flex items-center justify-center">
+              <h3 className="text-white text-xs md:text-base font-normal">
+                {item.title}
+              </h3>
+            </div>
+            <div className="absolute bottom-0 right-0">
+              <FontAwesomeIcon
+                icon={item.icon}
+                className="text-black/50 text-xl p-4"
+              />
+            </div>
+          </>
+        ) : (
+          <div className="relative w-full h-full">
+            <Image
+              src={item.image}
+              alt=""
+              fill
+              sizes="50vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+);
+const CONTENT_DATA = {
+  mainFeature: {
+    image: "/images/home/1.jpg",
+    title: "Trung tâm đào tạo cầu lông dành cho em trẻ",
+    icon: "icon-class",
+  },
+  memberships: [
+    {
+      title:
+        "Mô Hình Mindful Badminton - Huấn Luyện Cầu Lông, Đào Luyện Nhân Cách",
+      bgColor: "bg-primary",
+      icon: faGraduationCap,
+    },
+    {
+      image: "/images/home/2.jpg",
+      bgColor: "bg-primary",
+    },
+    {
+      image: "/images/home/3.jpg",
+      bgColor: "bg-primary",
+    },
+    {
+      title: "Đội ngũ HLV giàu kinh nghiệm, tận tâm với nghề",
+      bgColor: "bg-primary",
+      icon: faUsers,
+    },
+    {
+      title:
+        "Giáo án bài bản, cá nhân hoá và đặc biệt lòng ghép các bài học ý nghĩa thông qua các bài tập",
+      bgColor: "bg-primary",
+      icon: faBook,
+    },
+    {
+      image: "/images/home/4.jpg",
+      bgColor: "bg-primary",
+    },
+    {
+      image: "/images/home/5.jpg",
+      bgColor: "bg-primary",
+    },
+    {
+      title: "Các lớp học đà dạng từ cơ bản, nâng cao, năng khiếu",
+      bgColor: "bg-primary",
+      icon: faLayerGroup,
+    },
   ],
-  section1: [
-    { src: "/img2/img003.webp", alt: "Huấn luyện viên" },
-    { text: "Chúng tôi cam kết mang đến những giờ học chất lượng nhất cho các cầu thủ trẻ" },
-    { src: "/img2/img004.webp", alt: "Buổi tập luyện" }
-  ],
-  section2: [
-    { text: "Đội ngũ HLV giàu kinh nghiệm, tận tâm với nghề" },
-    { src: "/img2/img140.webp", alt: "Khoảnh khắc tập luyện" },
-    { text: "Trang thiết bị hiện đại, cơ sở vật chất đạt chuẩn quốc tế" }
-  ]
 };
 
 export default function PictureLayout() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16 pt-4 md:pt-12"> {/* Thay đổi ở đây */}
-      {/* Featured Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 w-full p-0 overflow-hidden">
-        {GALLERY_DATA.featured.map((item, index) => (
-          <div key={index} className="relative flex w-full">
-            <ImageSection
-              src={item.src}
-              alt={item.alt}
-              className="h-[400px] w-full hover:-translate-y-1 transition-all duration-300 object-cover"
-            />
-            <div className="absolute left-0 bottom-0 h-1/2 w-1/3 bg-black bg-opacity-70 text-white p-4 flex items-center">
-              <p>{item.text}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Section 1 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-8">
-        {GALLERY_DATA.section1.map((item, index) => (
-          item.text ? (
-            <TextBox key={index}>{item.text}</TextBox>
-          ) : (
-            <ImageSection
-              key={index}
-              src={item.src}
-              alt={item.alt}
-              className="h-[300px] hover:-translate-y-1 transition-all duration-300"
-            />
-          )
-        ))}
-      </div>
-
-      {/* Section 2 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-        {GALLERY_DATA.section2.map((item, index) => (
-          item.text ? (
-            <TextBox key={index}>{item.text}</TextBox>
-          ) : (
-            <ImageSection
-              key={index}
-              src={item.src}
-              alt={item.alt}
-              className="h-[300px] hover:-translate-y-1 transition-all duration-300"
-            />
-          )
-        ))}
-      </div>
+    <div className="max-w-6xl mx-auto px-4 py-12">
+      <MainFeature />
+      <MembershipSection />
     </div>
   );
 }

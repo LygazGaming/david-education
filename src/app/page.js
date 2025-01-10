@@ -5,7 +5,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PictureLayout from '../components/PictureLayout';
 import TinTuc from '../components/TinTuc';
-import GapGoHLV from '@/components/GapGoHLV';
 import HocPhan from '@/components/HocPhan';
 import AlbumAnh from '@/components/AlbumAnh';
 import NhaTaiTro from '@/components/NhaTaiTro';
@@ -84,11 +83,6 @@ export default function Home() {
       <Section className="bg-gray-50">
         <TinTuc />
       </Section>
-
-      <Section>
-        <GapGoHLV />
-      </Section>
-
       <Section className="bg-gray-50">
         <HocPhan />
       </Section>
