@@ -28,6 +28,8 @@ connectDB();
 
 // Routes
 const newsRoutes = require("./Routes/News");
+
+const categoryRoutes = require("./Routes/Category"); // Thêm route mới
 const sliderRoutes = require("./Routes/Slider");
 const courseRoutes = require("./Routes/Course");
 const albumRoutes = require("./Routes/Album");
@@ -37,6 +39,7 @@ const notificationRoutes = require("./Routes/Notification");
 
 // Đăng ký Routes
 app.use("/api/news", newsRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use("/api/slider", sliderRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/album", albumRoutes);

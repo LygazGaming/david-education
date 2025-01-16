@@ -80,6 +80,8 @@ router.post("/", async (req, res) => {
       image: req.body.image,
       excerpt: req.body.excerpt,
       content: req.body.content,
+      category: req.body.category,
+      slug: req.body.slug,
       date: new Date().setHours(0, 0, 0, 0),
       views: 0,
       featured: req.body.featured || false,
