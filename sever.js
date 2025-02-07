@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const path = require("path");
+const cors = require("cors");
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ const connectDB = async () => {
 };
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
@@ -29,11 +31,10 @@ connectDB();
 // Routes
 const newsRoutes = require("./Routes/News");
 
-const categoryRoutes = require("./Routes/Category"); // Thêm route mới
+const categoryRoutes = require("./Routes/Category");
 const sliderRoutes = require("./Routes/Slider");
 const courseRoutes = require("./Routes/Course");
 const albumRoutes = require("./Routes/Album");
-const sponsorRoutes = require("./Routes/Sponsor");
 const videoRoutes = require("./Routes/Video");
 const notificationRoutes = require("./Routes/Notification");
 
@@ -44,21 +45,27 @@ app.use("/api/slider", sliderRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/album", albumRoutes);
 app.use("/api/video", videoRoutes);
-app.use("/api/sponsor", sponsorRoutes);
 app.use("/api/notification", notificationRoutes);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Có lỗi xảy ra từ phía server!" });
-});
 
 // Handle 404
 app.use((req, res) => {
   res.status(404).json({ message: "Không tìm thấy đường dẫn!" });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Máy chủ đang chạy trên cổng ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`Máy chủ đang chạy trên cổng ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Lỗi khởi động server:", error);
+  }
+};
+
+// Gọi hàm khởi động server
+startServer();
+
+// Export app cho Vercel
+module.exports = app;
