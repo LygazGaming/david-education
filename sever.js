@@ -55,17 +55,18 @@ app.use((req, res) => {
 const startServer = async () => {
   try {
     await connectDB();
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`Máy chủ đang chạy trên cổng ${PORT}`);
-    });
   } catch (error) {
-    console.error("Lỗi khởi động server:", error);
+    console.error("Lỗi kết nối database:", error);
   }
 };
 
 // Gọi hàm khởi động server
 startServer();
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Có lỗi xảy ra!" });
+});
 
 // Export app cho Vercel
 module.exports = app;
