@@ -34,15 +34,15 @@ const MembershipSection = () => (
         {/* Thay đổi height cố định thành aspect-square */}
         {item.title ? (
           <>
-            <div className="p-4 h-full flex items-center justify-center">
-              <h3 className="text-white text-xs md:text-base font-normal">
+            <div className="p-4 md:p-8 h-full flex items-center justify-center">
+              <h3 className="text-white text-xs md:text-lg lg:text-xl font-normal leading-relaxed max-w-[80%]">
                 {item.title}
               </h3>
             </div>
             <div className="absolute bottom-0 right-0">
               <FontAwesomeIcon
                 icon={item.icon}
-                className="text-black/50 text-xl p-4"
+                className="text-black/50 text-xl md:text-2xl p-4"
               />
             </div>
           </>
