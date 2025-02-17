@@ -46,8 +46,8 @@ app.get("/api/test", async (req, res) => {
 app.use("/api/news", newsRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/categories", categoryRoutes);
-// app.use("api/albums", albumRoutes); Bị lỗi
-app.use("/api/sliders", sliderRoutes);
+app.use("api/album", albumRoutes);
+// app.use("/api/sliders", sliderRoutes); Bị lỗi
 
 // Error handling
 app.use((err, req, res, next) => {
