@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import path from "path";
 import newsRoutes from "./Routes/News.js";
 import notificationRoutes from "./Routes/Notification.js";
 import categoryRoutes from "./Routes/Category.js";
@@ -11,8 +10,6 @@ dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
-app.use(express.static("public"));
-app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
 
 // MongoDB connection
 const connectDB = async () => {
