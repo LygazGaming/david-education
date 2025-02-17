@@ -1,6 +1,7 @@
 {
   "name": "david-education",
   "version": "0.1.0",
+  "type": "module", 
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -15,6 +16,7 @@
     "@tinymce/tinymce-react": "^5.1.1",
     "@vercel/speed-insights": "^1.0.14",
     "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
