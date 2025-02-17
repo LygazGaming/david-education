@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import newsRoutes from "./Routes/News.js";
+import notificationRoutes from "./Routes/Notification.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.get("/api/test", async (req, res) => {
 
 // News routes
 app.use("/api/news", newsRoutes);
+app.use("/api/notification", notificationRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
