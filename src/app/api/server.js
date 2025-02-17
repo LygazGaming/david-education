@@ -1,8 +1,9 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
-const path = require("path");
+import express from "express";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -24,16 +25,14 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
 
-connectDB();
-
-// Routes
-const newsRoutes = require("./Routes/News");
-const categoryRoutes = require("./Routes/Category");
-const sliderRoutes = require("./Routes/Slider");
-const courseRoutes = require("./Routes/Course");
-const albumRoutes = require("./Routes/Album");
-const videoRoutes = require("./Routes/Video");
-const notificationRoutes = require("./Routes/Notification");
+// Import routes
+import newsRoutes from "./Routes/News.js";
+import categoryRoutes from "./Routes/Category.js";
+import sliderRoutes from "./Routes/Slider.js";
+import courseRoutes from "./Routes/Course.js";
+import albumRoutes from "./Routes/Album.js";
+import videoRoutes from "./Routes/Video.js";
+import notificationRoutes from "./Routes/Notification.js";
 
 // Đăng ký Routes
 app.use("/api/news", newsRoutes);
@@ -49,7 +48,10 @@ app.use((req, res) => {
   res.status(404).json({ message: "Không tìm thấy đường dẫn!" });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Máy chủ đang chạy trên cổng ${PORT}`);
-});
+// Thay thế app.listen bằng handler function cho Vercel
+const handler = async (req, res) => {
+  await connectDB();
+  return app(req, res);
+};
+
+export default handler;
