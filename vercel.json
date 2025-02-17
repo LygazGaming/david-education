@@ -2,24 +2,24 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/app/api/server.js",
+      "src": "/api/server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/src/app/api/server.js"
+      "dest": "/api/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/src/app/api/server.js"
+      "dest": "/api/server.js"
     }
   ],
 
-  
+
   "functions": {
-    "src/app/api/server.js": {
+    "/api/server.js": {
       "memory": 1024,
       "maxDuration": 10
     }
