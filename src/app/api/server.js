@@ -48,14 +48,10 @@ app.get("/api/test", async (req, res) => {
 app.use("/api/news", newsRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/slider", sliderRoutes);
+// app.use("/api/slider", sliderRoutes);
 // app.use("/api/course", courseRoutes);
 // app.use("/api/album", albumRoutes);
 // app.use("/api/video", videoRoutes);
-
-// News routes
-app.use("/api/news", newsRoutes);
-app.use("/api/notification", notificationRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
