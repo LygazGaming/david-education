@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import newsRoutes from "./Routes/News.js";
 import notificationRoutes from "./Routes/Notification.js";
 import categoryRoutes from "./Routes/Category.js";
+import sliderRoutes from "./Routes/Slider.js";
 
 dotenv.config();
 
@@ -44,8 +45,9 @@ app.get("/api/test", async (req, res) => {
 // News routes
 app.use("/api/news", newsRoutes);
 app.use("/api/notification", notificationRoutes);
-// app.use("api/albums", albumRoutes); Bị lỗi
 app.use("/api/categories", categoryRoutes);
+// app.use("api/albums", albumRoutes); Bị lỗi
+app.use("/api/sliders", sliderRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
