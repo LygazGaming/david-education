@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import newsRoutes from "./Routes/News.js";
 import notificationRoutes from "./Routes/Notification.js";
+import albumRoutes from "./Routes/Album.js";
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.get("/api/test", async (req, res) => {
 // News routes
 app.use("/api/news", newsRoutes);
 app.use("/api/notification", notificationRoutes);
+app.use("api/albums", albumRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
