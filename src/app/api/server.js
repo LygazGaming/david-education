@@ -23,11 +23,6 @@ const connectDB = async () => {
   }
 };
 
-// Test routes
-app.get("/", (req, res) => {
-  res.json({ message: "API is working" });
-});
-
 app.get("/api/test", async (req, res) => {
   try {
     const dbStatus = await connectDB();
