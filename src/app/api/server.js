@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import newsRoutes from "./Routes/News.js";
 import notificationRoutes from "./Routes/Notification.js";
 import categoryRoutes from "./Routes/Category.js";
-import sliderRoutes from "./Routes/Slider.js";
 
 dotenv.config();
 
@@ -24,23 +23,6 @@ const connectDB = async () => {
     return false;
   }
 };
-
-// Test routes
-app.get("/", (req, res) => {
-  res.json({ message: "API is working" });
-});
-
-app.get("/api/test", async (req, res) => {
-  try {
-    const dbStatus = await connectDB();
-    res.json({
-      message: "Test API is working",
-      database: dbStatus ? "Connected" : "Connection failed",
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // News routes
 app.use("/api/news", newsRoutes);
