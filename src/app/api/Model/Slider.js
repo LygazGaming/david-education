@@ -1,10 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const SliderSchema = new mongoose.Schema({
-  image: { type: String, required: true },
-  order: { type: Number, default: 0 },
-  active: { type: Boolean, default: true },
+const VideoSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  url: { type: String, required: true },
+  thumbnail: { type: String },
+  description: String,
+  featured: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Slider", SliderSchema);
+const Video = mongoose.model("Video", VideoSchema);
+export default Video;

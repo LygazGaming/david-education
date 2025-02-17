@@ -1,9 +1,13 @@
-const express = require("express");
+import express from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import Slider from "../Model/Slider.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const router = express.Router();
-const Slider = require("../Model/Slider");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 
 // Thiết lập multer
 const uploadDir = path.join(process.cwd(), "public/uploads/sliders");
@@ -103,4 +107,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

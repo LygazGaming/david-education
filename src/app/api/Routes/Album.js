@@ -1,9 +1,12 @@
-const express = require("express");
+import express from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import Album from "../Model/Album.js";
+
 const router = express.Router();
-const Album = require("../Model/Album");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Thiết lập multer
 const uploadDir = path.join(process.cwd(), "public/uploads/albums");
@@ -169,4 +172,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
