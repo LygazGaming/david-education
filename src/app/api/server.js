@@ -2,25 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Import routes
 import newsRoutes from "./Routes/News.js";
-import categoryRoutes from "./Routes/Category.js";
-import sliderRoutes from "./Routes/Slider.js";
-import courseRoutes from "./Routes/Course.js";
-import albumRoutes from "./Routes/Album.js";
-import videoRoutes from "./Routes/Video.js";
-import notificationRoutes from "./Routes/Notification.js";
 
 dotenv.config();
 
 const app = express();
-
-// Basic middleware
 app.use(bodyParser.json());
-app.use(express.static("public"));
 
 // MongoDB connection
 const connectDB = async () => {
@@ -35,19 +22,25 @@ const connectDB = async () => {
   }
 };
 
-// Test route
+// Test routes
 app.get("/", (req, res) => {
   res.json({ message: "API is working" });
 });
 
-// Register routes
+app.get("/api/test", async (req, res) => {
+  try {
+    const dbStatus = await connectDB();
+    res.json({
+      message: "Test API is working",
+      database: dbStatus ? "Connected" : "Connection failed",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// News routes
 app.use("/api/news", newsRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/slider", sliderRoutes);
-app.use("/api/course", courseRoutes);
-app.use("/api/album", albumRoutes);
-app.use("/api/video", videoRoutes);
-app.use("/api/notification", notificationRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
