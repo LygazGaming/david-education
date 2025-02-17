@@ -8,23 +8,47 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
+// Basic middleware
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
 
-// Database connection
+// Improved database connection
 const connectDB = async () => {
   try {
-    if (mongoose.connections[0].readyState) return true;
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("Đã kết nối tới MongoDB");
+    if (!process.env.MONGO_URI) {
+      throw new Error("MONGO_URI is not defined");
+    }
+
+    if (mongoose.connections[0].readyState) {
+      return true;
+    }
+
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log("MongoDB connected successfully");
     return true;
   } catch (error) {
-    console.error("Lỗi kết nối MongoDB:", error);
-    return false;
+    console.error("MongoDB connection error:", error);
+    throw error;
   }
 };
+
+// Test route
+app.get("/api/test", async (req, res) => {
+  try {
+    res.json({
+      status: "ok",
+      message: "API is working",
+      env: process.env.NODE_ENV,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Import routes
 import newsRoutes from "./Routes/News.js";
@@ -35,12 +59,7 @@ import albumRoutes from "./Routes/Album.js";
 import videoRoutes from "./Routes/Video.js";
 import notificationRoutes from "./Routes/Notification.js";
 
-// Test route
-app.get("/api/test", (req, res) => {
-  res.json({ message: "API is working!" });
-});
-
-// Đăng ký Routes
+// Register routes
 app.use("/api/news", newsRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/slider", sliderRoutes);
@@ -51,39 +70,45 @@ app.use("/api/notification", notificationRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error("Error:", err);
   res.status(500).json({
-    message: "Đã xảy ra lỗi!",
-    error:
+    error: "Internal Server Error",
+    message:
       process.env.NODE_ENV === "development"
         ? err.message
-        : "Internal Server Error",
+        : "Something went wrong",
   });
 });
 
-// Handle 404
+// 404 handler
 app.use((req, res) => {
-  res.status(404).json({ message: "Không tìm thấy đường dẫn!" });
+  res.status(404).json({ message: "Route not found" });
 });
 
-// Handler function
+// Main handler
 const handler = async (req, res) => {
   try {
-    const isConnected = await connectDB();
-    if (!isConnected) {
-      return res
-        .status(500)
-        .json({ message: "Không thể kết nối đến database" });
-    }
-    return app(req, res);
+    // Ensure database is connected
+    await connectDB();
+
+    // Create a promise that resolves when the request is handled
+    return new Promise((resolve, reject) => {
+      app(req, res, (err) => {
+        if (err) {
+          console.error("Express error:", err);
+          reject(err);
+        }
+        resolve();
+      });
+    });
   } catch (error) {
-    console.error("Server error:", error);
-    return res.status(500).json({
-      message: "Lỗi server",
-      error:
+    console.error("Handler error:", error);
+    res.status(500).json({
+      error: "Server Error",
+      message:
         process.env.NODE_ENV === "development"
           ? error.message
-          : "Internal Server Error",
+          : "Internal server error",
     });
   }
 };
