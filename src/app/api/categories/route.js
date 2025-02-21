@@ -1,5 +1,5 @@
-import dbConnect from "@/utils/dbConnect";
-import Category from "@/models/Category";
+import dbConnect from "../../utils/dbConnect";
+import Category from "../..//models/Category";
 
 export async function GET(req) {
   await dbConnect();

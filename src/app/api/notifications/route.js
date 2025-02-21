@@ -1,5 +1,5 @@
-import dbConnect from "@/utils/dbConnect";
-import Notification from "@/models/Notification";
+import dbConnect from "../..//utils/dbConnect";
+import Notification from "../../Notification";
 
 export async function GET(req) {
   await dbConnect();
