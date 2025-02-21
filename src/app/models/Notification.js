@@ -4,7 +4,7 @@ const NotificationSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
-    default: "Chào mừng đến với website",
+    default: "Xin chào",
   },
   updatedAt: {
     type: Date,
