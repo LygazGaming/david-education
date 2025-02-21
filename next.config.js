@@ -1,6 +1,9 @@
-/** @type {import('next').NextConfig} */
+// @ts-check
+
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
-  // Cấu hình CORS và Headers
   async headers() {
     return [
       {
@@ -22,10 +25,8 @@ const nextConfig = {
     ];
   },
 
-  // Tắt strict mode nếu cần
   reactStrictMode: true,
 
-  // Cấu hình đường dẫn API
   async rewrites() {
     return [
       {
@@ -35,18 +36,15 @@ const nextConfig = {
     ];
   },
 
-  // Cấu hình build output
   output: "standalone",
 
-  // Tắt ESLint trong quá trình build nếu cần
   eslint: {
     ignoreDuringBuilds: true,
   },
 
-  // Bỏ qua lỗi TypeScript trong quá trình build nếu cần
   typescript: {
     ignoreBuildErrors: true,
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
