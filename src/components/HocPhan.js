@@ -6,17 +6,25 @@ const HocPhan = () => {
   const [courses, setCourses] = useState([]); // Khởi tạo là mảng rỗng
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Thêm state loading
+  const [error, setError] = useState(null); // State để lưu lỗi
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         setIsLoading(true);
         const response = await fetch("/api/course");
+
+        // Kiểm tra phản hồi từ API
+        if (!response.ok) {
+          throw new Error("Không thể lấy dữ liệu từ API");
+        }
+
         const data = await response.json();
         // Đảm bảo data là một mảng
         setCourses(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách khóa học:", error);
+        setError(error.message); // Lưu thông báo lỗi
         setCourses([]); // Set mảng rỗng nếu có lỗi
       } finally {
         setIsLoading(false);
@@ -31,6 +39,10 @@ const HocPhan = () => {
 
   if (isLoading) {
     return <div>Đang tải...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">Lỗi: {error}</div>; // Hiển thị thông báo lỗi
   }
 
   return (
