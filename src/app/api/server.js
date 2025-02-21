@@ -16,7 +16,7 @@ const connectDB = async () => {
   try {
     if (mongoose.connections[0].readyState) return true;
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("Đã kết nối tới MongoDB");
+    console.log("MongoDB connected");
     return true;
   } catch (error) {
     console.error("MongoDB connection error:", error);
@@ -24,22 +24,42 @@ const connectDB = async () => {
   }
 };
 
-// Routes
-app.use("/api/news", newsRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/notification", notificationRoutes);
-
-// Handle 404
-app.use((req, res) => {
-  res.status(404).json({ message: "Không tìm thấy đường dẫn!" });
+// Test routes
+app.get("/", (req, res) => {
+  res.json({ message: "API is working" });
 });
 
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Máy chủ đang chạy trên cổng ${PORT}`);
+app.get("/api/test", async (req, res) => {
+  try {
+    const dbStatus = await connectDB();
+    res.json({
+      message: "Test API is working",
+      database: dbStatus ? "Connected" : "Connection failed",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// News routes
+app.use("/api/news", newsRoutes);
+app.use("/api/notification", notificationRoutes);
+// app.use("api/albums", albumRoutes); Bị lỗi
+app.use("/api/categories", categoryRoutes);
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({
+    message: "Internal server error",
+    error: process.env.NODE_ENV === "development" ? err.message : undefined,
   });
-}
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
 
 // Vercel handler
 const handler = async (req, res) => {
