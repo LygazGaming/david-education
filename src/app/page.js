@@ -1,20 +1,20 @@
 "use client";
-import React from 'react';
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import PictureLayout from '../components/PictureLayout';
-import TinTuc from '../components/TinTuc';
-import HocPhan from '@/components/HocPhan';
-import AlbumAnh from '@/components/AlbumAnh';
-import NhaTaiTro from '@/components/NhaTaiTro';
-import VideoHLV from '@/components/VideoHLV';
+import PictureLayout from "../components/PictureLayout";
+import TinTuc from "../components/TinTuc";
+import HocPhan from "@/components/HocPhan";
+import AlbumAnh from "@/components/AlbumAnh";
+import NhaTaiTro from "@/components/NhaTaiTro";
+import VideoHLV from "@/components/VideoHLV";
 
 const SLIDER_IMAGES = [
   "/images/slider/slider_01.webp",
   "/images/slider/slider_02.webp",
   "/images/slider/slider_03.webp",
-  "/images/slider/slider_04.webp"
+  "/images/slider/slider_04.webp",
 ];
 
 const SLIDER_SETTINGS = {
@@ -26,22 +26,22 @@ const SLIDER_SETTINGS = {
   autoplay: true,
   autoplaySpeed: 3000,
   fade: true,
-  cssEase: 'linear',
+  cssEase: "linear",
   responsive: [
     {
       breakpoint: 1024,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-      }
+      },
     },
     {
       breakpoint: 768,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        dots: false
-      }
+        dots: false,
+      },
     },
     {
       breakpoint: 480,
@@ -49,36 +49,34 @@ const SLIDER_SETTINGS = {
         slidesToShow: 1,
         slidesToScroll: 1,
         dots: false,
-        arrows: false
-      }
-    }
-  ]
+        arrows: false,
+      },
+    },
+  ],
 };
 
 const Section = ({ children, className = "" }) => (
-  <section className={`py-12 ${className}`}>
-    {children}
-  </section>
+  <section className={`py-12 ${className}`}>{children}</section>
 );
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       <section className="hero-section relative">
-      <Slider {...SLIDER_SETTINGS} className="slider-wrapper">
+        <Slider {...SLIDER_SETTINGS} className="slider-wrapper">
           {SLIDER_IMAGES.map((img, index) => (
             <div key={index} className="relative">
-              <img 
-                src={img} 
-                alt={`Slide ${index + 1}`} 
+              <img
+                src={img}
+                alt={`Slide ${index + 1}`}
                 className="w-full h-auto object-contain object-center"
                 loading="lazy"
-                />
+              />
               <div className="absolute inset-0" />
             </div>
           ))}
         </Slider>
-        <PictureLayout /> 
+        <PictureLayout />
       </section>
       <Section className="bg-gray-50">
         <TinTuc />
@@ -93,7 +91,7 @@ export default function Home() {
       <Section className="bg-gray-50">
         <VideoHLV />
       </Section>
-        <NhaTaiTro />
+      <NhaTaiTro />
     </main>
   );
 }

@@ -1,7 +1,6 @@
-import express from "express";
-import Notification from "../models/Notification.js";
-
+const express = require("express");
 const router = express.Router();
+const Notification = require("../Model/Notification");
 
 // Route để lấy thông báo
 router.get("/", async (req, res) => {
@@ -44,4 +43,4 @@ router.put("/", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

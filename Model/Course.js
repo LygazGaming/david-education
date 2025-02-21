@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema(
   {
@@ -21,7 +21,7 @@ const courseSchema = new mongoose.Schema(
       },
     ],
     duration: {
-      type: Number, // number of months
+      type: Number, // số tháng
       required: true,
     },
     active: {
@@ -34,4 +34,4 @@ const courseSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Course", courseSchema);
+module.exports = mongoose.model("Course", courseSchema);

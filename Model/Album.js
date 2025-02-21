@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const PhotoSchema = new mongoose.Schema({
   url: { type: String, required: true },
@@ -13,4 +13,4 @@ const AlbumSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.model("Album", AlbumSchema);
+module.exports = mongoose.model("Album", AlbumSchema);

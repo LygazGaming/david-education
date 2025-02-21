@@ -1,13 +1,9 @@
-import express from "express";
-import multer from "multer";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-import Video from "../models/Video.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require("express");
 const router = express.Router();
+const Video = require("../Model/Video");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 // Thiết lập multer cho thumbnail
 const uploadDir = path.join(process.cwd(), "public/uploads/videos");
@@ -148,4 +144,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

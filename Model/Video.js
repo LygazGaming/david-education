@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const VideoSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -9,5 +9,4 @@ const VideoSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Video = mongoose.model("Video", VideoSchema);
-export default Video;
+module.exports = mongoose.model("Video", VideoSchema);

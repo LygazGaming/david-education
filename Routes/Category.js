@@ -1,7 +1,6 @@
-import express from "express";
-import Category from "../models/Category.js";
-
+const express = require("express");
 const router = express.Router();
+const Category = require("../Model/Category");
 
 // Lấy tất cả danh mục
 router.get("/", async (req, res) => {
@@ -46,4 +45,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

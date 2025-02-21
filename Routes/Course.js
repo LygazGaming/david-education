@@ -1,7 +1,6 @@
-import express from "express";
-import Course from "../models/Course.js";
-
+const express = require("express");
 const router = express.Router();
+const Course = require("../Model/Course");
 
 // Lấy tất cả khóa học
 router.get("/", async (req, res) => {
@@ -46,4 +45,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

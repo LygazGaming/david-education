@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const categorySchema = new mongoose.Schema(
   {
@@ -33,4 +33,4 @@ const categorySchema = new mongoose.Schema(
 // Chỉ giữ lại index này
 categorySchema.index({ name: "text" });
 
-export default mongoose.model("Category", categorySchema);
+module.exports = mongoose.model("Category", categorySchema);
