@@ -2,18 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/app/api/utils/dbConnect.js",
+      "src": "src/app/api/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/src/app/api/utils/dbConnect.js"
+      "dest": "src/app/api/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/src/app/api/utils/dbConnect.js"
+      "dest": "/"
     }
   ]
 }

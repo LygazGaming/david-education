@@ -5,6 +5,10 @@ import dotenv from "dotenv";
 import newsRoutes from "./Routes/News.js";
 import notificationRoutes from "./Routes/Notification.js";
 import categoryRoutes from "./Routes/Category.js";
+// import sliderRoutes from "./Routes/Slider.js";
+// import courseRoutes from "./Routes/Course.js";
+// import albumRoutes from "./Routes/Album.js";
+// import videoRoutes from "./Routes/Video.js";
 
 dotenv.config();
 
@@ -16,7 +20,7 @@ const connectDB = async () => {
   try {
     if (mongoose.connections[0].readyState) return true;
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB connected");
+    console.log("Đã kết nối tới MongoDB");
     return true;
   } catch (error) {
     console.error("MongoDB connection error:", error);
@@ -24,44 +28,16 @@ const connectDB = async () => {
   }
 };
 
-// Test routes
-app.get("/", (req, res) => {
-  res.json({ message: "API is working" });
-});
-
-app.get("/api/test", async (req, res) => {
-  try {
-    const dbStatus = await connectDB();
-    res.json({
-      message: "Test API is working",
-      database: dbStatus ? "Connected" : "Connection failed",
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// News routes
+// API Routes
 app.use("/api/news", newsRoutes);
-app.use("/api/notification", notificationRoutes);
-// app.use("api/albums", albumRoutes); Bị lỗi
 app.use("/api/categories", categoryRoutes);
+// app.use("/api/slider", sliderRoutes);
+// app.use("/api/course", courseRoutes);
+// app.use("/api/album", albumRoutes);
+// app.use("/api/video", videoRoutes);
+app.use("/api/notification", notificationRoutes);
 
-// Error handling
-app.use((err, req, res, next) => {
-  console.error("Error:", err);
-  res.status(500).json({
-    message: "Internal server error",
-    error: process.env.NODE_ENV === "development" ? err.message : undefined,
-  });
-});
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
-
-// Vercel handler
+// API handler cho Vercel
 const handler = async (req, res) => {
   try {
     await connectDB();
