@@ -22,7 +22,7 @@ const NotificationBar = () => {
   useEffect(() => {
     const fetchNotification = async () => {
       try {
-        const response = await fetch("/api/notification");
+        const response = await fetch("/api/notifications");
         const data = await response.json();
         if (data.success && data.data) {
           setAnnouncementText(data.data.text);
