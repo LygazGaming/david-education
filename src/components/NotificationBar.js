@@ -24,8 +24,10 @@ const NotificationBar = () => {
       try {
         const response = await fetch("/api/notifications");
         const data = await response.json();
-        if (data.success && data.data) {
-          setAnnouncementText(data.data.text);
+        if (data && Array.isArray(data) && data.length > 0) {
+          setAnnouncementText(data[0].text); // Lấy thông báo đầu tiên
+        } else {
+          setAnnouncementText("Không có thông báo nào");
         }
       } catch (error) {
         console.error("Lỗi khi tải thông báo:", error);

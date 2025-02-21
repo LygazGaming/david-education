@@ -37,6 +37,27 @@ const HocPhan = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const submitForm = async (formData) => {
+    try {
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Không thể gửi dữ liệu");
+      }
+
+      const result = await response.json();
+      console.log("Dữ liệu đã được gửi thành công:", result);
+    } catch (error) {
+      console.error("Lỗi khi gửi dữ liệu:", error);
+    }
+  };
+
   if (isLoading) {
     return <div>Đang tải...</div>;
   }
@@ -120,14 +141,18 @@ const HocPhan = () => {
 
                   <div className="mt-auto">
                     <button
-                      onClick={openModal}
+                      onClick={() =>
+                        submitForm({
+                          /* thông tin cần gửi */
+                        })
+                      }
                       className={`w-full py-3 rounded-lg font-semibold text-sm transition-colors duration-200 ${
                         course.isPopular
                           ? "bg-white text-primary hover:bg-gray-100"
                           : "bg-primary text-white hover:opacity-90"
                       }`}
                     >
-                      Đăng Ký Ngay
+                      Gửi
                     </button>
                   </div>
                 </div>
