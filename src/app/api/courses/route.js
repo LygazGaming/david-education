@@ -18,10 +18,10 @@ export async function GET(req) {
 export async function POST(req) {
   await dbConnect();
 
-  const { title, description } = await req.json();
+  const { title, price, features, isPopular } = await req.json();
 
   try {
-    const newCourse = new Course({ title, description });
+    const newCourse = new Course({ title, price, features, isPopular });
     await newCourse.save();
     return new Response(JSON.stringify(newCourse), { status: 201 });
   } catch (error) {
@@ -31,17 +31,15 @@ export async function POST(req) {
   }
 }
 
-// ... existing code ...
-
 export async function PUT(req) {
   await dbConnect();
 
-  const { id, title, description } = await req.json();
+  const { id, title, price, features, isPopular } = await req.json();
 
   try {
     const updatedCourse = await Course.findByIdAndUpdate(
       id,
-      { title, description },
+      { title, price, features, isPopular },
       { new: true }
     );
     if (!updatedCourse) {
@@ -56,8 +54,6 @@ export async function PUT(req) {
     });
   }
 }
-
-// ... existing code ...
 
 export async function DELETE(req) {
   await dbConnect();
@@ -80,5 +76,3 @@ export async function DELETE(req) {
     });
   }
 }
-
-// ... existing code ...
