@@ -12,7 +12,7 @@ const HocPhan = () => {
     const fetchCourses = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch("/api/course");
+        const response = await fetch("/api/courses");
 
         // Kiểm tra phản hồi từ API
         if (!response.ok) {

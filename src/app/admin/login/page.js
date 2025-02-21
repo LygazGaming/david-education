@@ -12,7 +12,6 @@ export default function AdminLogin() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Đây là check đơn giản, bạn nên thay thế bằng API authentication thực tế
     if (username === "admin" && password === "admin123") {
       localStorage.setItem("adminToken", "your-admin-token");
       router.push("/admin/dashboard");

@@ -156,7 +156,7 @@ export default function CreateNews() {
             Nội dung
           </label>
           <Editor
-            apiKey="6ujpn4iau16cit8miznmarmlivnr81nlduo03lpu9m4qffq4"
+            apiKey={process.env.APIKEYTINY}
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue=""
             init={{
