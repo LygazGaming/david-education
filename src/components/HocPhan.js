@@ -152,7 +152,7 @@ const HocPhan = () => {
                           : "bg-primary text-white hover:opacity-90"
                       }`}
                     >
-                      Gửi
+                      Đăng kí ngay
                     </button>
                   </div>
                 </div>
