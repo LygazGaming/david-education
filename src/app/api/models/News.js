@@ -53,4 +53,4 @@ NewsSchema.index({ category: 1, createdAt: -1 });
 // Skip the line below because slug already has unique: true
 // NewsSchema.index({ slug: 1 });
 
-export default mongoose.model("News", NewsSchema);
+export default mongoose.models.News || mongoose.model("News", NewsSchema);

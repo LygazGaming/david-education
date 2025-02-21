@@ -3,7 +3,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import Album from "../Model/Album.js";
+import Album from "../models/Album.js";
 
 const router = express.Router();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
