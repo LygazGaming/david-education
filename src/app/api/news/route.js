@@ -29,3 +29,26 @@ export async function POST(req) {
     });
   }
 }
+
+export async function DELETE(req) {
+  await dbConnect();
+
+  const { id } = await req.json();
+
+  try {
+    const deletedNews = await News.findByIdAndDelete(id);
+    if (!deletedNews) {
+      return new Response(JSON.stringify({ message: "News not found" }), {
+        status: 404,
+      });
+    }
+    return new Response(
+      JSON.stringify({ message: "News deleted successfully" }),
+      { status: 200 }
+    );
+  } catch (error) {
+    return new Response(JSON.stringify({ message: error.message }), {
+      status: 500,
+    });
+  }
+}
