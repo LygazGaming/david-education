@@ -6,12 +6,13 @@ import {
   FaImages,
   FaVideo,
   FaGraduationCap,
-  FaHandshake,
   FaBars,
   FaTimes,
   FaHome,
   FaSignOutAlt,
   FaBell,
+  FaSlidersH,
+  FaClipboardList,
 } from "react-icons/fa";
 
 export default function Dashboard() {
@@ -20,21 +21,31 @@ export default function Dashboard() {
     albums: { total: 0 },
     courses: { total: 0, featured: 0 },
     videos: { total: 0, featured: 0 },
-    sponsors: { total: 0, active: 0 },
-    notification: { total: 0, active: 0 },
+    categories: { total: 0, active: 0 },
+    notifications: { total: 0, active: 0 },
+    sliders: { total: 0, active: 0 },
   });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchAllStats = async () => {
       try {
-        const [news, albums, courses, videos, sponsors] = await Promise.all([
+        const [
+          news,
+          albums,
+          courses,
+          videos,
+          categories,
+          notifications,
+          sliders,
+        ] = await Promise.all([
           fetch("/api/news").then((res) => res.json()),
           fetch("/api/album").then((res) => res.json()),
           fetch("/api/course").then((res) => res.json()),
           fetch("/api/video").then((res) => res.json()),
-          fetch("/api/sponsor").then((res) => res.json()),
+          fetch("/api/category").then((res) => res.json()),
           fetch("/api/notification").then((res) => res.json()),
+          fetch("/api/slider").then((res) => res.json()),
         ]);
 
         setStats({
@@ -55,9 +66,17 @@ export default function Dashboard() {
               ? videos.videos.filter((item) => item.featured).length
               : 0,
           },
-          sponsors: {
-            total: sponsors.length,
-            active: sponsors.filter((item) => item.active).length,
+          categories: {
+            total: categories.length,
+            active: categories.filter((item) => item.active).length,
+          },
+          notifications: {
+            total: notifications.length,
+            active: notifications.filter((item) => item.active).length,
+          },
+          sliders: {
+            total: sliders.length,
+            active: sliders.filter((item) => item.active).length,
           },
         });
       } catch (error) {
@@ -110,8 +129,9 @@ export default function Dashboard() {
     { icon: FaImages, title: "Album ảnh", path: "/admin/albums" },
     { icon: FaGraduationCap, title: "Khóa học", path: "/admin/courses" },
     { icon: FaVideo, title: "Video", path: "/admin/videos" },
-    { icon: FaHandshake, title: "Nhà tài trợ", path: "/admin/sponsors" },
-    { icon: FaBell, title: "Thông báo", path: "/admin/notification" },
+    { icon: FaClipboardList, title: "Danh mục", path: "/admin/categories" },
+    { icon: FaBell, title: "Thông báo", path: "/admin/notifications" },
+    { icon: FaSlidersH, title: "Sliders", path: "/admin/sliders" },
   ];
 
   const SidebarLink = ({ icon: Icon, title, path }) => (
@@ -202,16 +222,6 @@ export default function Dashboard() {
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <StatCard
-              title="Tin tức"
-              total={stats.news.total}
-              featured={stats.news.featured}
-              icon={FaNewspaper}
-              link="/admin/news"
-              featuredLink="/admin/news?filter=featured"
-              featuredText="Tin nổi bật"
-            />
-
-            <StatCard
               title="Album ảnh"
               total={stats.albums.total}
               icon={FaImages}
@@ -226,7 +236,15 @@ export default function Dashboard() {
               featuredLink="/admin/courses?filter=featured"
               featuredText="Khóa học nổi bật"
             />
-
+            <StatCard
+              title="Tin tức"
+              total={stats.news.total}
+              featured={stats.news.featured}
+              icon={FaNewspaper}
+              link="/admin/news"
+              featuredLink="/admin/news?filter=featured"
+              featuredText="Tin nổi bật"
+            />
             <StatCard
               title="Video"
               total={stats.videos.total}
@@ -236,14 +254,29 @@ export default function Dashboard() {
               featuredLink="/admin/videos?filter=featured"
               featuredText="Video nổi bật"
             />
-
             <StatCard
-              title="Nhà tài trợ"
-              total={stats.sponsors.total}
-              featured={stats.sponsors.active}
-              icon={FaHandshake}
-              link="/admin/sponsors"
-              featuredText="Đang hoạt động"
+              title="Danh mục"
+              total={stats.categories.total}
+              active={stats.categories.active}
+              icon={FaClipboardList}
+              link="/admin/categories"
+              featuredText="Danh mục hoạt động"
+            />
+            <StatCard
+              title="Thông báo"
+              total={stats.notifications.total}
+              active={stats.notifications.active}
+              icon={FaBell}
+              link="/admin/notifications"
+              featuredText="Thông báo hoạt động"
+            />
+            <StatCard
+              title="Sliders"
+              total={stats.sliders.total}
+              active={stats.sliders.active}
+              icon={FaSlidersH}
+              link="/admin/sliders"
+              featuredText="Sliders hoạt động"
             />
           </div>
         </div>
