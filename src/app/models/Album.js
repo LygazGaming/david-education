@@ -1,15 +1,10 @@
-import mongoose from "mongoose";
-const PhotoSchema = new mongoose.Schema({
-  url: { type: String, required: true },
-  caption: String,
-});
+import dbConnect from "../../utils/dbConnect";
+import PhotoAlbum from "../../models/PhotoAlbum";
 
-const AlbumSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: String,
-  photos: [PhotoSchema],
-  coverImage: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-});
-
-export default mongoose.models.Album || mongoose.model("Album", PhotoSchema);
+export async function GET(req) {
+  await dbConnect();
+  const albums = await PhotoAlbum.find().limit(6).lean(); // Sử dụng model PhotoAlbum
+  return new Response(JSON.stringify({ success: true, data: albums }), {
+    status: 200,
+  });
+}

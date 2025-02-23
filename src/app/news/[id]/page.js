@@ -1,88 +1,126 @@
 // src/app/news/[id]/page.js
-"use client"; // Đánh dấu file này là Client Component
+"use client";
+import { useParams } from "next/navigation";
+import CategoryMenu from "../../../components/CategoryMenu";
+import { FaCalendarAlt, FaEye } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 
-import { useParams } from 'next/navigation'; // Sử dụng useParams từ next/navigation
-import CategoryMenu from '../../../components/CategoryMenu'; // Import CategoryMenu
-import { FaCalendarAlt, FaEye } from 'react-icons/fa'; // Import các icon cần thiết
-import React, { useState, useEffect } from 'react';
+// Hàm định dạng ngày
+const formatDate = (dateString) => {
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) throw new Error("Invalid date");
+    return date.toLocaleDateString("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  } catch {
+    return "Ngày không xác định";
+  }
+};
 
-const NewsDetail = () => {
-  const { id } = useParams(); // Lấy ID từ params
-  const [news, setNews] = useState(null); // State để lưu tin tức
-  const [loading, setLoading] = useState(true); // State để theo dõi trạng thái loading
-  const [error, setError] = useState(''); // State để lưu thông báo lỗi
+export default function NewsDetail() {
+  const { id } = useParams();
+  const [news, setNews] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  // Lấy chi tiết tin tức
   useEffect(() => {
     const fetchNews = async () => {
+      if (!id) return;
+
       try {
-        const response = await fetch(`/api/news/${id}`); // Gọi API để lấy tin tức theo ID
+        const response = await fetch(`/api/news?id=${id}`); // Gọi API với query id
         if (!response.ok) {
-          throw new Error('Không thể tải dữ liệu');
+          throw new Error("Không thể tải dữ liệu");
         }
-        const data = await response.json();
-        setNews(data); // Cập nhật state với dữ liệu nhận được từ API
+        const result = await response.json();
+        if (!result.success) {
+          throw new Error(result.message || "Lỗi từ API");
+        }
+        setNews(result.data);
       } catch (error) {
-        setError(error.message); // Lưu thông báo lỗi nếu có
+        setError(error.message);
       } finally {
-        setLoading(false); // Đặt trạng thái loading thành false
+        setLoading(false);
       }
     };
 
-    fetchNews(); // Gọi hàm fetchNews khi component được mount
+    fetchNews();
   }, [id]);
 
+  // Tăng lượt xem
   useEffect(() => {
     const increaseViews = async () => {
-      if (id) {
-        try {
-          const response = await fetch(`/api/news/${id}/view`, {
-            method: 'PUT',
-          });
+      if (!id) return;
 
-          if (!response.ok) {
-            console.error('Failed to increase views');
-          }
-        } catch (error) {
-          console.error('Error increasing views:', error);
+      try {
+        const response = await fetch(`/api/news?id=${id}`, {
+          method: "PUT",
+        });
+        if (!response.ok) {
+          console.error("Failed to increase views");
+          return;
         }
+        const result = await response.json();
+        if (result.success && result.data) {
+          setNews((prev) => ({ ...prev, views: result.data.views })); // Cập nhật views
+        }
+      } catch (error) {
+        console.error("Error increasing views:", error);
       }
     };
 
-    increaseViews(); // Tăng lượt xem khi ID thay đổi
+    increaseViews();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>; // Hiển thị loading khi đang tải dữ liệu
-  if (error) return <div className="text-red-500">{error}</div>; // Hiển thị thông báo lỗi nếu có
-  if (!news) return <div>404 - Not Found</div>; // Hiển thị thông báo nếu không tìm thấy tin tức
+  if (loading) return <div className="text-center py-12">Đang tải...</div>;
+  if (error)
+    return <div className="text-red-500 text-center py-12">{error}</div>;
+  if (!news)
+    return <div className="text-center py-12">404 - Không tìm thấy</div>;
 
   return (
-    <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-4 py-12"> {/* Thay đổi layout cho responsive */}
-      <div className="w-full md:w-3/4 p-6 bg-white rounded-lg shadow-md md:order-1"> {/* Tin tức chiếm toàn bộ chiều rộng */}
+    <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-4 py-12">
+      <div className="w-full md:w-3/4 p-6 bg-white rounded-lg shadow-md md:order-1">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">{news.title}</h1>
         <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
           <span className="flex items-center gap-1">
             <FaCalendarAlt className="text-orange-500" />
-            {new Date(news.date).toLocaleDateString()} {/* Định dạng ngày tháng */}
+            {formatDate(news.date)}
           </span>
           <span className="flex items-center gap-1">
             <FaEye className="text-orange-500" />
             {news.views} lượt xem
           </span>
         </div>
-        <img src={news.image} alt={news.title} className="w-full h-[400px] object-cover mb-4" />
-        <div className="text-gray-600 mt-4" dangerouslySetInnerHTML={{ __html: news.content }} />
-        {news.images && news.images.map((img, index) => (
-          <img key={index} src={img} alt={`Image ${index + 1}`} className="w-full h-auto mt-4" />
-        ))}
+        <img
+          src={news.image}
+          alt={news.title}
+          className="w-full h-[400px] object-cover mb-4 rounded-lg"
+        />
+        <div
+          className="text-gray-600 mt-4 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: news.content }}
+        />
+        {news.images &&
+          news.images.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`Image ${index + 1}`}
+              className="w-full h-auto mt-4 rounded-lg"
+            />
+          ))}
       </div>
-      <div className="w-full md:w-1/4 pr-4 hidden md:block"> {/* Ẩn danh mục trên mobile */}
-        <CategoryMenu /> {/* Hiển thị thanh danh mục ở bên trái trên PC và iPad */}
+      <div className="w-full md:w-1/4 pr-4 hidden md:block">
+        <CategoryMenu />
       </div>
-      <div className="w-full md:hidden mt-4"> {/* Danh mục nằm dưới bài viết trên mobile */}
-        <CategoryMenu /> {/* Hiển thị thanh danh mục ở dưới cùng trên mobile */}
+      <div className="w-full md:hidden mt-4">
+        <CategoryMenu />
       </div>
     </div>
   );
-};
-
-export default NewsDetail;
+}

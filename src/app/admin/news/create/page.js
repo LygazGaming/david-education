@@ -11,7 +11,7 @@ export default function CreateNews() {
     image: "",
     excerpt: "",
     content: "",
-    featured: false, // Mặc định là không tích
+    featured: false,
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
@@ -26,11 +26,38 @@ export default function CreateNews() {
     }
   };
 
-  const handleEditorChange = (content, editor) => {
-    setFormData((prev) => ({
-      ...prev,
-      content: content,
-    }));
+  const handleEditorChange = (content) => {
+    setFormData((prev) => ({ ...prev, content }));
+  };
+
+  const uploadImage = async (file) => {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        try {
+          const base64data = reader.result;
+          console.log("Uploading image to /api/news/upload...");
+          const response = await fetch("/api/news/upload", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data: base64data }),
+          });
+
+          const text = await response.text(); // Lấy raw text để debug
+          console.log("Response from /api/news/upload:", text);
+
+          const result = JSON.parse(text); // Parse JSON sau khi log
+          if (response.ok && result.success) {
+            resolve(result.url);
+          } else {
+            reject(new Error(result.message || "Lỗi upload ảnh"));
+          }
+        } catch (error) {
+          reject(error);
+        }
+      };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -41,45 +68,39 @@ export default function CreateNews() {
     try {
       let imageUrl = formData.image;
       if (imageFile) {
-        const imageFormData = new FormData();
-        imageFormData.append("file", imageFile);
-
-        const uploadResponse = await fetch("/api/news/upload", {
-          method: "POST",
-          body: imageFormData,
-        });
-
-        if (!uploadResponse.ok) {
-          const errorData = await uploadResponse.json();
-          throw new Error(
-            `Lỗi upload ảnh: ${errorData.message || uploadResponse.statusText}`
-          );
-        }
-        const imageData = await uploadResponse.json();
-        imageUrl = imageData.url;
+        imageUrl = await uploadImage(imageFile);
+        console.log("Image uploaded successfully:", imageUrl);
       }
+
+      if (!imageUrl) {
+        throw new Error("Vui lòng chọn ảnh chính");
+      }
+
+      const payload = {
+        ...formData,
+        image: imageUrl,
+        date: new Date().toISOString(),
+      };
+      console.log("Submitting to /api/news with payload:", payload);
 
       const response = await fetch("/api/news", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          image: imageUrl,
-          date: new Date().setHours(0, 0, 0, 0),
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
+      const text = await response.text(); // Lấy raw text để debug
+      console.log("Response from /api/news:", text);
+
+      const result = JSON.parse(text); // Parse JSON sau khi log
+      if (response.ok && result.success) {
         router.push("/admin/news");
       } else {
-        const data = await response.json();
-        setError(data.message || "Có lỗi xảy ra");
+        throw new Error(result.message || "Không thể tạo tin tức");
       }
     } catch (error) {
-      console.error("Error details:", error);
       setError(`Lỗi: ${error.message}`);
+      console.error("Error in handleSubmit:", error);
     } finally {
       setLoading(false);
     }
@@ -156,68 +177,29 @@ export default function CreateNews() {
             Nội dung
           </label>
           <Editor
-            apiKey={process.env.APIKEYTINY}
+            apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue=""
             init={{
               height: 500,
               menubar: true,
               plugins: [
-                "advlist",
-                "autolink",
-                "lists",
-                "link",
-                "image",
-                "charmap",
-                "preview",
-                "anchor",
-                "searchreplace",
-                "visualblocks",
-                "code",
-                "fullscreen",
-                "insertdatetime",
-                "media",
-                "table",
-                "code",
-                "help",
-                "wordcount",
+                "advlist autolink lists link image charmap preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table code help wordcount",
               ],
               toolbar:
-                "undo redo | blocks | " +
-                "bold italic forecolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help | image",
+                "undo redo | formatselect | bold italic | " +
+                "alignleft aligncenter alignright alignjustify | " +
+                "bullist numlist outdent indent | removeformat | image",
               content_style:
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-              file_picker_types: "image",
-              images_upload_handler: async function (
-                blobInfo,
-                success,
-                failure
-              ) {
+              images_upload_handler: async (blobInfo, success, failure) => {
                 try {
-                  const formData = new FormData();
-                  formData.append("file", blobInfo.blob(), blobInfo.filename());
-
-                  const response = await fetch("/api/news/upload", {
-                    method: "POST",
-                    body: formData,
-                  });
-
-                  if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(
-                      `Upload failed: ${
-                        errorData.message || response.statusText
-                      }`
-                    );
-                  }
-
-                  const data = await response.json();
-                  success(data.url);
-                } catch (e) {
-                  console.error("Image upload error:", e);
-                  failure(`Lỗi upload ảnh: ${e.message}`);
+                  const url = await uploadImage(blobInfo.blob());
+                  success(url);
+                } catch (error) {
+                  failure(`Lỗi upload ảnh: ${error.message}`);
                 }
               },
             }}
@@ -225,20 +207,26 @@ export default function CreateNews() {
           />
         </div>
 
+        <div>
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+            <input
+              type="checkbox"
+              name="featured"
+              checked={formData.featured}
+              onChange={handleChange}
+              className="h-4 w-4"
+            />
+            Đánh dấu là nổi bật
+          </label>
+        </div>
+
         <div className="flex gap-4">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400"
           >
-            {loading ? "Đang xử lý..." : "Thêm tin tức"}
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push("/admin/news")}
-            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-          >
-            Hủy
+            {loading ? "Đang lưu..." : "Lưu bài viết"}
           </button>
         </div>
       </form>

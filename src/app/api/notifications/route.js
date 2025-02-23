@@ -4,19 +4,9 @@ import Notification from "../../models/Notification";
 export async function GET(req) {
   await dbConnect();
 
-  const { id } = req.query;
-
   try {
-    const notification = await Notification.findById(id);
-    if (!notification) {
-      return new Response(
-        JSON.stringify({ message: "Notification not found" }),
-        {
-          status: 404,
-        }
-      );
-    }
-    return new Response(JSON.stringify(notification), { status: 200 });
+    const notifications = await Notification.find();
+    return new Response(JSON.stringify(notifications), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ message: error.message }), {
       status: 500,

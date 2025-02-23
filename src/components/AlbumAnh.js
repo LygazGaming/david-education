@@ -1,120 +1,134 @@
 "use client";
-import React from "react";
+import { useState, useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
-import Link from "next/link";
 
-const ALBUM_DATA = [
-  {
-    id: 1,
-    image: "/img2/img036.webp",
-    title: "GIẢI ĐẤU HÈ 2024",
-    description: "Những khoảnh khắc đáng nhớ từ giải đấu mùa hè",
-  },
-  {
-    id: 2,
-    image: "/img2/img056.webp",
-    title: "LỚP NĂNG KHIẾU",
-    description: "Các cầu thủ trong buổi tập luyện hàng tuần",
-  },
-  {
-    id: 3,
-    image: "/img2/img093.webp",
-    title: "LỚP TIÊU CHUẨN NGƯỜI LỚN",
-    description: "Đội tuyển trẻ tham gia giải U15",
-  },
-  {
-    id: 4,
-    image: "/img2/img050.webp",
-    title: "LỚP KÈM 1-1",
-    description: "Niềm vui chiến thắng của đội nhà",
-  },
-  {
-    id: 5,
-    image: "/img2/img030.webp",
-    title: "RA MẮT DAVID SKILL",
-    description: "Buổi lễ trao giải thưởng cuối mùa",
-  },
-  {
-    id: 6,
-    image: "/img2/img024.webp",
-    title: "LỚP TIÊU CHUẨN THIẾU NHI",
-    description: "Chương trình đào tạo bóng đá trẻ",
-  },
-  {
-    id: 7,
-    image: "/img2/img001.webp",
-    title: "Album 7",
-    description: "Mô tả album 7",
-  },
-  {
-    id: 8,
-    image: "/img2/img002.webp",
-    title: "Album 8",
-    description: "Mô tả album 8",
-  },
-  {
-    id: 9,
-    image: "/img2/img003.webp",
-    title: "Album 9",
-    description: "Mô tả album 9",
-  },
-];
-
-const ImageCard = ({ image }) => (
-  <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+const ImageCard = ({ image, onClick }) => (
+  <div
+    onClick={onClick}
+    className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+  >
     <div className="relative group">
-      <Link href={`/AlbumDetail?id=${image.id}`}>
-        {" "}
-        <Image
-          src={image.image}
-          alt={image.title}
-          width={800}
-          height={500}
-          style={{ objectFit: "cover" }}
-          className="transition-transform duration-500 group-hover:scale-105"
-        />
-      </Link>
+      <Image
+        src={image.image}
+        alt={image.title}
+        width={800}
+        height={500}
+        style={{ objectFit: "cover" }}
+        className="transition-transform duration-500 group-hover:scale-105"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
       <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <Link href={`/photo_album?id=${image.id}`}>
-          {" "}
-          <h3 className="text-xl font-semibold mb-2">{image.title}</h3>
-        </Link>
+        <h3 className="text-xl font-semibold mb-2">{image.title}</h3>
         <p className="text-gray-200 text-sm">{image.description}</p>
       </div>
     </div>
   </div>
 );
 
+const PhotoDetail = ({ photo }) => (
+  <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+    <Image
+      src={photo.src}
+      alt={photo.alt || "Photo"}
+      width={800}
+      height={500}
+      style={{ objectFit: "cover" }}
+      className="transition-transform duration-500 hover:scale-105"
+    />
+  </div>
+);
+
 export default function AlbumAnh() {
+  const [albums, setAlbums] = useState([]);
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchAlbums = async () => {
+      try {
+        const response = await fetch("/api/albums");
+        if (!response.ok) throw new Error("Failed to fetch albums");
+        const result = await response.json();
+        if (!result.success) throw new Error(result.message || "Lỗi từ API");
+        setAlbums(result.data);
+      } catch (error) {
+        console.error("Error fetching albums:", error);
+        setError("Có lỗi xảy ra khi tải album: " + error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAlbums();
+  }, []);
+
+  const handleAlbumClick = (album) => {
+    setSelectedAlbum(album);
+  };
+
+  const handleBack = () => {
+    setSelectedAlbum(null);
+  };
+
+  if (loading) return <div className="text-center py-12">Đang tải...</div>;
+  if (error)
+    return <div className="text-red-500 text-center py-12">{error}</div>;
+
   return (
     <div className="bg-gray-50 py-16">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Header Section */}
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-12 gap-6">
+        {selectedAlbum ? (
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Album Ảnh</h2>
-            <div className="h-1 w-20 bg-orange-500 mt-3"></div>
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-12 gap-6">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900">
+                  {selectedAlbum.title}
+                </h2>
+                <div className="h-1 w-20 bg-orange-500 mt-3"></div>
+              </div>
+              <button
+                onClick={handleBack}
+                className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors group"
+              >
+                <span>Quay lại</span>
+                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {selectedAlbum.photos.map((photo, index) => (
+                <PhotoDetail key={index} photo={photo} />
+              ))}
+            </div>
           </div>
-          <Link href="/photo-album">
-            {" "}
-            {/* Thêm đường dẫn đến trang xem tất cả */}
-            <button
-              className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg 
-                             hover:bg-orange-600 transition-colors group"
-            >
-              <span>Xem tất cả</span>
-              <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {ALBUM_DATA.slice(0, 6).map((image) => (
-            <ImageCard key={image.id} image={image} />
-          ))}
-        </div>
+        ) : (
+          <>
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-12 gap-6">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900">Album Ảnh</h2>
+                <div className="h-1 w-20 bg-orange-500 mt-3"></div>
+              </div>
+              {/* Nút "Xem tất cả" có thể giữ hoặc bỏ nếu không cần */}
+              <button
+                onClick={() => console.log("Xem tất cả albums")}
+                className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors group"
+              >
+                <span>Xem tất cả</span>
+                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {albums.slice(0, 6).map((album) => (
+                <ImageCard
+                  key={album.id || album._id}
+                  image={album}
+                  onClick={() => handleAlbumClick(album)}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

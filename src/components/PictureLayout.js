@@ -1,3 +1,5 @@
+"use client";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGraduationCap,
@@ -7,31 +9,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-const MainFeature = () => (
+const MainFeature = ({ data }) => (
   <div className="relative w-full h-[500px]">
-    <img
-      src={CONTENT_DATA.mainFeature.image}
-      alt=""
-      className="w-full h-full object-cover"
-    />
+    <img src={data.image} alt="" className="w-full h-full object-cover" />
     <div className="absolute bottom-0 left-0 w-1/2 bg-black/70 p-6">
-      <p className="text-white text-lg">{CONTENT_DATA.mainFeature.title}</p>
-      <span
-        className={`${CONTENT_DATA.mainFeature.icon} text-white mt-2`}
-      ></span>
+      <p className="text-white text-lg">{data.title}</p>
     </div>
   </div>
 );
 
-const MembershipSection = () => (
+const MembershipSection = ({ data }) => (
   <div className="grid grid-cols-2 gap-0">
-    {CONTENT_DATA.memberships.map((item, index) => (
+    {data.map((item, index) => (
       <div
         key={index}
         className={`${item.bgColor} text-center aspect-square relative`}
       >
-        {" "}
-        {/* Thay đổi height cố định thành aspect-square */}
         {item.title ? (
           <>
             <div className="p-4 md:p-8 h-full flex items-center justify-center">
@@ -41,7 +34,15 @@ const MembershipSection = () => (
             </div>
             <div className="absolute bottom-0 right-0">
               <FontAwesomeIcon
-                icon={item.icon}
+                icon={
+                  item.icon === "faGraduationCap"
+                    ? faGraduationCap
+                    : item.icon === "faUsers"
+                    ? faUsers
+                    : item.icon === "faBook"
+                    ? faBook
+                    : faLayerGroup
+                }
                 className="text-black/50 text-xl md:text-2xl p-4"
               />
             </div>
@@ -62,59 +63,42 @@ const MembershipSection = () => (
     ))}
   </div>
 );
-const CONTENT_DATA = {
-  mainFeature: {
-    image: "/images/home/1.jpg",
-    title: "Trung tâm đào tạo cầu lông dành cho em trẻ",
-    icon: "icon-class",
-  },
-  memberships: [
-    {
-      title:
-        "Mô Hình Mindful Badminton - Huấn Luyện Cầu Lông, Đào Luyện Nhân Cách",
-      bgColor: "bg-primary",
-      icon: faGraduationCap,
-    },
-    {
-      image: "/images/home/2.jpg",
-      bgColor: "bg-primary",
-    },
-    {
-      image: "/images/home/3.jpg",
-      bgColor: "bg-primary",
-    },
-    {
-      title: "Đội ngũ HLV giàu kinh nghiệm, tận tâm với nghề",
-      bgColor: "bg-primary",
-      icon: faUsers,
-    },
-    {
-      title:
-        "Giáo án bài bản, cá nhân hoá và đặc biệt lòng ghép các bài học ý nghĩa thông qua các bài tập",
-      bgColor: "bg-primary",
-      icon: faBook,
-    },
-    {
-      image: "/images/home/4.jpg",
-      bgColor: "bg-primary",
-    },
-    {
-      image: "/images/home/5.jpg",
-      bgColor: "bg-primary",
-    },
-    {
-      title: "Các lớp học đà dạng từ cơ bản, nâng cao, năng khiếu",
-      bgColor: "bg-primary",
-      icon: faLayerGroup,
-    },
-  ],
-};
 
 export default function PictureLayout() {
+  const [contentData, setContentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/picture-layout");
+        if (!response.ok)
+          throw new Error("Failed to fetch picture layout data");
+        const result = await response.json();
+        if (!result.success) throw new Error(result.message || "Lỗi từ API");
+        setContentData(result.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("Có lỗi xảy ra khi tải dữ liệu: " + error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div className="text-center py-12">Đang tải...</div>;
+  if (error)
+    return <div className="text-red-500 text-center py-12">{error}</div>;
+  if (!contentData)
+    return <div className="text-center py-12">Không có dữ liệu</div>;
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
-      <MainFeature />
-      <MembershipSection />
+      <MainFeature data={contentData.mainFeature} />
+      <MembershipSection data={contentData.memberships} />
     </div>
   );
 }
