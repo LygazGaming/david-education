@@ -7,7 +7,14 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token && window.location.pathname !== "/admin/login") {
+
+    // Sử dụng window.location.pathname thay vì router.pathname
+    if (
+      typeof window !== "undefined" &&
+      !token &&
+      window.location.pathname.startsWith("/admin") &&
+      window.location.pathname !== "/admin/login"
+    ) {
       router.push("/admin/login");
     }
   }, [router]);

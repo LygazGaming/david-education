@@ -24,7 +24,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token in dashboard:", token);
     if (!token) {
       router.push("/admin/login");
     }
