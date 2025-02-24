@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   FaNewspaper,
@@ -16,122 +17,29 @@ import {
 } from "react-icons/fa";
 
 export default function Dashboard() {
-  const [stats, setStats] = useState({
-    news: { total: 0, featured: 0 },
-    albums: { total: 0 },
-    courses: { total: 0, featured: 0 },
-    videos: { total: 0, featured: 0 },
-    categories: { total: 0, active: 0 },
-    notifications: { total: 0, active: 0 },
-    sliders: { total: 0, active: 0 },
-  });
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const fetchAllStats = async () => {
-      try {
-        const [
-          news,
-          albums,
-          courses,
-          videos,
-          categories,
-          notifications,
-          sliders,
-        ] = await Promise.all([
-          fetch("/api/news").then((res) => res.json()),
-          fetch("/api/album").then((res) => res.json()),
-          fetch("/api/course").then((res) => res.json()),
-          fetch("/api/video").then((res) => res.json()),
-          fetch("/api/category").then((res) => res.json()),
-          fetch("/api/notification").then((res) => res.json()),
-          fetch("/api/slider").then((res) => res.json()),
-        ]);
-
-        setStats({
-          news: {
-            total: news.length,
-            featured: news.filter((item) => item.featured).length,
-          },
-          albums: {
-            total: albums.albums ? albums.albums.length : 0,
-          },
-          courses: {
-            total: courses.length,
-            featured: courses.filter((item) => item.featured).length,
-          },
-          videos: {
-            total: videos.videos ? videos.videos.length : 0,
-            featured: videos.videos
-              ? videos.videos.filter((item) => item.featured).length
-              : 0,
-          },
-          categories: {
-            total: categories.length,
-            active: categories.filter((item) => item.active).length,
-          },
-          notifications: {
-            total: notifications.length,
-            active: notifications.filter((item) => item.active).length,
-          },
-          sliders: {
-            total: sliders.length,
-            active: sliders.filter((item) => item.active).length,
-          },
-        });
-      } catch (error) {
-        console.error("Error fetching stats:", error);
-      }
-    };
-
-    fetchAllStats();
-  }, []);
-
-  const StatCard = ({
-    title,
-    total,
-    featured,
-    icon: Icon,
-    link,
-    featuredLink,
-    featuredText,
-  }) => (
-    <div className="bg-white rounded-lg shadow p-6">
-      <div className="flex items-center mb-4">
-        <Icon className="text-2xl text-blue-600 mr-2" />
-        <h2 className="text-xl font-semibold">{title}</h2>
-      </div>
-      <p className="text-3xl font-bold text-blue-600 mb-2">{total}</p>
-      {featured !== undefined && (
-        <p className="text-lg text-green-600 mb-4">
-          {featuredText}: {featured}
-        </p>
-      )}
-      <div className="space-y-2">
-        <Link href={link} className="text-blue-500 hover:underline block">
-          Quản lý {title} →
-        </Link>
-        {featuredLink && (
-          <Link
-            href={featuredLink}
-            className="text-green-500 hover:underline block"
-          >
-            Xem {featuredText} →
-          </Link>
-        )}
-      </div>
-    </div>
-  );
+    const token = localStorage.getItem("token");
+    console.log("Token in dashboard:", token);
+    if (!token) {
+      router.push("/admin/login");
+    }
+  }, [router]);
 
   const menuItems = [
+    { icon: FaImages, title: "Album ảnh", path: "/admin/albums" },
+    { icon: FaClipboardList, title: "Danh mục", path: "/admin/categories" },
+    { icon: FaGraduationCap, title: "Khóa học", path: "/admin/courses" },
     { icon: FaHome, title: "Dashboard", path: "/admin/dashboard" },
     { icon: FaNewspaper, title: "Tin tức", path: "/admin/news" },
-    { icon: FaImages, title: "Album ảnh", path: "/admin/albums" },
-    { icon: FaGraduationCap, title: "Khóa học", path: "/admin/courses" },
-    { icon: FaVideo, title: "Video", path: "/admin/videos" },
-    { icon: FaClipboardList, title: "Danh mục", path: "/admin/categories" },
     { icon: FaBell, title: "Thông báo", path: "/admin/notifications" },
+    { icon: FaImages, title: "Album ảnh", path: "/admin/photo-albums" },
+    { icon: FaBell, title: "Layout ảnh", path: "/admin/picture-layout" },
+    { icon: FaBell, title: "Danh sách học viên", path: "/admin/registrations" },
     { icon: FaSlidersH, title: "Sliders", path: "/admin/sliders" },
+    { icon: FaVideo, title: "Video", path: "/admin/videos" },
   ];
 
   const SidebarLink = ({ icon: Icon, title, path }) => (
@@ -148,6 +56,11 @@ export default function Dashboard() {
       <span className="font-medium">{title}</span>
     </Link>
   );
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/admin/login");
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -193,6 +106,7 @@ export default function Dashboard() {
           {/* Sidebar Footer */}
           <div className="p-4 border-t border-blue-700">
             <button
+              onClick={handleLogout}
               className="flex items-center space-x-3 text-gray-300 hover:text-white w-full px-4 py-3 rounded-lg
                 transition-colors hover:bg-blue-700"
             >
@@ -220,65 +134,10 @@ export default function Dashboard() {
 
         {/* Content */}
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <StatCard
-              title="Album ảnh"
-              total={stats.albums.total}
-              icon={FaImages}
-              link="/admin/albums"
-            />
-            <StatCard
-              title="Khóa học"
-              total={stats.courses.total}
-              featured={stats.courses.featured}
-              icon={FaGraduationCap}
-              link="/admin/courses"
-              featuredLink="/admin/courses?filter=featured"
-              featuredText="Khóa học nổi bật"
-            />
-            <StatCard
-              title="Tin tức"
-              total={stats.news.total}
-              featured={stats.news.featured}
-              icon={FaNewspaper}
-              link="/admin/news"
-              featuredLink="/admin/news?filter=featured"
-              featuredText="Tin nổi bật"
-            />
-            <StatCard
-              title="Video"
-              total={stats.videos.total}
-              featured={stats.videos.featured}
-              icon={FaVideo}
-              link="/admin/videos"
-              featuredLink="/admin/videos?filter=featured"
-              featuredText="Video nổi bật"
-            />
-            <StatCard
-              title="Danh mục"
-              total={stats.categories.total}
-              active={stats.categories.active}
-              icon={FaClipboardList}
-              link="/admin/categories"
-              featuredText="Danh mục hoạt động"
-            />
-            <StatCard
-              title="Thông báo"
-              total={stats.notifications.total}
-              active={stats.notifications.active}
-              icon={FaBell}
-              link="/admin/notifications"
-              featuredText="Thông báo hoạt động"
-            />
-            <StatCard
-              title="Sliders"
-              total={stats.sliders.total}
-              active={stats.sliders.active}
-              icon={FaSlidersH}
-              link="/admin/sliders"
-              featuredText="Sliders hoạt động"
-            />
-          </div>
+          <h1 className="text-3xl font-bold mb-6">
+            Welcome to Admin Dashboard
+          </h1>
+          <p>This is your admin dashboard.</p>
         </div>
       </main>
     </div>
