@@ -1,4 +1,3 @@
-// /src/app/api/registrations/route.js
 import dbConnect from "../../utils/dbConnect";
 import Registration from "../../models/Registration";
 
@@ -7,6 +6,18 @@ const jsonResponse = (data, status) =>
     status,
     headers: { "Content-Type": "application/json" },
   });
+
+export async function GET(req) {
+  await dbConnect();
+
+  try {
+    const registrations = await Registration.find().sort({ createdAt: -1 });
+    return jsonResponse({ success: true, data: registrations }, 200);
+  } catch (error) {
+    console.error("Error fetching registrations:", error);
+    return jsonResponse({ success: false, message: error.message }, 500);
+  }
+}
 
 export async function POST(req) {
   await dbConnect();
@@ -25,7 +36,6 @@ export async function POST(req) {
       courseTitle,
     } = body;
 
-    // Validation cơ bản
     if (!type || !studentName || !phone) {
       return jsonResponse(
         { success: false, message: "Thiếu các trường bắt buộc" },

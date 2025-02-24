@@ -1,4 +1,4 @@
-import dbConnect from "../..//utils/dbConnect";
+import dbConnect from "../../utils/dbConnect";
 import Notification from "../../models/Notification";
 
 export async function GET(req) {
@@ -17,20 +17,18 @@ export async function GET(req) {
 export async function PUT(req) {
   await dbConnect();
 
-  const { id, message } = await req.json();
+  const { id, text } = await req.json(); // Thay message thành text
 
   try {
     const updatedNotification = await Notification.findByIdAndUpdate(
       id,
-      { message },
+      { text }, // Cập nhật text thay vì message
       { new: true }
     );
     if (!updatedNotification) {
       return new Response(
         JSON.stringify({ message: "Notification not found" }),
-        {
-          status: 404,
-        }
+        { status: 404 }
       );
     }
     return new Response(JSON.stringify(updatedNotification), { status: 200 });
