@@ -51,31 +51,6 @@ export default function NewsDetail() {
     fetchNews();
   }, [id]);
 
-  // Tăng lượt xem
-  useEffect(() => {
-    const increaseViews = async () => {
-      if (!id) return;
-
-      try {
-        const response = await fetch(`/api/news?id=${id}`, {
-          method: "PUT",
-        });
-        if (!response.ok) {
-          console.error("Failed to increase views");
-          return;
-        }
-        const result = await response.json();
-        if (result.success && result.data) {
-          setNews((prev) => ({ ...prev, views: result.data.views })); // Cập nhật views
-        }
-      } catch (error) {
-        console.error("Error increasing views:", error);
-      }
-    };
-
-    increaseViews();
-  }, [id]);
-
   if (loading) return <div className="text-center py-12">Đang tải...</div>;
   if (error)
     return <div className="text-red-500 text-center py-12">{error}</div>;
@@ -90,10 +65,6 @@ export default function NewsDetail() {
           <span className="flex items-center gap-1">
             <FaCalendarAlt className="text-orange-500" />
             {formatDate(news.date)}
-          </span>
-          <span className="flex items-center gap-1">
-            <FaEye className="text-orange-500" />
-            {news.views} lượt xem
           </span>
         </div>
         <img

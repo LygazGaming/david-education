@@ -201,25 +201,12 @@ export default function CreateNews() {
             init={{
               height: 500,
               menubar: true,
-              plugins: [
-                "advlist autolink lists link image charmap preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table code help wordcount",
-              ],
+              plugins:
+                "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
               toolbar:
-                "undo redo | formatselect | bold italic | " +
-                "alignleft aligncenter alignright alignjustify | " +
-                "bullist numlist outdent indent | removeformat | image",
+                "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat",
               content_style:
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-              images_upload_handler: async (blobInfo, success, failure) => {
-                try {
-                  const url = await uploadImage(blobInfo.blob());
-                  success(url);
-                } catch (error) {
-                  failure(`Lỗi upload ảnh: ${error.message}`);
-                }
-              },
             }}
             onEditorChange={handleEditorChange}
           />
