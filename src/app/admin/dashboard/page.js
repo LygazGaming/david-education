@@ -16,18 +16,62 @@ import {
   FaUsers,
   FaThLarge,
   FaClipboardList,
+  FaChartLine,
+  FaUserGraduate,
+  FaPhotoVideo,
 } from "react-icons/fa";
 
 export default function Dashboard() {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [stats, setStats] = useState({
+    courses: 0,
+    categories: 0,
+    news: 0,
+    users: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       router.push("/admin/login");
+    } else {
+      fetchStats();
     }
   }, [router]);
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+      const [coursesRes, categoriesRes, newsRes, usersRes] = await Promise.all([
+        fetch("/api/courses", { cache: "no-store" }).then((res) =>
+          res.ok ? res.json() : []
+        ),
+        fetch("/api/categories", { cache: "no-store" }).then((res) =>
+          res.ok ? res.json() : { success: false, data: [] }
+        ),
+        fetch("/api/news", { cache: "no-store" }).then((res) =>
+          res.ok ? res.json() : []
+        ),
+        fetch("/api/users", { cache: "no-store" }).then((res) =>
+          res.ok ? res.json() : []
+        ),
+      ]);
+
+      setStats({
+        courses: Array.isArray(coursesRes) ? coursesRes.length : 0,
+        categories: categoriesRes.success ? categoriesRes.data.length : 0,
+        news: Array.isArray(newsRes) ? newsRes.length : 0,
+        users: Array.isArray(usersRes) ? usersRes.length : 0,
+      });
+    } catch (err) {
+      setError("Không thể tải dữ liệu thống kê: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const menuItems = [
     { icon: FaHome, title: "Dashboard", path: "/admin/dashboard" },
@@ -50,15 +94,15 @@ export default function Dashboard() {
   const SidebarLink = ({ icon: Icon, title, path }) => (
     <Link
       href={path}
-      className={`flex items-center space-x-4 px-4 py-3 rounded-lg transition-all transform hover:scale-105
+      className={`flex items-center space-x-4 px-4 py-3 rounded-lg transition-all duration-300
         ${
           path === "/admin/dashboard"
-            ? "bg-blue-700 text-white shadow-lg"
-            : "text-gray-300 hover:bg-blue-700 hover:text-white"
+            ? "bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md"
+            : "text-gray-200 hover:bg-blue-700 hover:text-white"
         }`}
     >
-      <Icon className="w-6 h-6 text-white transition-colors duration-200" />
-      <span className="font-semibold">{title}</span>
+      <Icon className="w-6 h-6" />
+      <span className="font-medium">{title}</span>
     </Link>
   );
 
@@ -67,19 +111,33 @@ export default function Dashboard() {
     router.push("/admin/login");
   };
 
+  const StatCard = ({ icon: Icon, title, value, color }) => (
+    <div
+      className={`p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 ${color}`}
+    >
+      <div className="flex items-center space-x-4">
+        <Icon className="w-10 h-10 text-white" />
+        <div>
+          <h3 className="text-lg font-semibold text-gray-700">{title}</h3>
+          <p className="text-2xl font-bold text-gray-900">{value}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div className="min-h-screen flex bg-gray-50">
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/60 z-30 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 w-64 bg-blue-800 text-white shadow-lg
+        className={`fixed lg:static inset-y-0 left-0 w-64 bg-gradient-to-b from-blue-900 to-blue-700 text-white shadow-2xl
           transform transition-transform duration-300 ease-in-out z-40
           ${
             isSidebarOpen
@@ -88,10 +146,11 @@ export default function Dashboard() {
           }`}
       >
         <div className="flex flex-col h-full">
-          {/* Sidebar Header */}
-          <div className="p-4 border-b border-blue-700">
+          <div className="p-6 border-b border-blue-600">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold">Admin Panel</h2>
+              <h2 className="text-2xl font-extrabold tracking-wide">
+                Admin Panel
+              </h2>
               <button
                 className="lg:hidden text-white"
                 onClick={() => setIsSidebarOpen(false)}
@@ -100,23 +159,19 @@ export default function Dashboard() {
               </button>
             </div>
           </div>
-
-          {/* Navigation Links */}
-          <nav className="flex-1 overflow-y-auto p-4 space-y-2">
+          <nav className="flex-1 overflow-y-auto p-4 space-y-3">
             {menuItems.map((item) => (
               <SidebarLink key={item.path} {...item} />
             ))}
           </nav>
-
-          {/* Sidebar Footer */}
-          <div className="p-4 border-t border-blue-700">
+          <div className="p-4 border-t border-blue-600">
             <button
               onClick={handleLogout}
-              className="flex items-center space-x-4 text-gray-300 hover:text-white w-full px-4 py-3 rounded-lg
-                transition-colors hover:bg-blue-700"
+              className="flex items-center space-x-4 text-gray-200 hover:text-white w-full px-4 py-3 rounded-lg
+                transition-all duration-300 hover:bg-blue-800"
             >
-              <FaSignOutAlt className="w-6 h-6 text-white" />
-              <span className="font-semibold">Đăng xuất</span>
+              <FaSignOutAlt className="w-6 h-6" />
+              <span className="font-medium">Đăng xuất</span>
             </button>
           </div>
         </div>
@@ -124,7 +179,6 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 min-w-0 overflow-auto">
-        {/* Mobile Header */}
         <div className="sticky top-0 z-20 bg-white border-b lg:hidden">
           <div className="flex items-center justify-between p-4">
             <button
@@ -133,16 +187,106 @@ export default function Dashboard() {
             >
               <FaBars className="w-6 h-6" />
             </button>
-            <h1 className="text-xl font-bold">Dashboard</h1>
+            <h1 className="text-xl font-bold text-gray-800">Dashboard</h1>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <h1 className="text-3xl font-bold mb-6">
-            Welcome to Admin Dashboard
-          </h1>
-          <p>This is your admin dashboard.</p>
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-4xl font-extrabold text-gray-800">
+              Admin Dashboard
+            </h1>
+            <div className="flex items-center space-x-4">
+              <FaBell className="w-6 h-6 text-gray-600 hover:text-blue-600 cursor-pointer" />
+              <span className="text-gray-700 font-medium">Xin chào, Admin</span>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <p className="text-lg text-gray-600">Đang tải dữ liệu...</p>
+            </div>
+          ) : error ? (
+            <div className="p-4 bg-red-100 text-red-600 rounded-lg">
+              {error}
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <StatCard
+                  icon={FaGraduationCap}
+                  title="Khóa học"
+                  value={stats.courses}
+                  color="bg-gradient-to-r from-blue-500 to-blue-700"
+                />
+                <StatCard
+                  icon={FaClipboardList}
+                  title="Danh mục"
+                  value={stats.categories}
+                  color="bg-gradient-to-r from-green-500 to-green-700"
+                />
+                <StatCard
+                  icon={FaNewspaper}
+                  title="Tin tức"
+                  value={stats.news}
+                  color="bg-gradient-to-r from-yellow-500 to-yellow-700"
+                />
+                <StatCard
+                  icon={FaUsers}
+                  title="Học viên"
+                  value={stats.users}
+                  color="bg-gradient-to-r from-purple-500 to-purple-700"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Link
+                  href="/admin/courses"
+                  className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-blue-50"
+                >
+                  <div className="flex items-center space-x-4">
+                    <FaGraduationCap className="w-8 h-8 text-blue-600" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        Quản lý khóa học
+                      </h3>
+                      <p className="text-gray-600">Thêm, sửa, xóa khóa học</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/admin/categories"
+                  className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-green-50"
+                >
+                  <div className="flex items-center space-x-4">
+                    <FaClipboardList className="w-8 h-8 text-green-600" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        Quản lý danh mục
+                      </h3>
+                      <p className="text-gray-600">Tạo và chỉnh sửa danh mục</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/admin/news"
+                  className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-yellow-50"
+                >
+                  <div className="flex items-center space-x-4">
+                    <FaNewspaper className="w-8 h-8 text-yellow-600" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        Quản lý tin tức
+                      </h3>
+                      <p className="text-gray-600">
+                        Đăng bài và cập nhật tin tức
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </main>
     </div>

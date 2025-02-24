@@ -33,13 +33,16 @@ export async function POST(req) {
 
 export async function PUT(req) {
   await dbConnect();
-
   const { id, title, price, features, isPopular } = await req.json();
-
   try {
+    // Nếu features là chuỗi, chuyển thành mảng
+    const featuresArray =
+      typeof features === "string"
+        ? features.split(",").map((f) => f.trim())
+        : features;
     const updatedCourse = await Course.findByIdAndUpdate(
       id,
-      { title, price, features, isPopular },
+      { title, price, features: featuresArray, isPopular },
       { new: true }
     );
     if (!updatedCourse) {

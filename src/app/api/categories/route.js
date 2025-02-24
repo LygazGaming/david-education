@@ -65,3 +65,65 @@ export async function POST(req) {
     return jsonResponse({ success: false, message: error.message }, 500);
   }
 }
+
+export async function PUT(req) {
+  await dbConnect();
+
+  try {
+    const body = await req.json();
+    const { id, name, slug } = body;
+
+    if (!id || !name || !slug) {
+      return jsonResponse(
+        { success: false, message: "Thiếu id, tên hoặc slug danh mục" },
+        400
+      );
+    }
+
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      { name, slug },
+      { new: true }
+    );
+    if (!updatedCategory) {
+      return jsonResponse(
+        { success: false, message: "Danh mục không tồn tại" },
+        404
+      );
+    }
+
+    return jsonResponse({ success: true, data: updatedCategory }, 200);
+  } catch (error) {
+    console.error("Error updating category:", error);
+    return jsonResponse({ success: false, message: error.message }, 500);
+  }
+}
+
+export async function DELETE(req) {
+  await dbConnect();
+
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return jsonResponse(
+        { success: false, message: "Thiếu id danh mục" },
+        400
+      );
+    }
+
+    const deletedCategory = await Category.findByIdAndDelete(id);
+    if (!deletedCategory) {
+      return jsonResponse(
+        { success: false, message: "Danh mục không tồn tại" },
+        404
+      );
+    }
+
+    return jsonResponse({ success: true, message: "Xóa thành công" }, 200);
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    return jsonResponse({ success: false, message: error.message }, 500);
+  }
+}
