@@ -63,11 +63,14 @@ const NotificationBar = () => {
   ];
 
   const getDisplayText = (text) => {
-    if (text.length < 100) {
-      return Array(3).fill(text).join(" • ");
+    const minLength = 200; // Độ dài tối thiểu để cuộn mượt
+    let repeatedText = text;
+    while (repeatedText.length < minLength) {
+      repeatedText += " • " + text;
     }
-    return text;
+    return repeatedText;
   };
+
   return (
     <div className="bg-secondary py-2 px-4 md:px-24 shadow-md">
       <div className="flex items-center justify-between flex-wrap gap-2">
@@ -78,7 +81,7 @@ const NotificationBar = () => {
               aria-hidden="true"
             />
           </div>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden w-full">
             <marquee
               className="text-white text-xs md:text-sm font-semibold tracking-wide"
               scrollamount="8"
@@ -97,4 +100,5 @@ const NotificationBar = () => {
     </div>
   );
 };
+
 export default NotificationBar;
