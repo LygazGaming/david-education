@@ -13,6 +13,8 @@ import {
   FaSignOutAlt,
   FaBell,
   FaSlidersH,
+  FaUsers,
+  FaThLarge,
   FaClipboardList,
 } from "react-icons/fa";
 
@@ -29,15 +31,19 @@ export default function Dashboard() {
   }, [router]);
 
   const menuItems = [
+    { icon: FaHome, title: "Dashboard", path: "/admin/dashboard" },
     { icon: FaImages, title: "Album ảnh", path: "/admin/albums" },
     { icon: FaClipboardList, title: "Danh mục", path: "/admin/categories" },
     { icon: FaGraduationCap, title: "Khóa học", path: "/admin/courses" },
-    { icon: FaHome, title: "Dashboard", path: "/admin/dashboard" },
     { icon: FaNewspaper, title: "Tin tức", path: "/admin/news" },
     { icon: FaBell, title: "Thông báo", path: "/admin/notifications" },
     { icon: FaImages, title: "Album ảnh", path: "/admin/photo-albums" },
-    { icon: FaBell, title: "Layout ảnh", path: "/admin/picture-layout" },
-    { icon: FaBell, title: "Danh sách học viên", path: "/admin/registrations" },
+    { icon: FaThLarge, title: "Layout ảnh", path: "/admin/picture-layout" },
+    {
+      icon: FaUsers,
+      title: "Danh sách học viên",
+      path: "/admin/registrations",
+    },
     { icon: FaSlidersH, title: "Sliders", path: "/admin/sliders" },
     { icon: FaVideo, title: "Video", path: "/admin/videos" },
   ];
@@ -45,15 +51,15 @@ export default function Dashboard() {
   const SidebarLink = ({ icon: Icon, title, path }) => (
     <Link
       href={path}
-      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors
+      className={`flex items-center space-x-4 px-4 py-3 rounded-lg transition-all transform hover:scale-105
         ${
           path === "/admin/dashboard"
-            ? "bg-blue-700 text-white"
+            ? "bg-blue-700 text-white shadow-lg"
             : "text-gray-300 hover:bg-blue-700 hover:text-white"
         }`}
     >
-      <Icon className="w-5 h-5" />
-      <span className="font-medium">{title}</span>
+      <Icon className="w-6 h-6 text-white transition-colors duration-200" />
+      <span className="font-semibold">{title}</span>
     </Link>
   );
 
@@ -63,7 +69,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div
@@ -107,11 +113,11 @@ export default function Dashboard() {
           <div className="p-4 border-t border-blue-700">
             <button
               onClick={handleLogout}
-              className="flex items-center space-x-3 text-gray-300 hover:text-white w-full px-4 py-3 rounded-lg
+              className="flex items-center space-x-4 text-gray-300 hover:text-white w-full px-4 py-3 rounded-lg
                 transition-colors hover:bg-blue-700"
             >
-              <FaSignOutAlt className="w-5 h-5" />
-              <span className="font-medium">Đăng xuất</span>
+              <FaSignOutAlt className="w-6 h-6 text-white" />
+              <span className="font-semibold">Đăng xuất</span>
             </button>
           </div>
         </div>
