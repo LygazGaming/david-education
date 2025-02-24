@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -12,11 +12,26 @@ export default function CreateNews() {
     excerpt: "",
     content: "",
     featured: false,
+    category: "", // Để trống mặc định, không bắt buộc
   });
+  const [categories, setCategories] = useState([]);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/categories");
+        const result = await response.json();
+        if (result.success) setCategories(result.data);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -37,22 +52,14 @@ export default function CreateNews() {
       reader.onloadend = async () => {
         try {
           const base64data = reader.result;
-          console.log("Uploading image to /api/news/upload...");
           const response = await fetch("/api/news/upload", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ data: base64data }),
           });
-
-          const text = await response.text(); // Lấy raw text để debug
-          console.log("Response from /api/news/upload:", text);
-
-          const result = JSON.parse(text); // Parse JSON sau khi log
-          if (response.ok && result.success) {
-            resolve(result.url);
-          } else {
-            reject(new Error(result.message || "Lỗi upload ảnh"));
-          }
+          const result = await response.json();
+          if (response.ok && result.success) resolve(result.url);
+          else reject(new Error(result.message || "Lỗi upload ảnh"));
         } catch (error) {
           reject(error);
         }
@@ -69,19 +76,15 @@ export default function CreateNews() {
       let imageUrl = formData.image;
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
-        console.log("Image uploaded successfully:", imageUrl);
       }
-
-      if (!imageUrl) {
-        throw new Error("Vui lòng chọn ảnh chính");
-      }
+      if (!imageUrl) throw new Error("Vui lòng chọn ảnh chính");
 
       const payload = {
         ...formData,
         image: imageUrl,
         date: new Date().toISOString(),
+        category: formData.category || null,
       };
-      console.log("Submitting to /api/news with payload:", payload);
 
       const response = await fetch("/api/news", {
         method: "POST",
@@ -89,10 +92,7 @@ export default function CreateNews() {
         body: JSON.stringify(payload),
       });
 
-      const text = await response.text(); // Lấy raw text để debug
-      console.log("Response from /api/news:", text);
-
-      const result = JSON.parse(text); // Parse JSON sau khi log
+      const result = await response.json();
       if (response.ok && result.success) {
         router.push("/admin/news");
       } else {
@@ -100,7 +100,6 @@ export default function CreateNews() {
       }
     } catch (error) {
       setError(`Lỗi: ${error.message}`);
-      console.error("Error in handleSubmit:", error);
     } finally {
       setLoading(false);
     }
@@ -170,6 +169,25 @@ export default function CreateNews() {
             rows="3"
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
           />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Danh mục
+          </label>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Không chọn danh mục</option>
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
