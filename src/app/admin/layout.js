@@ -7,9 +7,7 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token in admin layout:", token);
     if (!token && window.location.pathname !== "/admin/login") {
-      console.log("No token, redirecting to /admin/login");
       router.push("/admin/login");
     }
   }, [router]);
